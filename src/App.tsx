@@ -1,27 +1,15 @@
-import { IUsuario, UsuarioService } from './app/services/api/usuario/UsuarioService';
-import { useState, useEffect } from 'react';
 import './App.css';
-import { ApiException } from './app/services/api/ApiException';
-import React from 'react';
+import { Content } from './app/components/Content';
+import { Menu } from './app/components/Menu';
+import { BrowserRouter } from 'react-router-dom';
 
 const App = () => {
-  const [list, setList] = useState<IUsuario[]>([]);
-
-  useEffect(() => {
-    UsuarioService.get().then((result) => {
-      if (result instanceof ApiException) {
-        alert(result.message);
-      } else {
-        setList(result);
-      }
-    }
-    )
-  })
 
   return (
-    <div>
-
-    </div>
+    <BrowserRouter>
+      {/* <Menu /> */}
+      <Content />
+    </BrowserRouter>
   );
 
 }
