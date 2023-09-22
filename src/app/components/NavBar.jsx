@@ -57,7 +57,7 @@ function NavBar(props) {
 
             {/* </NavDropdown.Item> */}
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#logout">
+            <NavDropdown.Item href="/login">
                 Logout
             </NavDropdown.Item>
         </NavDropdown>
