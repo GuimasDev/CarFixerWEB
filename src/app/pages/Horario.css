@@ -1,0 +1,262 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.buttonArea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 0;
+}
+
+.buttonArea2 {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin: 30px 0 0;
+    flex-grow: 0;
+}
+
+.buttonArea Button {
+    margin: 30px 10px;
+}
+
+#message {
+    text-align: center;
+    margin: 80px;
+}
+
+Card.Body {
+    display: flex;
+}
+
+.card {
+    display: flex;
+    padding: 20px 30px;
+    border-radius: 10px;
+    margin: 10px;
+
+    background: rgba( 255, 255, 255, 0.35 );
+    box-shadow: 0 8px 15px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.colDias {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: start; */
+
+    /* margin: 0px 10px; */
+    padding: 10px;
+    flex-grow: 0;
+}
+
+.colDias .diaArea {
+    background-color: white;
+    color: black;
+    margin: 2px;
+    height: 30px;
+    width: 80px;
+    font-size: small;
+    border: 1.8px solid rgba(71, 95, 231, 0.4);
+    border-radius: 10px;
+
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.diaArea2 {
+    background-color: white;
+    color: black;
+    /* margin: 2px; */
+    /* height: 40px; */
+    /* width: 80px; */
+    font-size: small;
+    border: 1.5px solid rgba(0, 0, 0, 0.199);
+    border-radius: 10px;
+
+    padding: 5px 10px 5px 30px;
+
+    /* text-align: center; */
+
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.colHorarios {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+.horarioRowGroup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    flex-grow: 1;
+}
+
+.horarioRow {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.horarioRow p {
+    margin: 0;
+}
+.horarioRow input {
+    margin-left: 10px;
+}
+
+h3 {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.inputHoras {
+    width: 80px;
+}
+.btnApagarArea {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+/* Buttons */
+
+.apagarButton{
+  background-color: initial;
+  background-image: linear-gradient(-180deg, #FF7E31, #E62C03);
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 30px;
+  line-height: 30px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  pointer-events: auto;
+  text-align: center;
+  touch-action: manipulation;
+  /* width: 100%; */
+  border: 0;
+  transition: box-shadow .2s;
+
+  font-size: small;
+}
+
+.apagarButton:hover {
+  box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
+}
+
+
+.cancelarButton{
+    background-color: initial;
+  background-image: linear-gradient(-180deg, #cacaca, #8b8b8b);
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 30px;
+  line-height: 30px;
+  outline: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  pointer-events: auto;
+  text-align: center;
+  touch-action: manipulation;
+  /* width: 100%; */
+
+  /* border: 1.5px solid #646464; */
+  border: 0;
+  border-radius: 6px;
+
+  transition: box-shadow .2s;
+
+  font-size: small;
+}
+.cancelarButton:hover {
+    box-shadow: #a8a8a8 0 3px 8px;
+  }
+
+
+
+
+  .novaRegraButton {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 7px 15px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .novaRegraButton:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+  }
+  
+  .adicionarRegraButton {
+    background-color: initial;
+  background-image: linear-gradient(-180deg, #5bf197, #0cb653);
+    background-color: #13aa52;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: small;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 4px 15px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .adicionarRegraButton:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+  }

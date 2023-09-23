@@ -40,7 +40,7 @@ function NavBar(props) {
     let admin = <Nav>
         <Nav.Link href="#funcionarios">Funcionários</Nav.Link>
         <Nav.Link href="#servicos">Serviços</Nav.Link>
-        <Nav.Link href="#horarios">Horários</Nav.Link>
+        <Nav.Link href="/horario">Horários</Nav.Link>
         <Nav.Link href="#produtos">Produtos</Nav.Link>
         {/* <img
     src="/img/profile.svg"
