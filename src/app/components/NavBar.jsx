@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useState } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import logo from "../../logo.svg"
+import logo from "../assets/images/logo.svg"
 
 function NavBar(props) {
     const [userType, setType] = useState(props.type);
@@ -57,7 +57,7 @@ function NavBar(props) {
 
             {/* </NavDropdown.Item> */}
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#logout">
+            <NavDropdown.Item href="/login">
                 Logout
             </NavDropdown.Item>
         </NavDropdown>
@@ -78,7 +78,7 @@ function NavBar(props) {
         <NavDropdown title="" id="collapsible-nav-dropdown">
             <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#logout">
+            <NavDropdown.Item href="/logout">
                 Logout
             </NavDropdown.Item>
         </NavDropdown>
@@ -93,9 +93,9 @@ function NavBar(props) {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Navbar.Brand href="#home">
+                        <Navbar.Brand href="/">
                             <img
-                                src="../../logo.svg"
+                                src={logo}
                                 width="30"
                                 height="30"
                                 className="d-inline-block align-top"
