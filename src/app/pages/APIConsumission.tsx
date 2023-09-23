@@ -15,7 +15,7 @@ export const APIConsumission = () => {
             }
         }
         )
-    }, [])
+    }, [])  
 
     return (
         <div>

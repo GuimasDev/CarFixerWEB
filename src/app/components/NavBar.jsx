@@ -12,7 +12,7 @@ function NavBar(props) {
     const [checked, setChecked] = useState(false);
     const [radioValue, setRadioValue] = useState('1');
 
-    const radios = [    
+    const radios = [
         { name: 'Admin', value: '1' },
         { name: 'Cliente', value: '2' }
     ];
@@ -87,7 +87,7 @@ function NavBar(props) {
 
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" fixed="top    ">
             <Container>
                 {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
