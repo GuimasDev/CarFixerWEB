@@ -78,8 +78,21 @@ const setLogin = (usuario: IUsuario): void => {
     localStorage.setItem('usuario', JSON.stringify(usuario));
 }
 
+const getLogin = () => {
+    let usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    return usuario;
+}
+
 const logout = () => {
     localStorage.removeItem('usuario');
+}
+    
+const protect = () => {
+    if (getLogin === null) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 export const UsuarioService = {
@@ -91,5 +104,7 @@ export const UsuarioService = {
     deleteById,
     authenticate,
     setLogin,
-    logout
+    getLogin,
+    logout,
+    protect
 };

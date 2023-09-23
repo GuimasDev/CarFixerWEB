@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Login.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import { UsuarioService } from '../services/api/usuario/UsuarioService';
 import { ApiException } from '../services/api/ApiException';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
 
 export const Login = () => {
     const [email, setEmail] = useState();
@@ -32,7 +33,6 @@ export const Login = () => {
                 }
             }
         }
-
         )
     }
 
@@ -51,9 +51,17 @@ export const Login = () => {
                     <Form.Control type="senha" placeholder="Senha" onChange={e => setSenha((e.target as any).value)} />
                 </Form.Group>
             </Form>
-            <Button form="form" onClick={handleSubmit} type="button" size="lg" color="primary">Login</Button>
+            <div id="buttons">
+                <Col>
+                    <Row>
+                        <Button form="form" onClick={handleSubmit} type="button" size="lg" variant="primary">Login</Button>
+                    </Row>
+                    <Row>
+                        <Button onClick={_ => navigate('/signin')} type="button" size="lg" variant="warning">Cadastrar</Button>
+                    </Row>
+                </Col>
+            </div>
         </Container>
 
     );
-
 }

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Horario.css";
-import "../../logo.svg";
 
 import Button from "react-bootstrap/esm/Button";
 import Card from "react-bootstrap/Card";

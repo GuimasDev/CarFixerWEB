@@ -1,0 +1,33 @@
+section {
+    height: 92vh;
+    width: 100%;
+    background-color: gray;
+    color: black;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+p {
+    font-family: 'Oxygen', sans-serif;
+}
+
+#sobre {
+    display: flex;
+}
+
+#sobre h1 {
+    font-size: 40px;
+    margin-bottom: 30px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+#sobre p {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 20px;
+}
