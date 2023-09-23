@@ -29,6 +29,15 @@ const getById = async (id: number): Promise<IUsuario | ApiException> => {
     }
 };
 
+const getByEmail = async (email: any): Promise<IUsuario | ApiException> => {
+    try {
+        const { data } = await Api().get(`/usuario/email/${email}`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
 const create = async (dataToCreate: Omit<IUsuario, 'id'>): Promise<IUsuario[] | ApiException> => {
     try {
         const { data } = await Api().post<any>('/usuario', dataToCreate)
@@ -56,10 +65,31 @@ const deleteById = async (id: number): Promise<undefined | ApiException> => {
     }
 };
 
+const authenticate = async (email: any, senha: any): Promise<number | ApiException> => {
+    try {
+        const { data } = await Api().get(`/usuario/${email}/${senha}/authenticate`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
+const setLogin = (usuario: IUsuario): void => {
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+}
+
+const logout = () => {
+    localStorage.removeItem('usuario');
+}
+
 export const UsuarioService = {
     get,
     getById,
+    getByEmail,
     create,
     updateById,
     deleteById,
+    authenticate,
+    setLogin,
+    logout
 };

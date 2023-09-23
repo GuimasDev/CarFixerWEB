@@ -1,4 +1,51 @@
-#backgound{
-    width: 100vw;
-    height: 100vh;
+#header {
+    width: 100%;
+    height: 90vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("../assets/images/home_background.jpg");
+    background-position: center;
+    background-size: auto;
+    z-index: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#header button {
+    cursor: pointer;
+}
+
+header div a{
+    font-weight: bold;
+}
+
+a{
+    text-decoration: none;
+}
+
+#header h2{
+    color: white;
+    font-size: 6em;
+    font-family: Times, Times New Roman, serif !important;
+    opacity: 80%;
+}
+
+#header p{
+    color: rgb(194, 194, 194);
+}
+
+#header .links button{
+    color: white;
+    padding: 10px;
+    display: inline-block; 
+    border-radius: 10px;
+    border: 1px solid white;
+    transition: 200ms;
+    background-color: transparent;
+}
+
+#header .links button:hover{
+    color: #444;
+    background-color: white;
 }
