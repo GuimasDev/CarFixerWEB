@@ -74,8 +74,12 @@ const authenticate = async (email: any, senha: any): Promise<number | ApiExcepti
     }
 };
 
-const setLogin = (usuario: IUsuario ): void  => {
+const setLogin = (usuario: IUsuario): void => {
     localStorage.setItem('usuario', JSON.stringify(usuario));
+}
+
+const logout = () => {
+    localStorage.removeItem('usuario');
 }
 
 export const UsuarioService = {
@@ -86,5 +90,6 @@ export const UsuarioService = {
     updateById,
     deleteById,
     authenticate,
-    setLogin
+    setLogin,
+    logout
 };

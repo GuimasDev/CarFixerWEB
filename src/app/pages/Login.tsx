@@ -5,10 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import { UsuarioService } from '../services/api/usuario/UsuarioService';
 import { ApiException } from '../services/api/ApiException';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         UsuarioService.authenticate(email, senha).then((result) => {
@@ -21,6 +23,8 @@ export const Login = () => {
                             alert(result.message);
                         } else {
                             UsuarioService.setLogin(result);
+                            alert("Login realizado com sucesso!");
+                            navigate('/');
                         }
                     })
                 } else {
@@ -37,7 +41,7 @@ export const Login = () => {
             <h1>
                 Login
             </h1>
-            <Form onSubmit={handleSubmit}>
+            <Form id="form">
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control name="email" type="email" placeholder="Enter email" onChange={e => setEmail((e.target as any).value)} />
@@ -46,8 +50,8 @@ export const Login = () => {
                     <Form.Label>Senha</Form.Label>
                     <Form.Control type="senha" placeholder="Senha" onChange={e => setSenha((e.target as any).value)} />
                 </Form.Group>
-                <Button type="submit" size="lg" color="primary">Login</Button>
             </Form>
+            <Button form="form" onClick={handleSubmit} type="button" size="lg" color="primary">Login</Button>
         </Container>
 
     );
