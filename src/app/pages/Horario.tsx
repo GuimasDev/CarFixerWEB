@@ -63,9 +63,10 @@ export const Horario = () => {
                 }
                 // console.log(result);
             });
-
         } else {
-          alert("É preciso selecionar pelo menos 1 dia e denfinir o horário de início de termino do antedimento!!");
+            alert(
+                "É preciso selecionar pelo menos 1 dia e denfinir o horário de início de termino do antedimento!!"
+            );
         }
     };
 
@@ -73,22 +74,22 @@ export const Horario = () => {
         setNovaRegra(false);
         setCheckboxDias([]);
     };
-    
+
     const handleCheckboxChange = (event: any) => {
         const target = event.target;
         const checked = target.checked;
         const value = target.value;
 
         if (checked === true) {
-          let bool = checkboxDias || [];
-          bool.push(Number(value));
-          setCheckboxDias(bool.sort());
-        } else {
-          let bool = checkboxDias || [];
-          if (bool.includes(Number(value))) {
-            bool = bool.filter(num => num !== Number(value));
+            let bool = checkboxDias || [];
+            bool.push(Number(value));
             setCheckboxDias(bool.sort());
-          }
+        } else {
+            let bool = checkboxDias || [];
+            if (bool.includes(Number(value))) {
+                bool = bool.filter(num => num !== Number(value));
+                setCheckboxDias(bool.sort());
+            }
         }
 
         // console.log(checkboxDias);
@@ -115,7 +116,11 @@ export const Horario = () => {
                         <Row>
                             <Col className="colDias">
                                 {element.diasInt.map((dia, i) => {
-                                    return <p className="diaArea" key={i}>{diasSemana[dia]}</p>;
+                                    return (
+                                        <p className="diaArea" key={i}>
+                                            {diasSemana[dia]}
+                                        </p>
+                                    );
                                 })}
                             </Col>
                             <Col className="colHorarios">
@@ -123,6 +128,7 @@ export const Horario = () => {
                                     <div className="horarioRow">
                                         <p>Início de atendimento:</p>
                                         <input
+                                            disabled
                                             type="time"
                                             className="inputHoras"
                                             value={element.hr_inicio}
@@ -132,6 +138,7 @@ export const Horario = () => {
                                     <div className="horarioRow">
                                         <p>Termino de atendimento:</p>
                                         <input
+                                            disabled
                                             type="time"
                                             className="inputHoras"
                                             value={element.hr_termino}
