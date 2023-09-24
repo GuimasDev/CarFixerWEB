@@ -47,9 +47,9 @@ const create = async (dataToCreate: Omit<IUsuario, 'id'>): Promise<IUsuario[] | 
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IUsuario): Promise<IUsuario | ApiException> => {
+const update = async (dataToUpdate: IUsuario): Promise<IUsuario | ApiException> => {
     try {
-        const { data } = await Api().put(`/usuario/${id}`, dataToUpdate)
+        const { data } = await Api().put('/usuario/', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -100,7 +100,7 @@ export const UsuarioService = {
     getById,
     getByEmail,
     create,
-    updateById,
+    update,
     deleteById,
     authenticate,
     setLogin,

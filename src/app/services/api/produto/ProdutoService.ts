@@ -34,9 +34,9 @@ const create = async (dataToCreate: Omit<IProduto, 'id'>): Promise<IProduto[] | 
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IProduto): Promise<IProduto | ApiException> => {
+const update = async (dataToUpdate: IProduto): Promise<IProduto | ApiException> => {
     try {
-        const { data } = await Api().put(`/produto/${id}`, dataToUpdate)
+        const { data } = await Api().put('/produto', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -56,6 +56,6 @@ export const ProdutoService = {
     get,
     getById,
     create,
-    updateById,
+    update,
     deleteById,
 };

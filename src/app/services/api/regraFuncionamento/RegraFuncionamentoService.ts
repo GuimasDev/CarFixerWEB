@@ -36,9 +36,9 @@ const create = async (dataToCreate: Omit<IRegraFuncionamento, 'id'>): Promise<IR
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IRegraFuncionamento): Promise<IRegraFuncionamento | ApiException> => {
+const update = async (dataToUpdate: IRegraFuncionamento): Promise<IRegraFuncionamento | ApiException> => {
     try {
-        const { data } = await Api().put(`/regra_funcionamento/${id}`, dataToUpdate)
+        const { data } = await Api().put('/regra_funcionamento', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -58,6 +58,6 @@ export const RegraFuncionamentoService = {
     get,
     getById,
     create,
-    updateById,
+    update,
     deleteById,
 };
