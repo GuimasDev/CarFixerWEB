@@ -1,8 +1,7 @@
-section {
-    height: 92vh;
-    width: 100%;
-    background-color: gray;
-    color: black;
+#sobre {
+    background-color: #808080;
+    color: #000000;
+    flex-direction: column;
 }
 
 h1,
@@ -21,13 +20,17 @@ p {
 }
 
 #sobre h1 {
-    font-size: 40px;
-    margin-bottom: 30px;
+    font-size: 50px;
+    margin-top: 5%;
+    margin-bottom: 2%;
     font-family: 'Josefin Sans', sans-serif;
+    font-weight: bold;
 }
 
 #sobre p {
     margin-left: 10%;
     margin-right: 10%;
+    margin-bottom: 10%;
     font-size: 20px;
+    text-align: justify;
 }
