@@ -34,9 +34,9 @@ const create = async (dataToCreate: Omit<IServico, 'id'>): Promise<IServico[] | 
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IServico): Promise<IServico | ApiException> => {
+const update = async (dataToUpdate: IServico): Promise<IServico | ApiException> => {
     try {
-        const { data } = await Api().put(`/servico/${id}`, dataToUpdate)
+        const { data } = await Api().put('/servico/', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -56,6 +56,6 @@ export const ServicoService = {
     get,
     getById,
     create,
-    updateById,
+    update,
     deleteById,
 };

@@ -48,9 +48,9 @@ const create = async (dataToCreate: Omit<IAgenda, 'id'>): Promise<IAgenda[] | Ap
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IAgenda): Promise<IAgenda | ApiException> => {
+const update = async (dataToUpdate: IAgenda): Promise<IAgenda | ApiException> => {
     try {
-        const { data } = await Api().put(`/agenda/${id}`, dataToUpdate)
+        const { data } = await Api().put('/agenda', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -70,6 +70,6 @@ export const AgendaService = {
     get,
     getById,
     create,
-    updateById,
+    update,
     deleteById,
 };
