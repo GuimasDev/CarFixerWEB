@@ -1,0 +1,10 @@
+section {
+    height: 92vh;
+    width: 100%;
+    display: flex;
+}
+
+.section {
+    min-width: 100%;
+    min-height: 92vh;
+}

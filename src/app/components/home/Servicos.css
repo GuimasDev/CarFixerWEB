@@ -1,0 +1,107 @@
+#servicos {
+    background-color: #ffffff;
+    color: #000000;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+p {
+    font-family: 'Oxygen', sans-serif;
+}
+
+#servicos {
+    display: flex;
+
+}
+
+#servicos p {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 20px;
+}
+
+#frase {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#frase img {
+    width: 15vw;
+    height: auto;
+}
+
+#frase h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: justify;
+    margin-left: 10%;
+}
+
+#frase p {
+    font-size: 18px;
+    text-align: justify;
+}
+
+/* #cards {
+    margin-top: 2%;
+}
+
+#cards h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: justify;
+    margin-left: 10%;
+}
+
+#card{
+    display: flex;
+    justify-content: center;
+} */
+
+
+#area-box{
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#servicos #area-box{
+    display: flex;
+    justify-content: space-between;
+}
+
+#servicos .box-servico{
+    width: 20vw;
+    background-color: rgb(240, 240, 240);
+    text-align: center;
+    border-radius: 10px 50px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.144);
+}
+
+#servicos .box-servico img{
+    margin: 50px auto;
+}
+
+#servicos .box-servico h4{
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#servicos .box-servico p{
+    margin-bottom: 2%;
+    font-size: 12px;
+}
+
+#servicos .box-servico:hover{
+    transform: scale(1.1);
+    box-shadow: none;
+}
