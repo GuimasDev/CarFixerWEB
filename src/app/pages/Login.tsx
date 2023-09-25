@@ -7,6 +7,7 @@ import { UsuarioService } from '../services/api/usuario/UsuarioService';
 import { ApiException } from '../services/api/ApiException';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
+import { Input } from '../components/Input';
 
 export const Login = () => {
     const [email, setEmail] = useState();
@@ -42,14 +43,8 @@ export const Login = () => {
                 Login
             </h1>
             <Form id="form">
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control name="email" type="email" placeholder="Enter email" onChange={e => setEmail((e.target as any).value)} />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupSenha">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control type="senha" placeholder="Senha" onChange={e => setSenha((e.target as any).value)} />
-                </Form.Group>
+                <Input className='email' id='email' name="email" label='Email' type="email" placeholder="Insira seu email" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)} />
+                <Input className='senha' id='senha' name="senha" label='Senha' type="password" placeholder="Insira sua senha" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)} />
             </Form>
             <div id="buttons">
                 <Col>

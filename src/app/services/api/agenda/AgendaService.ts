@@ -48,7 +48,7 @@ const getByVeiculo = async (id: number): Promise<IAgenda[] | ApiException> => {
     }
 };
 
-const create = async (dataToCreate: Omit<IAgenda, 'id'>): Promise<IAgenda[] | ApiException> => {
+const create = async (dataToCreate: Omit<IAgenda, 'id'>): Promise<IAgenda | ApiException> => {
     try {
         const { data } = await Api().post<any>('/agenda', dataToCreate)
         return data;

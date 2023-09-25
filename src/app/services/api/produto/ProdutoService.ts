@@ -25,6 +25,15 @@ const getById = async (id: number): Promise<IProduto | ApiException> => {
     }
 };
 
+const getByIdAgenda = async (id: number): Promise<IProduto[] | ApiException> => {
+    try {
+        const { data } = await Api().get(`/agenda/${id}/produto`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
 const create = async (dataToCreate: Omit<IProduto, 'id'>): Promise<IProduto[] | ApiException> => {
     try {
         const { data } = await Api().post<any>('/produto', dataToCreate)
@@ -43,6 +52,15 @@ const update = async (dataToUpdate: IProduto): Promise<IProduto | ApiException> 
     }
 };
 
+const putOnAgenda = async (idAgenda: number, idProduto: number): Promise<IProduto | ApiException> => {
+    try {
+        const { data } = await Api().post(`/agenda/${idAgenda}/produto`, { id: idProduto, id_agenda: idAgenda, observacao: '' })
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao atualizar na API.')
+    }
+};
+
 const deleteById = async (id: number): Promise<undefined | ApiException> => {
     try {
         const { data } = await Api().delete(`/produto/${id}`)
@@ -52,10 +70,32 @@ const deleteById = async (id: number): Promise<undefined | ApiException> => {
     }
 };
 
+const deleteAllFromAgenda = async (id: number): Promise<undefined | ApiException> => {
+    try {
+        const { data } = await Api().delete(`/agenda/${id}/produto`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao deletar na API.')
+    }
+};
+
+const deleteFromAgenda = async (id: number, idProduto: number): Promise<undefined | ApiException> => {
+    try {
+        const { data } = await Api().delete(`/agenda/${id}/produto/${idProduto}`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao deletar na API.')
+    }
+};
+
 export const ProdutoService = {
     get,
     getById,
+    getByIdAgenda,
     create,
     update,
+    putOnAgenda,
     deleteById,
+    deleteAllFromAgenda,
+    deleteFromAgenda
 };

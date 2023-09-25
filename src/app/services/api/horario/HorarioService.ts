@@ -31,7 +31,7 @@ const getById = async (id: number): Promise<IHorario | ApiException> => {
     }
 };
 
-const create = async (dataToCreate: Omit<IHorario, 'id'>): Promise<IHorario[] | ApiException> => {
+const create = async (dataToCreate: Omit<IHorario, 'id'>): Promise<IHorario | ApiException> => {
     try {
         const { data } = await Api().post<any>('/horario', dataToCreate)
         return data;

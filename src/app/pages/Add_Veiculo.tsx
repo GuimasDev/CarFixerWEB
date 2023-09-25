@@ -8,6 +8,8 @@ import { ApiException } from '../services/api/ApiException';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { UsuarioService } from '../services/api/usuario/UsuarioService';
+import { Input } from '../components/Input';
+import { Select } from '../components/Select';
 
 export const Add_Veiculo = () => {
     const [veiculo, setVeiculo] = useState<IVeiculo>({
@@ -105,24 +107,15 @@ export const Add_Veiculo = () => {
                 Cadastro
             </h1>
             <Form id="form">
-                <Form.Group className="mb-3" controlId="formGroupModelo">
-                    <Form.Label>Modelo</Form.Label>
-                    <Form.Control name="modelo" type="text" placeholder="Digite seu modelo" value={modelo} onChange={e => setModelo((e.target as any).value)} />
-                </Form.Group>
+                <Input className='modelo' name="modelo" label='Modelo' type="text" placeholder="Digite o modelo do veículo" value={modelo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModelo((e.target as any).value)} />
 
-                <Form.Group className="mb-3" controlId="formGroupPlaca">
-                    <Form.Label>Placa</Form.Label>
-                    <Form.Control name="placa" type="text" placeholder="Digite seu Placa" value={placa} onChange={e => setPlaca((e.target as any).value)} />
-                </Form.Group>
+                <Input className='placa' name="placa" label='Placa' type="text" placeholder="Digite a Placa do veículo" value={placa} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaca((e.target as any).value)} />
 
-                <Form.Group className="mb-3" controlId="formGroupTipo">
-                    <Form.Label>Tipo</Form.Label>
-                    <Form.Select name="tipo" placeholder="Digite seu tipo" value={tipo} onChange={e => setTipo((e.target as any).value)} aria-label="Tipo">
-                        <option selected>Escolha o tipo do veículo</option>
-                        <option value="Carro">Carro</option>
-                        <option value="Moto">Moto</option>
-                    </Form.Select>
-                </Form.Group>
+                <Select className='tipo' id='tipo' name='tipo' label='Tipo' defaultValue='Informe o tipo do veículo' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTipo((e.target as any).value)} >
+                    <option value="Carro">Carro</option>
+                    <option value="Moto">Moto</option>
+                </Select>
+
             </Form>
             <div id="buttons">
                 <Col>

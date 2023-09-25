@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import "./Agendar.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -11,6 +11,9 @@ import { UsuarioService } from '../services/api/usuario/UsuarioService';
 import { IVeiculo, VeiculoService } from '../services/api/veiculo/VeiculoService';
 import { HorarioService, IHorario } from '../services/api/horario/HorarioService';
 import { IServico, ServicoService } from '../services/api/servico/ServicoService';
+import { IProduto, ProdutoService } from '../services/api/produto/ProdutoService';
+import { Input } from '../components/Input';
+import { Select } from '../components/Select';
 
 export const Agendar = () => {
     const [agenda, setAgenda] = useState<IAgenda>({
@@ -24,6 +27,7 @@ export const Agendar = () => {
         produtos: []
     })
 
+    const [horario, setHorario] = useState();
     const [id_horario, setId_Horario] = useState(0);
     const [id_veiculo, setId_Veiculo] = useState(0);
     const [status, setStatus] = useState(Status.Pendente);
@@ -34,6 +38,8 @@ export const Agendar = () => {
     const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
     const [servicos, setServicos] = useState<IServico[]>([]);
     const [addedServicos, setAddedServicos] = useState<IServico[]>([]);
+    const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const [addedProdutos, setAddedProdutos] = useState<IProduto[]>([]);
 
     const [updateList, setUpdateList] = useState<boolean>(false);
 
@@ -89,6 +95,16 @@ export const Agendar = () => {
     }, [])
 
     useEffect(() => {
+        ProdutoService.get().then((result) => {
+            if (result instanceof ApiException) {
+                alert(result.message);
+            } else {
+                setProdutos(result);
+            }
+        });
+    }, [])
+
+    useEffect(() => {
         HorarioService.get().then((result) => {
             if (result instanceof ApiException) {
                 alert(result.message);
@@ -128,7 +144,6 @@ export const Agendar = () => {
 
         for (let i = 0; i < horariosDoDia.length; i++) {
             for (let z = 0; z < horariosOcupados.length; z++) {
-                console.log(3);
                 let horarioOcupado = horariosOcupados[z];
                 // console.log('horarioOcupado.data :');
                 // console.log(horarioOcupado);
@@ -198,35 +213,199 @@ export const Agendar = () => {
         servicos.push(servico);
     }
 
-    const handleSubmit = async () => {
-        let agenda: Omit<IAgenda, 'id'> = {
-            id_horario: id_horario,
-            id_veiculo: id_veiculo,
-            status: status,
-            observacao: observacao,
-            dt_previsao: dt_previsao,
-            dt_fim: undefined,
-            produtos: []
-        };
+    function addProduto() {
+        let select: any = document.getElementById('produto');
+        let idProduto = select.value;
 
-        AgendaService.create(agenda).then((result) => {
-            if (result instanceof ApiException) {
-                alert(result.message);
-            } else {
-                if (result != null) {
-                    if (result instanceof ApiException) {
-                        alert(result.message);
-                    } else {
-                        alert("Cadastro realizado com sucesso!");
-                        navigate('/agenda');
-                    }
-                } else {
-                    alert("Não foi possível realizar o cadastro");
-                }
-            }
+        if (select.value > 0) {
+            ProdutoService.getById(parseFloat(idProduto)).then((result: any) => {
+                addedProdutos.push(result);
+                setProdutos(produtos.filter(({ id }) => id != idProduto));
+            });
         }
-        )
+
+        select.value = '';
     }
+
+    function removeProduto(produto: IProduto) {
+        setAddedProdutos(addedProdutos.filter(
+            ({ id }) => id != produto.id
+        ));
+        produtos.push(produto);
+    }
+
+    // const handleSubmit = async () => {
+    //     let agd: Omit<IAgenda, 'id'> = {
+    //         id_horario: id_horario,
+    //         id_veiculo: id_veiculo,
+    //         status: status,
+    //         observacao: observacao,
+    //         dt_previsao: dt_previsao,
+    //         dt_fim: undefined,
+    //         produtos: addedProdutos
+    //     };
+
+    //     let dataSelect = new Date(horario as any);
+
+    //     HorarioService.create(new IHorario(dataSelect)).then((result) => {
+    //         let horarioSalvo = result as IHorario;
+    //         console.log('horario pre-salvo no banco: ');
+    //         console.log(horarioSalvo);
+    //         console.log(id_veiculo);
+
+    //         agenda.id_horario = horarioSalvo.id;
+
+    //         agenda.status = status;
+
+    //         agenda.id_veiculo = id_veiculo;
+    //         agenda.dt_previsao = dt_previsao;
+    //         agenda.observacao = observacao;
+    //         agenda.produtos = [];
+
+    //         console.log(
+    //             'id_horario = ' +
+    //             agenda.id_horario +
+    //             'status = ' +
+    //             agenda.status +
+    //             'id_veiculo = ' +
+    //             agenda.id_veiculo +
+    //             'dt_previsao = ' +
+    //             agenda.dt_previsao +
+    //             'observacao = ' +
+    //             agenda.observacao +
+    //             'produtos = ' +
+    //             agenda.produtos
+    //         );
+
+    //         AgendaService.create(agenda).then((result) => {
+    //             let agenda = result as IAgenda;
+
+    //             horarioSalvo.status = 'Ocupado';
+    //             HorarioService.create(horarioSalvo);
+
+    //             addedServicos.forEach((servico) => {
+    //                 ServicoService.putOnAgenda(agenda.id, servico.id);
+    //             });
+    //             // se servicos não forem salvos, exibir msg de erro
+    //             alert('Registro salvo com sucesso!!!');
+    //             navigate('/agendamentos');
+    //         });
+    //     });
+
+    //     {/* console.log(agd);
+    //     AgendaService.create(agd).then((result) => {
+    //         if (result instanceof ApiException) {
+    //                     alert(result.message);
+    //         } else {
+    //             if (result != null) {
+    //                 if (result instanceof ApiException) {
+    //                     alert(result.message);
+    //                 } else {
+    //                     ServicoService.getByIdAgenda(agenda.id).then((result: any) => {
+    //                         let servicos = result as IServico[];
+    //                         if (servicos.length > 0) {
+    //                             console.log('servicos: Precisa deletar');
+
+    //                             ServicoService.deleteAllFromAgenda(agenda.id).then((_) => {
+    //                                 console.log('servicos: deletados!!');
+    //                                 if (addedServicos.length > 0) {
+    //                                     addedServicos.forEach((servico) => {
+    //                                         ServicoService.putOnAgenda(agenda.id, servico.id).then(_ => window.location.reload());
+    //                                     });
+    //                                     console.log('servicos: adicionados!!');
+    //                                     console.log(addedServicos);
+    //                                 }
+    //                             });
+    //                         } else {
+    //                             addedServicos.forEach((servico) => {
+    //                                 ServicoService.putOnAgenda(agenda.id, servico.id).then(_ => window.location.reload());
+    //                             });
+    //                             console.log('servicos adicionados');
+    //                             console.log(addedServicos);
+    //                         }
+    //                     })
+
+    //                     ProdutoService.getByIdAgenda(agenda.id).then((result: any) => {
+    //                     let produtos = result as IProduto[];
+    //                         if (produtos.length > 0) {
+    //                     console.log('produtos: Precisa deletar');
+
+    //                             ProdutoService.deleteAllFromAgenda(agenda.id).then((_) => {
+    //                     console.log('produtos: deletados!!');
+    //                                 if (addedProdutos.length > 0) {
+    //                     addedProdutos.forEach((produto) => {
+    //                         ProdutoService.putOnAgenda(agenda.id, produto.id).then(_ => window.location.reload());
+    //                     });
+    //                 console.log('produtos: adicionados!!');
+    //                 console.log(addedProdutos);
+    //                                 }
+    //                             });
+    //                         } else {
+    //                     addedProdutos.forEach((produto) => {
+    //                         ProdutoService.putOnAgenda(agenda.id, produto.id).then(_ => window.location.reload());
+    //                     });
+    //                 console.log('produtos adicionados');
+    //                 console.log(addedProdutos);
+    //                         }
+    //                     })
+
+    //                 alert("Cadastro realizado com sucesso!");
+    //                 navigate('/agenda');
+    //                 }
+    //             } else {
+    //                     alert("Não foi possível realizar o cadastro");
+    //             }
+
+    //         }
+    //     }) */}
+    // }
+
+    const handleSubmit = async () => {
+        try {
+            if (agenda.id !== undefined) {
+                // Crie uma nova entrada no Horario
+                const dataSelect = new Date(horario as any);
+                const horarioResult = await HorarioService.create(new IHorario(dataSelect));
+                const horarioSalvo = horarioResult as IHorario;
+
+                // Atualize a agenda com o ID do Horario salvo
+                const updatedAgenda: Omit<IAgenda, 'id'> = {
+                    ...agenda,
+                    id_horario: horarioSalvo.id,
+                    status: status,
+                    id_veiculo: id_veiculo,
+                    dt_previsao: dt_previsao,
+                    observacao: observacao,
+                    produtos: [],
+                    dt_fim: undefined
+                };
+
+                // Crie uma nova entrada na Agenda
+                const agendaResult = await AgendaService.create(updatedAgenda);
+                const savedAgenda = agendaResult as IAgenda;
+
+                // Atualize o status do Horario para 'Ocupado'
+                horarioSalvo.status = 'Ocupado';
+                await HorarioService.update(horarioSalvo); // Supondo que você tenha um método de atualização em HorarioService
+
+                // Adicione os serviços selecionados à agenda
+                for (const servico of addedServicos) {
+                    await ServicoService.putOnAgenda(savedAgenda.id, servico.id);
+                }
+
+                // Exiba uma mensagem de sucesso e navegue para '/agendamentos'
+                alert('Registro salvo com sucesso!!!');
+                navigate('/agendamentos');
+            } else {
+                alert('O ID da agenda não está definido. Verifique os dados e tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao salvar o registro. Verifique os dados e tente novamente.');
+        }
+    };
+
+
 
     const handleEdit = async () => {
         console.log(agenda);
@@ -238,7 +417,7 @@ export const Agendar = () => {
             observacao: observacao,
             dt_previsao: dt_previsao,
             dt_fim: dt_fim,
-            produtos: agenda.produtos
+            produtos: addedProdutos
         };
 
         AgendaService.update(agd).then((result) => {
@@ -260,92 +439,113 @@ export const Agendar = () => {
         )
     }
 
+    // Função para criar a lista de opções com value = id e label = modelo - placa.
+    function getOptionsFromVeiculos(veiculos: IVeiculo[]) {
+        return veiculos.map((veiculo) => ({
+            value: veiculo.id,
+            label: `${veiculo.modelo} - ${veiculo.placa}`,
+        }));
+    }
+    function getOptionsFromHorarios(horarios: IHorario[]) {
+        return horarios.map((horario: IHorario) => ({
+            id: horario.id,
+            value: String(horario.data.getDate()),
+            label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, '0')}`,
+        }));
+    }
+
+    // Use useMemo para memorizar a lista de opções.
+    const memorizedHorarios = useMemo(() => getOptionsFromHorarios(horariosDisponiveis), [horariosDisponiveis]);
+    const memorizedVeiculos = useMemo(() => getOptionsFromVeiculos(veiculos), [veiculos]);
+    //     <option
+    //         key={horario.data.getTime()}
+    //         disabled={horario.status === 'Ocupado'}
+    //         value={horario.data.getDate()}
+    //     >
+    //         {horario.data.getHours()}h{String(horario.data.getMinutes()).padStart(2, '0')}
+    //     </option>
+    // )), [horariosDisponiveis]);
+
     return (
         <Container id='container'>
             <h1>
                 Cadastro
             </h1>
             <Form id="form">
-                <Form.Group className="mb-3">
-                    <Form.Label>Veículo</Form.Label>
-                    <Form.Select name="dt_previsao" placeholder="Escolha um dos seus veículos" onChange={e => setId_Veiculo((e.target as any).value)} aria-label="Veículo">
-                        <option selected>Escolha um dos seus veículos</option>
-                        {veiculos.map(veiculo => (
-                            <option key={veiculo.id} value={veiculo.id}>{veiculo.modelo} - {veiculo.placa}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <Select className='veiculo' id='veiculo' name='veiculo' label='Veículo' defaultValue='Escolha um dos seus veículos' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Veiculo((e.target as any).value)} >
+                    {memorizedVeiculos.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </Select>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Status</Form.Label>
-                    <Form.Select name="status" onChange={e => setStatus((e.target as any).value)} aria-label="Status">
-                        <option selected>{Status.Pendente}</option>
-                        <option disabled={true}>{Status.Reprovado}</option>
-                        <option disabled={true}>{Status.Aprovado}</option>
-                        <option disabled={true}>{Status.Em_Andamento}</option>
-                        <option disabled={true}>{Status.Concluido}</option>
-                        <option disabled={true}>{Status.Cancelado}</option>
-                    </Form.Select>
-                </Form.Group>
+                <Select className='status' id='status' name='status' label='Status' defaultValue={Status.Pendente} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)} >
+                    {/* <option>{Status.Pendente}</option> */}
+                    <option disabled>{Status.Reprovado}</option>
+                    <option disabled>{Status.Aprovado}</option>
+                    <option disabled>{Status.Em_Andamento}</option>
+                    <option disabled>{Status.Concluido}</option>
+                    <option disabled>{Status.Cancelado}</option>
+                </Select>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Previsão de Termino</Form.Label>
-                    <Form.Control name="dt_previsao" type="date" value={dt_previsao as any} onChange={e => setDt_Previsao((e.target as any).value)} />
-                </Form.Group>
+                <Input className='dt_previsao' id='dt_previsao' name='dt_previsao' label='Previsão de termino' type='date' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)} />
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Data</Form.Label>
-                    <Form.Control id="inputData" name="inputData" type="date" onChange={_ => loadHorariosDisponiveisPorDia()} />
-                </Form.Group>
+                <Input className='inputData' id='inputData' name='inputData' label='Data' type='date' onChange={loadHorariosDisponiveisPorDia} />
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Horário</Form.Label>
-                    <Form.Select name="horário" placeholder="Selecione um horário" aria-label="IHorario">
-                        <option selected>Selecione um horário</option>
+                <Select className="horario" id="horario" name="horario" label="Horário" defaultValue="Escolha um horário" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)}>
+                    {memorizedHorarios.map((option) => (
+                        <option key={option.id} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </Select>
 
-                        {horariosDisponiveis.map(horario => (
-                            <option
-                                key={horario.data.getTime()} // Usamos getTime() para obter uma chave única
-                                disabled={horario.status === 'Ocupado'}
-                                value={horario.data.getDate()}
-                            >
-                                {horario.data.getHours()}h{String(horario.data.getMinutes()).padStart(2, '0')}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                    <Form.Label>Serviços</Form.Label>
-                    <Form.Select id="servico" name="servico" placeholder="Selecione um serviço" aria-label="Serviços">
-                        <option selected>Selecione um serviço</option>
-                        {servicos.map(servico => (
-                            <option key={servico.id} value={servico.id}>{servico.nome}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
-                <button id="addButton" type="button" color="primary" onClick={_ => { addServico() }}>+</button>
-
+                <Select className="servico" id="servico" name="servico" label="Serviços" defaultValue="Selecione um serviço">
+                    {servicos.map(servico => (
+                        <option key={servico.id} value={servico.id}>{servico.nome}</option>
+                    ))}
+                </Select>
+                <Button id="addButton" type="button" color="primary" onClick={_ => { addServico() }}>+</Button>
                 <div id="servicosAdd">
                     <h3>Serviços adicionados</h3>
                     <Row>
                         <div className="areaServicoAdd">
                             {
                                 addedServicos.map(servico => (
-                                    <button type="button" onClick={_ => removeServico(servico)}>
-                                        {servico.nome}{<i className="bi bi-x-circle"></i>}
-                                    </button>
+                                    <Button type="button" onClick={_ => removeServico(servico)}>
+                                        {servico.nome}<i className="bi bi-x-circle"></i>
+                                    </Button>
                                 ))
                             }
                         </div>
                     </Row>
                 </div >
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Observacao</Form.Label>
-                    <Form.Control name="observacao" type="text" placeholder="Digite seu Observacao" value={observacao} onChange={e => setObservacao((e.target as any).value)} />
-                </Form.Group>
+                <Select className="produto" id="produto" name="produto" label="Produtos" defaultValue="Selecione um produto">
+                    {produtos.map(produto => (
+                        <option key={produto.id} value={produto.id}>{produto.descricao}</option>
+                    ))}
+                </Select>
+                <Button id="addButton" type="button" color="primary" onClick={_ => { addProduto() }}>+</Button>
+                <div id="produtosAdd">
+                    <h3>Produtos adicionados</h3>
+                    <Row>
+                        <div className="areaProdutoAdd">
+                            {
+                                addedProdutos.map(produto => (
+                                    <Button type="button" onClick={_ => removeProduto(produto)}>
+                                        {produto.descricao}<i className="bi bi-x-circle"></i>
+                                    </Button>
+                                ))
+                            }
+                        </div>
+                    </Row>
+                </div >
+
+                <Input className='observacao' id='observacao' name='observacao' label='Observação' type='text' placeholder='Insira alguma observação' value={observacao} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setObservacao((e.target as any).value)} />
             </Form >
+
             <div id="buttons">
                 <Col>
                     <Row>
@@ -358,5 +558,4 @@ export const Agendar = () => {
             </div>
         </Container >
     );
-
 }

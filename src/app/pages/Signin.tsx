@@ -7,6 +7,7 @@ import { UsuarioService, IUsuario } from '../services/api/usuario/UsuarioService
 import { ApiException } from '../services/api/ApiException';
 import { useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
+import { Input } from '../components/Input';
 
 export const Signin = () => {
     const [nome, setNome] = useState('');
@@ -51,30 +52,11 @@ export const Signin = () => {
                 Cadastro
             </h1>
             <Form id="form">
-                <Form.Group className="mb-3" controlId="formGroupNome">
-                    <Form.Label>Nome</Form.Label>
-                    <Form.Control name="nome" type="text" placeholder="Digite seu nome" onChange={e => setNome((e.target as any).value)} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formGroupCPF">
-                    <Form.Label>CPF</Form.Label>
-                    <Form.Control name="cpf" type="text" placeholder="Digite seu CPF" onChange={e => setCpf((e.target as any).value)} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control name="email" type="email" placeholder="Digite seu email" onChange={e => setEmail((e.target as any).value)} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formGroupTelefone">
-                    <Form.Label>Telefone</Form.Label>
-                    <Form.Control name="telefone" type="text" placeholder="Digite seu número de telefone" onChange={e => setTelefone((e.target as any).value)} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formGroupSenha">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control name="senha" type="password" placeholder="Digite sua senha" onChange={e => setSenha((e.target as any).value)} />
-                </Form.Group>
+                <Input className='nome' id='nome' name="nome" label='Nome' type="text" placeholder="Insira seu nome" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNome((e.target as any).value)} />
+                <Input className='cpf' id='cpf' name="cpf" label='CPF' type="text" placeholder="Insira seu cpf" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)} />
+                <Input className='email' id='email' name="email" label='Email' type="email" placeholder="Insira seu email" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)} />
+                <Input className='telefone' id='telefone' name="telefone" label='Telefone' type="text" placeholder="Insira seu telefone" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)} />
+                <Input className='senha' id='senha' name="senha" label='Senha' type="password" placeholder="Insira sua senha" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)} />
             </Form>
             <div id="buttons">
                 <Col>
