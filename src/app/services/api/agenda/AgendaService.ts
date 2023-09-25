@@ -13,7 +13,7 @@ export enum Status {
 export interface IAgenda {
     id: number;
     id_horario: number;
-    id_agenda: number;
+    id_veiculo: number;
     status: Status;
     dt_previsao: Date | undefined;
     dt_fim: Date | undefined;
@@ -33,6 +33,15 @@ const get = async (): Promise<IAgenda[] | ApiException> => {
 const getById = async (id: number): Promise<IAgenda | ApiException> => {
     try {
         const { data } = await Api().get(`/agenda/${id}`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
+const getByVeiculo = async (id: number): Promise<IAgenda[] | ApiException> => {
+    try {
+        const { data } = await Api().get(`/agenda/veiculo/${id}`)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao consultar a API.')
@@ -69,6 +78,7 @@ const deleteById = async (id: number): Promise<undefined | ApiException> => {
 export const AgendaService = {
     get,
     getById,
+    getByVeiculo,
     create,
     update,
     deleteById,
