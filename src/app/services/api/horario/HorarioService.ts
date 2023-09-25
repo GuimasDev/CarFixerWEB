@@ -1,10 +1,16 @@
 import { Api } from "../ApiConfig";
 import { ApiException } from "../ApiException";
 
-export interface IHorario {
+export class IHorario {
     id: number;
     status: 'Livre' | 'Ocupado';
     data: Date;
+    
+    constructor(data: Date) {
+        this.id = 0;
+        this.status = 'Livre';
+        this.data = data;
+    }
 }
 
 const get = async (): Promise<IHorario[] | ApiException> => {
@@ -34,9 +40,9 @@ const create = async (dataToCreate: Omit<IHorario, 'id'>): Promise<IHorario[] | 
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IHorario): Promise<IHorario | ApiException> => {
+const update = async (dataToUpdate: IHorario): Promise<IHorario | ApiException> => {
     try {
-        const { data } = await Api().put(`/horario/${id}`, dataToUpdate)
+        const { data } = await Api().put('/horario', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -56,6 +62,6 @@ export const HorarioService = {
     get,
     getById,
     create,
-    updateById,
+    update,
     deleteById,
 };

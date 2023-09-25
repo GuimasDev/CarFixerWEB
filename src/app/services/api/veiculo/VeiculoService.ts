@@ -29,6 +29,15 @@ const getById = async (id: number): Promise<IVeiculo | ApiException> => {
     }
 };
 
+const getByUsuario = async (id: number): Promise<IVeiculo[] | ApiException> => {
+    try {
+        const { data } = await Api().get(`/veiculo/usuario/${id}`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
 const create = async (dataToCreate: Omit<IVeiculo, 'id'>): Promise<IVeiculo[] | ApiException> => {
     try {
         const { data } = await Api().post<any>('/veiculo', dataToCreate)
@@ -38,9 +47,9 @@ const create = async (dataToCreate: Omit<IVeiculo, 'id'>): Promise<IVeiculo[] | 
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IVeiculo): Promise<IVeiculo | ApiException> => {
+const update= async (dataToUpdate: IVeiculo): Promise<IVeiculo | ApiException> => {
     try {
-        const { data } = await Api().put(`/veiculo/${id}`, dataToUpdate)
+        const { data } = await Api().put('/veiculo', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -59,7 +68,8 @@ const deleteById = async (id: number): Promise<undefined | ApiException> => {
 export const VeiculoService = {
     get,
     getById,
+    getByUsuario,
     create,
-    updateById,
+    update,
     deleteById,
 };

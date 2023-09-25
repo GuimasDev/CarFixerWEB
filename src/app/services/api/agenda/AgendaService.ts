@@ -13,7 +13,7 @@ export enum Status {
 export interface IAgenda {
     id: number;
     id_horario: number;
-    id_agenda: number;
+    id_veiculo: number;
     status: Status;
     dt_previsao: Date | undefined;
     dt_fim: Date | undefined;
@@ -39,6 +39,15 @@ const getById = async (id: number): Promise<IAgenda | ApiException> => {
     }
 };
 
+const getByVeiculo = async (id: number): Promise<IAgenda[] | ApiException> => {
+    try {
+        const { data } = await Api().get(`/agenda/veiculo/${id}`)
+        return data;
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao consultar a API.')
+    }
+};
+
 const create = async (dataToCreate: Omit<IAgenda, 'id'>): Promise<IAgenda[] | ApiException> => {
     try {
         const { data } = await Api().post<any>('/agenda', dataToCreate)
@@ -48,9 +57,9 @@ const create = async (dataToCreate: Omit<IAgenda, 'id'>): Promise<IAgenda[] | Ap
     }
 }
 
-const updateById = async (id: number, dataToUpdate: IAgenda): Promise<IAgenda | ApiException> => {
+const update = async (dataToUpdate: IAgenda): Promise<IAgenda | ApiException> => {
     try {
-        const { data } = await Api().put(`/agenda/${id}`, dataToUpdate)
+        const { data } = await Api().put('/agenda', dataToUpdate)
         return data;
     } catch (error: any) {
         return new ApiException(error.message || 'Erro ao atualizar na API.')
@@ -69,7 +78,8 @@ const deleteById = async (id: number): Promise<undefined | ApiException> => {
 export const AgendaService = {
     get,
     getById,
+    getByVeiculo,
     create,
-    updateById,
+    update,
     deleteById,
 };

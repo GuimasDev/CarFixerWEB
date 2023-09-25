@@ -66,7 +66,8 @@ function NavBar(props) {
     </Nav>;
 
     let cliente = <Nav>
-        <Nav.Link href="#agendar">Agendar</Nav.Link>
+        <Nav.Link href="/agendamentos">Agendar</Nav.Link>
+        <Nav.Link href="/veiculo">Meus veículos</Nav.Link>
         <Nav.Link href="#sobre">Sobre</Nav.Link>
         {/* <img
         src="/img/profile.svg"
