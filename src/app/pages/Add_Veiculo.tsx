@@ -127,7 +127,7 @@ export const Add_Veiculo = () => {
             <div id="buttons">
                 <Col>
                     <Row>
-                        <Button form="form" onClick={(id !== null ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
+                        <Button form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
                     </Row>
                     <Row>
                         <Button onClick={_ => navigate('/veiculo')} type="button" size="lg" variant="primary">Voltar</Button>

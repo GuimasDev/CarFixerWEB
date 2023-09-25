@@ -1,10 +1,16 @@
 import { Api } from "../ApiConfig";
 import { ApiException } from "../ApiException";
 
-export interface IHorario {
+export class IHorario {
     id: number;
     status: 'Livre' | 'Ocupado';
     data: Date;
+    
+    constructor(data: Date) {
+        this.id = 0;
+        this.status = 'Livre';
+        this.data = data;
+    }
 }
 
 const get = async (): Promise<IHorario[] | ApiException> => {
