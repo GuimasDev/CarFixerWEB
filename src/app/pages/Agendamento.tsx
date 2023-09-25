@@ -11,6 +11,7 @@ import { UsuarioService } from "../services/api/usuario/UsuarioService";
 import edit from "../assets/icons/edit.svg";
 import trash from "../assets/icons/trash.svg";
 import { IVeiculo, VeiculoService } from "../services/api/veiculo/VeiculoService";
+import { HorarioService } from "../services/api/horario/HorarioService";
 
 export const Agendamento = () => {
 	const [agendas, setAgendas] = useState<IAgenda[]>([]);
@@ -66,12 +67,22 @@ export const Agendamento = () => {
 		navigate(`/add-agenda/${id}`);
 	};
 
-	const getNome = (id: number): any => {
-		UsuarioService.getById(id).then((result) => {
+	const getModelo = (id: number): any => {
+		VeiculoService.getById(id).then((result) => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
-				return result.nome;
+				return result.modelo;
+			}
+		});
+	};
+
+	const getHorario = (id: number): any => {
+		HorarioService.getById(id).then((result) => {
+			if (result instanceof ApiException) {
+				alert(result.message);
+			} else {
+				return result.data;
 			}
 		});
 	};
@@ -93,28 +104,29 @@ export const Agendamento = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{agendas.map((agenda, index) => {
-						return (
-							<tr>
-								<td>{index + 1}</td>
-								<td>{agenda.id_horario}</td>
-								<td>{agenda.id_veiculo}</td>
-								<td>{agenda.status}</td>
-								<td>{agenda.observacao}</td>
-								<td>{}</td>
-								<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_previsao)) || ""}</td>
-								<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_fim))}</td>
-								<td>
-									<button onClick={(_) => handleEdit(agenda.id)}>
-										<img src={edit} alt="" />
-									</button>
-									<button onClick={(_) => handleDelete(agenda.id)}>
-										<img src={trash} alt="" />
-									</button>
-								</td>
-							</tr>
-						);
-					})}
+					{
+						agendas.map((agenda, index) => {
+							return (
+								<tr key={index}>
+									<td>{index + 1}</td>
+									<td>{getHorario(Number(agenda.id_horario))}</td>
+									<td>{getModelo(Number(agenda.id_veiculo))}</td>
+									<td>{agenda.status}</td>
+									<td>{agenda.observacao}</td>
+									<td>{ }</td>
+									<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_previsao)) || ""}</td>
+									<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_fim))}</td>
+									<td>
+										<button onClick={(_) => handleEdit(agenda.id)}>
+											<img src={edit} alt="" />
+										</button>
+										<button onClick={(_) => handleDelete(agenda.id)}>
+											<img src={trash} alt="" />
+										</button>
+									</td>
+								</tr>
+							);
+						})}
 				</tbody>
 			</Table>
 			<div id="buttons">
@@ -132,10 +144,10 @@ export const Agendamento = () => {
 
 
 const dateString_YYYYmmdd_to_ddmmYY = (str: string) => {
-  let foo = str.split("-");
-  if (foo[2]!=undefined) {
-    return `${foo[2]}/${foo[1]}/${foo[0].slice(-2)}`;
-  } else{
-    return ""
-  }
+	let foo = str.split("-");
+	if (foo[2] != undefined) {
+		return `${foo[2]}/${foo[1]}/${foo[0].slice(-2)}`;
+	} else {
+		return ""
+	}
 };
