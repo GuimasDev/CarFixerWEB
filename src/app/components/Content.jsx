@@ -1,16 +1,16 @@
 import React from "react";
 import './Content.css'
 import { Routes, Route } from "react-router-dom";
-import { Home } from "../pages/Home";
+import { Home } from "../pages/home/Home";
 import { Horario } from "../pages/Horario";
 import { Cronograma } from "../pages/Cronograma";
-import { Login } from "../pages/Login";
-import { Logout } from "../pages/Logout";
-import { Signin } from "../pages/Signin";
-import { Veiculo } from "../pages/Veiculo";
-import { Add_Veiculo } from "../pages/Add_Veiculo";
-import { Agendamento } from "../pages/Agendamento";
-import { Agendar } from "../pages/Agendar";
+import { Login } from "../pages/usuario/Login";
+import { Logout } from "../pages/usuario/Logout";
+import { Signin } from "../pages/usuario/Signin";
+import { Veiculo } from "../pages/veiculo/Veiculo";
+import { Add_Veiculo } from "../pages/veiculo/Add_Veiculo";
+import { Agendamento } from "../pages/agenda/Agendamento";
+import { Agendar } from "../pages/agenda/Agendar";
 
 export const Content = props => (
     <main className="Content">

@@ -3,17 +3,17 @@ import "./Agendar.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import { AgendaService, IAgenda, Status } from '../services/api/agenda/AgendaService';
-import { ApiException } from '../services/api/ApiException';
+import { AgendaService, IAgenda, Status } from '../../services/api/agenda/AgendaService';
+import { ApiException } from '../../services/api/ApiException';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import { UsuarioService } from '../services/api/usuario/UsuarioService';
-import { IVeiculo, VeiculoService } from '../services/api/veiculo/VeiculoService';
-import { HorarioService, IHorario } from '../services/api/horario/HorarioService';
-import { IServico, ServicoService } from '../services/api/servico/ServicoService';
-import { IProduto, ProdutoService } from '../services/api/produto/ProdutoService';
-import { Input } from '../components/Input';
-import { Select } from '../components/Select';
+import { UsuarioService } from '../../services/api/usuario/UsuarioService';
+import { IVeiculo, VeiculoService } from '../../services/api/veiculo/VeiculoService';
+import { HorarioService, IHorario } from '../../services/api/horario/HorarioService';
+import { IServico, ServicoService } from '../../services/api/servico/ServicoService';
+import { IProduto, ProdutoService } from '../../services/api/produto/ProdutoService';
+import { Input } from '../../components/Input';
+import { Select } from '../../components/Select';
 
 export const Agendar = () => {
     const [agenda, setAgenda] = useState<IAgenda>({

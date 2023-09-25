@@ -3,11 +3,11 @@ import "./Signin.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import { UsuarioService, IUsuario } from '../services/api/usuario/UsuarioService';
-import { ApiException } from '../services/api/ApiException';
+import { UsuarioService, IUsuario } from '../../services/api/usuario/UsuarioService';
+import { ApiException } from '../../services/api/ApiException';
 import { useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import { Input } from '../components/Input';
+import { Input } from '../../components/Input';
 
 export const Signin = () => {
     const [nome, setNome] = useState('');

@@ -3,13 +3,13 @@ import "./Add_Veiculo.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import { VeiculoService, IVeiculo } from '../services/api/veiculo/VeiculoService';
-import { ApiException } from '../services/api/ApiException';
+import { VeiculoService, IVeiculo } from '../../services/api/veiculo/VeiculoService';
+import { ApiException } from '../../services/api/ApiException';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import { UsuarioService } from '../services/api/usuario/UsuarioService';
-import { Input } from '../components/Input';
-import { Select } from '../components/Select';
+import { UsuarioService } from '../../services/api/usuario/UsuarioService';
+import { Input } from '../../components/Input';
+import { Select } from '../../components/Select';
 
 export const Add_Veiculo = () => {
     const [veiculo, setVeiculo] = useState<IVeiculo>({
