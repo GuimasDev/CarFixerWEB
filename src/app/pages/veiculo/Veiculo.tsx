@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Veiculo.css";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { VeiculoService, IVeiculo } from "../services/api/veiculo/VeiculoService";
-import { ApiException } from "../services/api/ApiException";
+import { VeiculoService, IVeiculo } from "../../services/api/veiculo/VeiculoService";
+import { ApiException } from "../../services/api/ApiException";
 import { useNavigate } from "react-router-dom";
 import { Col, Row, Table } from "react-bootstrap";
-import { UsuarioService } from "../services/api/usuario/UsuarioService";
-import edit from "../assets/icons/edit.svg";
-import trash from "../assets/icons/trash.svg";
+import { UsuarioService } from "../../services/api/usuario/UsuarioService";
+import edit from "../../assets/icons/edit.svg";
+import trash from "../../assets/icons/trash.svg";
 
 export const Veiculo = () => {
 	const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
@@ -59,7 +57,7 @@ export const Veiculo = () => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
-        
+
 				return result.nome;
 			}
 		});
@@ -88,7 +86,7 @@ export const Veiculo = () => {
 								<td>{veiculo.modelo}</td>
 								<td>{veiculo.tipo}</td>
 								<td>{getNome(veiculo.id_cliente)}</td>
-								<td>{}</td>
+								<td>{ }</td>
 								<td>
 									<button onClick={(_) => handleEdit(veiculo.id)}>
 										<img src={edit} alt="" />

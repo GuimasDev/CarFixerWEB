@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Agendamento.css";
-import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { AgendaService, IAgenda } from "../services/api/agenda/AgendaService";
-import { ApiException } from "../services/api/ApiException";
+import { AgendaService, IAgenda } from "../../services/api/agenda/AgendaService";
+import { ApiException } from "../../services/api/ApiException";
 import { useNavigate } from "react-router-dom";
 import { Col, Row, Table } from "react-bootstrap";
-import { UsuarioService } from "../services/api/usuario/UsuarioService";
-import edit from "../assets/icons/edit.svg";
-import trash from "../assets/icons/trash.svg";
-import { IVeiculo, VeiculoService } from "../services/api/veiculo/VeiculoService";
-import { HorarioService } from "../services/api/horario/HorarioService";
+import { UsuarioService } from "../../services/api/usuario/UsuarioService";
+import edit from "../../assets/icons/edit.svg";
+import trash from "../../assets/icons/trash.svg";
+import { IVeiculo, VeiculoService } from "../../services/api/veiculo/VeiculoService";
+import { HorarioService } from "../../services/api/horario/HorarioService";
 
 export const Agendamento = () => {
 	const [agendas, setAgendas] = useState<IAgenda[]>([]);
