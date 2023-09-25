@@ -8,7 +8,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import logo from "../assets/images/logo.svg"
 
 function NavBar(props) {
-    const [userType, setType] = useState(props.type);
+    const [userType, setType] = useState(props.type || "Admin");
     const [checked, setChecked] = useState(false);
     const [radioValue, setRadioValue] = useState('1');
 
@@ -23,7 +23,7 @@ function NavBar(props) {
                 key={idx}
                 id={`radio-${idx}`}
                 type="radio"
-                variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                variant={idx % 2 ? 'outline-success' : 'outline-primary'}
                 name="radio"
                 value={radio.value}
                 checked={radioValue === radio.value}
@@ -38,11 +38,14 @@ function NavBar(props) {
     </ButtonGroup>;
 
     let admin = <Nav>
-        <Nav.Link href="#funcionarios">Funcionários</Nav.Link>
-        <Nav.Link href="#servicos">Serviços</Nav.Link>
-        <Nav.Link href="/horario">Horários</Nav.Link>
+        {/* <Nav.Link href="#funcionarios">Funcionários</Nav.Link> */}
+        {/* <Nav.Link href="#servicos">Serviços</Nav.Link> */}
+        <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
         <Nav.Link href="/cronograma">Cronograma</Nav.Link>
-        <Nav.Link href="#produtos">Produtos</Nav.Link>
+        <Nav.Link href="/veiculo">Veiculos</Nav.Link>
+        <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
+        <Nav.Link href="/agendar">Agendar</Nav.Link>
+        {/* <Nav.Link href="#produtos">Produtos</Nav.Link> */}
         {/* <img
     src="/img/profile.svg"
     width="30"
