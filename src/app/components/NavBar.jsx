@@ -41,6 +41,7 @@ function NavBar(props) {
         <Nav.Link href="#funcionarios">Funcionários</Nav.Link>
         <Nav.Link href="#servicos">Serviços</Nav.Link>
         <Nav.Link href="/horario">Horários</Nav.Link>
+        <Nav.Link href="/cronograma">Cronograma</Nav.Link>
         <Nav.Link href="#produtos">Produtos</Nav.Link>
         {/* <img
     src="/img/profile.svg"
@@ -87,7 +88,7 @@ function NavBar(props) {
 
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" fixed="top    ">
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">  {/*fixed="top" */}
             <Container>
                 {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
