@@ -48,7 +48,7 @@ export const Cronograma = () => {
 
 	return (
 		<div id="container">
-			<h1>Horários de Funcionamento</h1>
+			<h1>Cronograma</h1>
 			<Tabela colunas={columnDays} sideTitle={columnSideTitle}/>
 		</div>
 	);

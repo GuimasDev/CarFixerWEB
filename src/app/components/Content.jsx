@@ -9,7 +9,6 @@ import { Logout } from "../pages/Logout";
 import { Signin } from "../pages/Signin";
 import { Veiculo } from "../pages/Veiculo";
 import { Add_Veiculo } from "../pages/Add_Veiculo";
-import { Horario } from "../pages/Horario";
 import { Agendamento } from "../pages/Agendamento";
 import { Agendar } from "../pages/Agendar";
 
