@@ -9,12 +9,13 @@ import { UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 import { IVeiculo, VeiculoService } from "../../services/api/veiculo/VeiculoService";
-import { HorarioService } from "../../services/api/horario/HorarioService";
+import { HorarioService, IHorario } from "../../services/api/horario/HorarioService";
 
 export const Agendamento = () => {
 	const [agendas, setAgendas] = useState<IAgenda[]>([]);
 	const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
 	const [updateList, setUpdateList] = useState<boolean>(false);
+	const [horarios, setHorarios] = useState<IHorario[]>([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -26,6 +27,7 @@ export const Agendamento = () => {
 					setAgendas(result);
 				}
 			});
+
 		} else {
 			VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
 				if (result instanceof ApiException) {
@@ -48,6 +50,19 @@ export const Agendamento = () => {
 
 		setUpdateList(false);
 	}, [updateList]);
+
+	useEffect(() =>{
+		agendas.forEach(agenda => {
+			HorarioService.getById(agenda.id_horario).then((result) => {
+				if (result instanceof ApiException) {
+					alert(result.message);
+				} else {
+					setHorarios([...horarios, result]);
+				}
+
+			});
+		})	
+	})
 
 	const handleDelete = (id: number): any => {
 		if (window.confirm("Tem certeza que deseja excluir esse veículo?")) {
@@ -75,14 +90,13 @@ export const Agendamento = () => {
 		});
 	};
 
-	const getHorario = (id: number): any => {
-		HorarioService.getById(id).then((result) => {
-			if (result instanceof ApiException) {
-				alert(result.message);
-			} else {
-				return result.data;
-			}
-		});
+
+
+	const getHorario = (horario: IHorario) => {
+		let hour = new Date(horario.data);
+		let data = `${hour.getDate()}/${hour.getMonth()}/${hour.getFullYear()}`;
+		data += ` ${hour.getHours()}h${String(hour.getMinutes()).padStart(2, '0')}`;
+		return data;
 	};
 
 	return (
@@ -107,7 +121,7 @@ export const Agendamento = () => {
 							return (
 								<tr key={index}>
 									<td>{index + 1}</td>
-									<td>{getHorario(Number(agenda.id_horario))}</td>
+									<td>{getHorario(horarios[index])}</td>
 									<td>{getModelo(Number(agenda.id_veiculo))}</td>
 									<td>{agenda.status}</td>
 									<td>{agenda.observacao}</td>

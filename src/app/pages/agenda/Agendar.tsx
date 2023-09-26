@@ -364,6 +364,7 @@ export const Agendar = () => {
         try {
             if (agenda.id !== undefined) {
                 // Crie uma nova entrada no Horario
+                console.log(horario);
                 const dataSelect = new Date(horario as any);
                 const horarioResult = await HorarioService.create(new IHorario(dataSelect));
                 const horarioSalvo = horarioResult as IHorario;
@@ -379,6 +380,7 @@ export const Agendar = () => {
                     produtos: [],
                     dt_fim: undefined
                 };
+                console.log(updatedAgenda);
 
                 // Crie uma nova entrada na Agenda
                 const agendaResult = await AgendaService.create(updatedAgenda);
@@ -449,7 +451,7 @@ export const Agendar = () => {
     function getOptionsFromHorarios(horarios: IHorario[]) {
         return horarios.map((horario: IHorario) => ({
             id: horario.id,
-            value: String(horario.data.getDate()),
+            value: horario.data,
             label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, '0')}`,
         }));
     }
@@ -495,7 +497,7 @@ export const Agendar = () => {
 
                 <Select className="horario" id="horario" name="horario" label="Horário" defaultValue="Escolha um horário" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)}>
                     {memorizedHorarios.map((option) => (
-                        <option key={option.id} value={option.value}>
+                        <option key={option.id} value={String(option.value)}>
                             {option.label}
                         </option>
                     ))}
