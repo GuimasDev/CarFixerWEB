@@ -19,21 +19,42 @@ export const Agendamento = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.log("useEffect");
+		
 		if (UsuarioService.getLogin().permission == "Admin") {
 			AgendaService.get().then((result) => {
+				console.log("useEffect 2");
 				if (result instanceof ApiException) {
 					alert(result.message);
 				} else {
 					setAgendas(result);
+					console.log(agendas);
+					
+					
 				}
 			});
-
+			
+			if (agendas.length > 0) {
+				console.log("useEffect 3");
+				agendas.forEach(agenda => {
+					HorarioService.getById(agenda.id_horario).then((result) => {
+						if (result instanceof ApiException) {
+							alert(result.message);
+						} else {
+							setHorarios([...horarios, result]);
+							console.log(horarios);
+							
+						}
+		
+					});
+				})	
+			}
 		} else {
 			VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
 				} else {
-					setVeiculos(result);
+					setVeiculos([...veiculos, ...result]);
 				}
 			});
 
@@ -42,7 +63,7 @@ export const Agendamento = () => {
 					if (result instanceof ApiException) {
 						alert(result.message);
 					} else {
-						setAgendas(result);
+						setAgendas([...agendas, ...result]);
 					}
 				});
 			});
@@ -51,18 +72,24 @@ export const Agendamento = () => {
 		setUpdateList(false);
 	}, [updateList]);
 
-	useEffect(() =>{
-		agendas.forEach(agenda => {
-			HorarioService.getById(agenda.id_horario).then((result) => {
-				if (result instanceof ApiException) {
-					alert(result.message);
-				} else {
-					setHorarios([...horarios, result]);
-				}
+	// useEffect(() =>{
+	// 	if (agendas.length > 0) {
+	// 		agendas.forEach(agenda => {
+	// 			HorarioService.getById(agenda.id_horario).then((result) => {
+	// 				if (result instanceof ApiException) {
+	// 					alert(result.message);
+	// 				} else {
+	// 					setHorarios([...horarios, result]);
+	// 					console.log(horarios);
+						
+	// 				}
+	
+	// 			});
+	// 		})	
+	// 	}
+	// 	setUpdateList(false);
 
-			});
-		})	
-	})
+	// }, [updateList])
 
 	const handleDelete = (id: number): any => {
 		if (window.confirm("Tem certeza que deseja excluir esse veículo?")) {
@@ -93,9 +120,18 @@ export const Agendamento = () => {
 
 
 	const getHorario = (horario: IHorario) => {
+		if (horario == null) {
+			return ""
+		}
+
 		let hour = new Date(horario.data);
 		let data = `${hour.getDate()}/${hour.getMonth()}/${hour.getFullYear()}`;
 		data += ` ${hour.getHours()}h${String(hour.getMinutes()).padStart(2, '0')}`;
+
+		console.log("Data:");
+		
+		console.log(data);
+		
 		return data;
 	};
 
