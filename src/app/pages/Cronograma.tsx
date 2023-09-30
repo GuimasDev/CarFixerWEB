@@ -6,6 +6,8 @@ import { ColunaTitle } from "../components/cronograma/ColunaTitle";
 import { ApiException } from "../services/api/ApiException";
 import { Coluna } from "../components/cronograma/Coluna";
 import { Tabela } from "../components/cronograma/Tabela";
+import { useNavigate } from "react-router-dom";
+import { UsuarioService } from "../services/api/usuario/UsuarioService";
 
 export const Cronograma = () => {
 	//===========================================
@@ -24,6 +26,11 @@ export const Cronograma = () => {
 
 	const columnSideTitle: string[] = getColumnSideTitle(columnDays, hr_inicio, hr_termino, hrPorAgenda);
 
+	const navigate = useNavigate();
+
+	if (UsuarioService.getLogin().permission !== "Admin") {
+		navigate('/');
+	}
 
 	// console.log(columnSideTitle);
 
@@ -49,7 +56,7 @@ export const Cronograma = () => {
 	return (
 		<div id="container">
 			<h1>Cronograma</h1>
-			<Tabela colunas={columnDays} sideTitle={columnSideTitle}/>
+			<Tabela colunas={columnDays} sideTitle={columnSideTitle} />
 		</div>
 	);
 };
@@ -131,7 +138,7 @@ function getColumnSideTitle(
 		if (i >= 30) {
 			flag = false;
 			console.log("Loop ao carregar slots sideTitle!!");
-			
+
 		}
 	}
 

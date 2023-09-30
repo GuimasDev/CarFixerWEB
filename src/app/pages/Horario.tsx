@@ -10,6 +10,8 @@ import {
     IRegraFuncionamento,
 } from "../services/api/regraFuncionamento/RegraFuncionamentoService";
 import { ApiException } from "../services/api/ApiException";
+import { UsuarioService } from "../services/api/usuario/UsuarioService";
+import { useNavigate } from "react-router-dom";
 
 export const Horario = () => {
     const [regraList, setRegraList] = useState<IRegraFuncionamento[]>([]);
@@ -25,6 +27,12 @@ export const Horario = () => {
     const diasSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
     let diasSemanaDefinidos = loadDiasSemanaDefinidos(regraList) || [];
+
+    const navigate = useNavigate();
+
+    if (UsuarioService.getLogin().permission !== "Admin") {
+        navigate('/');
+    }
 
     useEffect(() => {
         RegraFuncionamentoService.get().then(result => {
