@@ -7,6 +7,8 @@ import { Cronograma } from "../pages/Cronograma";
 import { Login } from "../pages/usuario/Login";
 import { Logout } from "../pages/usuario/Logout";
 import { Signin } from "../pages/usuario/Signin";
+import { Clientes } from "../pages/cliente/Clientes";
+import { Cliente } from "../pages/cliente/Cliente";
 import { Veiculo } from "../pages/veiculo/Veiculo";
 import { Add_Veiculo } from "../pages/veiculo/Add_Veiculo";
 import { Agendamento } from "../pages/agenda/Agendamento";
@@ -28,7 +30,9 @@ export const Content = props => (
             {/* Redireciona o usuario para a home page se não estiver logado */}
             <Route element={<ProtectedRoutes />}>
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/veiculo" element={<Veiculo />} />
+                <Route path="/clientes" element={<Clientes />} />
+                <Route path="/cliente" element={<Cliente />} />
+                <Route path="/veiculos" element={<Veiculo />} />
                 <Route path="/add-veiculo" element={<Add_Veiculo />} />
                 <Route path="/add-veiculo/:id" element={<Add_Veiculo />} />
                 <Route path="/agendamentos" element={<Agendamento />} />

@@ -40,11 +40,11 @@ function NavBar(props) {
     let admin = <Nav>
         {/* <Nav.Link href="#funcionarios">Funcionários</Nav.Link> */}
         {/* <Nav.Link href="#servicos">Serviços</Nav.Link> */}
+        <Nav.Link href="/clientes">Clientes</Nav.Link>
+        <Nav.Link href="/veiculos">Veiculos</Nav.Link>
+        <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
         <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
         <Nav.Link href="/cronograma">Cronograma</Nav.Link>
-        <Nav.Link href="/veiculo">Veiculos</Nav.Link>
-        <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
-        <Nav.Link href="/agendar">Agendar</Nav.Link>
         {/* <Nav.Link href="#produtos">Produtos</Nav.Link> */}
         {/* <img
     src="/img/profile.svg"
@@ -61,7 +61,7 @@ function NavBar(props) {
 
             {/* </NavDropdown.Item> */}
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/logout">   
+            <NavDropdown.Item href="/logout">
                 Logout
             </NavDropdown.Item>
         </NavDropdown>
@@ -70,7 +70,7 @@ function NavBar(props) {
 
     let cliente = <Nav>
         <Nav.Link href="/agendamentos">Agendar</Nav.Link>
-        <Nav.Link href="/veiculo">Meus veículos</Nav.Link>
+        <Nav.Link href="/veiculos">Meus veículos</Nav.Link>
         <Nav.Link href="#sobre">Sobre</Nav.Link>
         {/* <img
         src="/img/profile.svg"
