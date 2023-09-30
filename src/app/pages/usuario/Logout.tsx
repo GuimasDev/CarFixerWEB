@@ -9,5 +9,4 @@ export const Logout = () => {
     return (
         < Navigate to="/login" replace={true} />
     );
-
 }

@@ -61,7 +61,7 @@ function NavBar(props) {
 
             {/* </NavDropdown.Item> */}
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/login">
+            <NavDropdown.Item href="/logout">   
                 Logout
             </NavDropdown.Item>
         </NavDropdown>

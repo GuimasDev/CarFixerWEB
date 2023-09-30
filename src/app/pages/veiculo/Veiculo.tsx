@@ -70,7 +70,7 @@ export const Veiculo = () => {
 			<th>Placa</th>
 			<th>Modelo</th>
 			<th>Tipo</th>
-			<th>Cliente</th>	
+			<th>Cliente</th>
 			<th>Agendas</th>
 			<th></th>
 		</tr>);
@@ -98,18 +98,20 @@ export const Veiculo = () => {
 	);
 
 	return (
-		<div id="tabela">
-			<h2>Veículos</h2>
-			<ListTable thead={thead} tbody={tbody} />
-			<div id="buttons">
-				<Col>
-					<Row>
-						<Button onClick={(_) => navigate("/add-veiculo")} type="button" size="lg" variant="warning">
-							Adicionar veículo
-						</Button>
-					</Row>
-				</Col>
+		<>
+			<div id="tabela">
+				<h2>Veículos</h2>
+				<ListTable thead={thead} tbody={tbody} />
+				<div id="buttons">
+					<Col>
+						<Row>
+							<Button onClick={(_) => navigate("/add-veiculo")} type="button" size="lg" variant="warning">
+								Adicionar veículo
+							</Button>
+						</Row>
+					</Col>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
