@@ -14,10 +14,6 @@ export const Clientes = () => {
 	const [updateList, setUpdateList] = useState<boolean>(false);
 	const navigate = useNavigate();
 
-	if (UsuarioService.getLogin().permission !== "Admin") {
-		navigate('/');
-	}
-
 	useEffect(() => {
 		UsuarioService.get().then((result) => {
 			if (result instanceof ApiException) {

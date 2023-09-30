@@ -15,6 +15,7 @@ import { Agendamento } from "../pages/agenda/Agendamento";
 import { Agendar } from "../pages/agenda/Agendar";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { PublicRoutes } from "./PublicRoutes";
+import { AdminRoutes } from "./AdminRoutes";
 
 export const Content = props => (
     <main className="Content">
@@ -30,15 +31,19 @@ export const Content = props => (
             {/* Redireciona o usuario para a home page se não estiver logado */}
             <Route element={<ProtectedRoutes />}>
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/clientes" element={<Clientes />} />
-                <Route path="/cliente" element={<Cliente />} />
                 <Route path="/veiculos" element={<Veiculo />} />
                 <Route path="/add-veiculo" element={<Add_Veiculo />} />
                 <Route path="/add-veiculo/:id" element={<Add_Veiculo />} />
                 <Route path="/agendamentos" element={<Agendamento />} />
                 <Route path="/agendar" element={<Agendar />} />
-                <Route path="/horario" element={<Horario />} />
-                <Route path="/cronograma" element={<Cronograma />} />
+
+                <Route element={<AdminRoutes />}>
+                    <Route path="/clientes" element={<Clientes />} />
+                    <Route path="/cliente" element={<Cliente />} />
+                    <Route path="/cliente/:id" element={<Cliente />} />
+                    <Route path="/horario" element={<Horario />} />
+                    <Route path="/cronograma" element={<Cronograma />} />
+                </Route>
             </Route>
         </Routes>
     </main>

@@ -28,12 +28,6 @@ export const Horario = () => {
 
     let diasSemanaDefinidos = loadDiasSemanaDefinidos(regraList) || [];
 
-    const navigate = useNavigate();
-
-    if (UsuarioService.getLogin().permission !== "Admin") {
-        navigate('/');
-    }
-
     useEffect(() => {
         RegraFuncionamentoService.get().then(result => {
             if (result instanceof ApiException) {

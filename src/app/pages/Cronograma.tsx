@@ -26,12 +26,6 @@ export const Cronograma = () => {
 
 	const columnSideTitle: string[] = getColumnSideTitle(columnDays, hr_inicio, hr_termino, hrPorAgenda);
 
-	const navigate = useNavigate();
-
-	if (UsuarioService.getLogin().permission !== "Admin") {
-		navigate('/');
-	}
-
 	// console.log(columnSideTitle);
 
 	// console.log(columnDays);
