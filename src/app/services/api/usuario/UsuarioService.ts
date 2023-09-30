@@ -86,12 +86,14 @@ const getLogin = () => {
 const logout = () => {
     localStorage.removeItem('usuario');
 }
-    
+
 const protect = () => {
-    if (getLogin === null) {
-        return true;
+    const usuario = getLogin();
+
+    if (usuario !== null) {
+        return true; // Usuario esta logado
     } else {
-        return false;
+        return false; // Usuario nao esta logado
     }
 }
 
