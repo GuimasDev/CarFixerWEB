@@ -85,7 +85,7 @@ export const Cliente = () => {
             cpf: cliente.cpf,
             email: cliente.email,
             telefone: telefone,
-            senha: cliente.senha,
+            senha: senha,
             permission: cliente.permission
         };
 
@@ -118,11 +118,11 @@ export const Cliente = () => {
 
                 <Input className='cpf' name="cpf" label='Cpf' type="text" placeholder="Digite o seu CPF" value={cpf} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)} />
 
-                <Input className='email' name='email' label='Email' type="text" placeholder='Digite seu email' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)} />
+                <Input className='email' name='email' label='Email' type="text" placeholder='Digite seu email' value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)} />
 
-                <Input className='telefone' name='telefone' label='Telefone' type="text" placeholder='Digite seu número de telefone' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)} />
+                <Input className='telefone' name='telefone' label='Telefone' type="text" placeholder='Digite seu número de telefone' value={telefone} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)} />
 
-                <Input className='senha' name='senha' label='Senha' type="password" placeholder='A senha será gerada automaticamente' disabled onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)} />
+                <Input className='senha' name='senha' label='Senha' type="password" placeholder={(id === undefined ? 'A senha será gerada automaticamente' : null)} disabled={(id === undefined ? true : false)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)} />
 
             </Form>
             <div id="buttons">
