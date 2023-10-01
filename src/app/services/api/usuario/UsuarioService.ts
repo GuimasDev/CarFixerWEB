@@ -84,6 +84,7 @@ const getLogin = () => {
 }
 
 const logout = () => {
+    localStorage.removeItem('userType');
     localStorage.removeItem('usuario');
 }
 

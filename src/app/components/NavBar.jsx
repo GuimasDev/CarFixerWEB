@@ -2,94 +2,59 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useState } from 'react';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import logo from "../assets/images/logo.svg"
+import { useUserType } from './UserTypeContext';
+import { useLocation } from 'react-router-dom';
 
 function NavBar(props) {
-    const [userType, setType] = useState(props.type || "Admin");
-    const [checked, setChecked] = useState(false);
-    const [radioValue, setRadioValue] = useState('1');
+    const { userType } = useUserType();
+    const location = useLocation();
 
-    const radios = [
-        { name: 'Admin', value: '1' },
-        { name: 'Cliente', value: '2' }
-    ];
+    const getNav = () => {
+        console.log(userType);
 
-    const changeType = <ButtonGroup>
-        {radios.map((radio, idx) => (
-            <ToggleButton
-                key={idx}
-                id={`radio-${idx}`}
-                type="radio"
-                variant={idx % 2 ? 'outline-success' : 'outline-primary'}
-                name="radio"
-                value={radio.value}
-                checked={radioValue === radio.value}
-                onChange={(e) => {
-                    setRadioValue(e.currentTarget.value);
-                    (radioValue === '1' ? setType("Cliente") : setType("Admin"));
-                }}
-            >
-                {radio.name}
-            </ToggleButton>
-        ))}
-    </ButtonGroup>;
-
-    let admin = <Nav>
-        {/* <Nav.Link href="#funcionarios">Funcionários</Nav.Link> */}
-        {/* <Nav.Link href="#servicos">Serviços</Nav.Link> */}
-        <Nav.Link href="/clientes">Clientes</Nav.Link>
-        <Nav.Link href="/veiculos">Veiculos</Nav.Link>
-        <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
-        <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
-        <Nav.Link href="/cronograma">Cronograma</Nav.Link>
-        {/* <Nav.Link href="#produtos">Produtos</Nav.Link> */}
-        {/* <img
-    src="/img/profile.svg"
-    width="30"
-    height="30"
-    className="d-inline-block align-top"
-    alt="CarFixer"
-    href="collapsible-nav-dropdown"
-/> */}
-        <NavDropdown title="" id="collapsible-nav-dropdown">
-            <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
-
-            {/* <NavDropdown.Item> */}
-
-            {/* </NavDropdown.Item> */}
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="/logout">
-                Logout
-            </NavDropdown.Item>
-        </NavDropdown>
-        {changeType}
-    </Nav>;
-
-    let cliente = <Nav>
-        <Nav.Link href="/agendamentos">Agendar</Nav.Link>
-        <Nav.Link href="/veiculos">Meus veículos</Nav.Link>
-        <Nav.Link href="#sobre">Sobre</Nav.Link>
-        {/* <img
-        src="/img/profile.svg"
-        width="30"
-        height="30"
-        className="d-inline-block align-top"
-        alt="CarFixer"
-        href="collapsible-nav-dropdown"
-    /> */}
-        <NavDropdown title="" id="collapsible-nav-dropdown">
-            <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="/logout">
-                Logout
-            </NavDropdown.Item>
-        </NavDropdown>
-        {changeType}
-    </Nav>;
-
+        if (location.pathname == '/login') {
+            <Nav>
+                <Nav.Link href="/home">Home</Nav.Link>
+            </Nav>
+        } else if (userType === 'Admin') {
+            return (
+                <Nav>
+                    <Nav.Link href="/clientes">Clientes</Nav.Link>
+                    <Nav.Link href="/veiculos">Veiculos</Nav.Link>
+                    <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
+                    <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
+                    <Nav.Link href="/cronograma">Cronograma</Nav.Link>
+                    <NavDropdown title="" id="collapsible-nav-dropdown">
+                        <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            );
+        } else if (userType === 'Cliente') {
+            return (
+                <Nav>
+                    <Nav.Link href="/agendamentos">Agendar</Nav.Link>
+                    <Nav.Link href="/veiculos">Meus veículos</Nav.Link>
+                    <Nav.Link href="#sobre">Sobre</Nav.Link>
+                    <NavDropdown title="" id="collapsible-nav-dropdown">
+                        <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            );
+        } else {
+            return (
+                <Nav>
+                    <Nav.Link href="/agendamentos">Agendar</Nav.Link>
+                    <Nav.Link href="#sobre">Sobre</Nav.Link>
+                    <Nav.Link href="/login">Entrar</Nav.Link>
+                </Nav>
+            );
+        }
+    };
 
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">  {/*fixed="top" */}
@@ -109,7 +74,7 @@ function NavBar(props) {
                         </Navbar.Brand>
 
                     </Nav>
-                    {(userType === "Admin" ? admin : cliente)}
+                    {getNav()}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

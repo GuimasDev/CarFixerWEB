@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
+import { UserTypeProvider } from './app/components/UserTypeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <UserTypeProvider>
+      <App />
+    </UserTypeProvider>
   </React.StrictMode>
 );
 

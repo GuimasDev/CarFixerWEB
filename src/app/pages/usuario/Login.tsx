@@ -8,11 +8,14 @@ import { ApiException } from '../../services/api/ApiException';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { Input } from '../../components/Input';
+import { useUserType } from '../../components/UserTypeContext';
 
 export const Login = () => {
     const [email, setEmail] = useState();
     const [senha, setSenha] = useState();
     const navigate = useNavigate();
+
+    const { setUserType } = useUserType();
 
     const handleSubmit = async () => {
         UsuarioService.authenticate(email, senha).then((result) => {
@@ -25,6 +28,9 @@ export const Login = () => {
                             alert(result.message);
                         } else {
                             UsuarioService.setLogin(result);
+
+                            // Define o tipo de usuário no contexto global
+                            setUserType(UsuarioService.getLogin().permission);
                             alert("Login realizado com sucesso!");
                             navigate('/');
                         }
