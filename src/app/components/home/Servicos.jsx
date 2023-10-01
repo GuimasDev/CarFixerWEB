@@ -9,7 +9,7 @@ import basket from "../../assets/icons/basket.svg"
 export const Servicos = props => {
     return (
         <section>
-            <div class="section" id="servicos">
+            <div className="section" id="servicos">
                 <div id="frase">
                     <div>
                         <img src={home_servicos}></img>
@@ -22,17 +22,17 @@ export const Servicos = props => {
 
                 <h3>Atendemos todas as suas necessidades!</h3>
                 <div id="area-box">
-                    <div class="box-servico">
+                    <div className="box-servico">
                         <img src={tools} height="80" alt="" />
                         <h4>Manutenções</h4>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam iure ipsa veritatis vero quaerat aliquid vel corrupti, pariatur repellat hic laboriosam nostrum velit consequuntur incidunt dolor possimus voluptatibus sapiente odio.</p>
                     </div>
-                    <div class="box-servico">
+                    <div className="box-servico">
                         <img src={search} height="80" alt="" />
                         <h4>Revisões</h4>
                         <p>Como qualquer veículo, a moto também precisa de uma revisão para conferir o estado de suas peças, dos pneus, da carroceria, da bateria e de todos os acessórios, bem como para a troca de óleo, limpeza do filtro de ar e outros reparos.</p>
                     </div>
-                    <div class="box-servico">
+                    <div className="box-servico">
                         <img src={basket} height="80" alt="" />
                         <h4>Acessórios</h4>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum adipisci minima alias nemo fugiat quae earum, quas inventore quasi veniam. Repellat fuga animi accusantium eos totam ab exercitationem temporibus harum.</p>
