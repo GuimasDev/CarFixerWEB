@@ -102,7 +102,7 @@ export const Agendamento = () => {
 	};
 
 	const handleEdit = (id: number): any => {
-		navigate(`/add-agenda/${id}`);
+		navigate(`/agendar/${id}`);
 	};
 
 	const thead = (

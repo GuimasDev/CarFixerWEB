@@ -1,0 +1,67 @@
+#fundo-agendamento{
+  background-color: rgb(216, 216, 131);
+  padding: 1px 0;
+} 
+
+#agendamento h3{
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+#agendamento p{
+  font-size: 20px;
+}
+
+
+
+#agendamento #botoes-agend{
+  width: 100%;
+  margin-top: 80px;
+  display: flex;
+  justify-content: end;
+}
+
+#agendamento #botoes-agend button {
+  padding: 10px 25px;
+  font-family: cursive; 
+  font-size: 25px;
+  z-index: 1;
+  color: white;
+  position: relative;
+  background: rgb(76, 163, 59);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgb(76, 163, 59);
+}
+
+/* #agendamento #botoes-agend button:first-child{
+  margin-right: 20px;
+  background-color: transparent;
+  color: rgb(140, 140, 140);
+  border: 2px solid rgb(140, 140, 140);
+} */
+
+#agendamento #botoes-agend button:after {
+  position: absolute;
+  height: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  content: "";
+  width: 100%;
+  background: rgb(255, 255, 255);
+  transition: all 0.3s ease;
+}
+
+#agendamento #botoes-agend button:hover {
+  color: rgb(76, 163, 59);
+}
+/* #agendamento #botoes-agend button:first-child:hover {
+  color: rgb(140, 140, 140);
+} */
+
+#agendamento #botoes-agend button:hover:after {
+  top: auto;
+  bottom: 0;
+  height: 100%;
+}

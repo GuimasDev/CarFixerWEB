@@ -36,6 +36,7 @@ export const Content = props => (
                 <Route path="/add-veiculo/:id" element={<Add_Veiculo />} />
                 <Route path="/agendamentos" element={<Agendamento />} />
                 <Route path="/agendar" element={<Agendar />} />
+                <Route path="/agendar/:id" element={<Agendar />} />
 
                 <Route element={<AdminRoutes />}>
                     <Route path="/clientes" element={<Clientes />} />
