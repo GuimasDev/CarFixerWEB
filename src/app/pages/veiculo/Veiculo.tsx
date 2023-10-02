@@ -9,14 +9,17 @@ import { UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 import { ListTable } from "../../components/ListTable";
+import { useUserType } from "../../components/UserTypeContext";
 
 export const Veiculo = () => {
+	const { userType } = useUserType();
 	const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
 	const [updateList, setUpdateList] = useState<boolean>(false);
+	const [clienteData, setClienteData] = useState<string[]>([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (UsuarioService.getLogin().permission == "Admin") {
+		if (userType === "Admin") {
 			VeiculoService.get().then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
@@ -37,6 +40,28 @@ export const Veiculo = () => {
 		setUpdateList(false);
 	}, [updateList]);
 
+	// useEffect para buscar os clientes antes de renderizar a tabela
+	useEffect(() => {
+		const fetchData = async () => {
+			const clientePromises = veiculos.map((veiculo => UsuarioService.getById(veiculo.id_cliente)));
+
+			const clienteResults = await Promise.all(clientePromises);
+
+			// Arrays com os clientes correspondentes
+			setClienteData(
+				clienteResults.map((result) => {
+					if (result instanceof ApiException) {
+						return "Erro ao buscar cliente";
+					} else {
+						return result.nome + ' - ' + result.cpf;
+					}
+				})
+			);
+		};
+
+		fetchData();
+	}, [veiculos]);
+
 	const handleDelete = (id: number): any => {
 		if (window.confirm("Tem certeza que deseja excluir esse veículo?")) {
 			VeiculoService.deleteById(id).then((result) => {
@@ -53,25 +78,14 @@ export const Veiculo = () => {
 		navigate(`/add-veiculo/${id}`);
 	};
 
-	const getNome = (id: number): any => {
-		UsuarioService.getById(id).then((result) => {
-			if (result instanceof ApiException) {
-				alert(result.message);
-			} else {
-
-				return result.nome;
-			}
-		});
-	};
-
 	const thead = (
 		<tr>
 			<th>#</th>
 			<th>Placa</th>
 			<th>Modelo</th>
 			<th>Tipo</th>
-			<th>Cliente</th>
-			<th>Agendas</th>
+			{userType === 'Admin' ? <th>Cliente</th> : ''}
+			{/* <th>Agendas</th> */}
 			<th></th>
 		</tr>);
 	const tbody = (
@@ -82,8 +96,8 @@ export const Veiculo = () => {
 					<td>{veiculo.placa}</td>
 					<td>{veiculo.modelo}</td>
 					<td>{veiculo.tipo}</td>
-					<td>{getNome(veiculo.id_cliente)}</td>
-					<td>{ }</td>
+					<th>{(userType === 'Admin' ? clienteData[index] : '')}</th>
+					{/* <td>{ }</td> */}
 					<td>
 						<button onClick={(_) => handleEdit(veiculo.id)}>
 							<img src={edit} alt="" />
@@ -93,7 +107,7 @@ export const Veiculo = () => {
 						</button>
 					</td>
 				</tr>
-			);
+			)
 		})
 	);
 
@@ -102,10 +116,10 @@ export const Veiculo = () => {
 			<div className={styles.container}>
 				<h2 className={styles.title}>Veículos</h2>
 				{(
-					veiculos.length > 0? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum veículo adicionado!</p>
+					veiculos.length > 0 ? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum veículo adicionado!</p>
 				)}
-				
-				
+
+
 				{/* <div id="buttons">
 					<Col>
 						<Row>
@@ -118,7 +132,7 @@ export const Veiculo = () => {
 
 				<div className={styles.buttonArea}>
 					<button className={styles.button} onClick={(_) => navigate("/add-veiculo")} type="button">
-					Adicionar veículo
+						Adicionar veículo
 					</button>
 				</div>
 			</div>

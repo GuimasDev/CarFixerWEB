@@ -7,11 +7,14 @@ import { VeiculoService, IVeiculo } from '../../services/api/veiculo/VeiculoServ
 import { ApiException } from '../../services/api/ApiException';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import { UsuarioService } from '../../services/api/usuario/UsuarioService';
+import { IUsuario, UsuarioService } from '../../services/api/usuario/UsuarioService';
 import { Input } from '../../components/Input';
 import { Select } from '../../components/Select';
+import { useUserType } from '../../components/UserTypeContext';
 
 export const Add_Veiculo = () => {
+    const [isEditing, setIsEditing] = useState<boolean>();
+    const { userType } = useUserType();
     const [veiculo, setVeiculo] = useState<IVeiculo>({
         id: 0,
         modelo: '',
@@ -23,12 +26,15 @@ export const Add_Veiculo = () => {
     const [modelo, setModelo] = useState('');
     const [placa, setPlaca] = useState('');
     const [tipo, setTipo] = useState('');
+    const [id_cliente, setId_Cliente] = useState(0);
+    const [clientes, setClientes] = useState<IUsuario[]>([]);
 
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (id !== undefined) {
+            setIsEditing(true);
             VeiculoService.getById(parseInt(id)).then((result) => {
                 console.log(1);
                 if (result instanceof ApiException) {
@@ -38,11 +44,19 @@ export const Add_Veiculo = () => {
                     setModelo(result.modelo);
                     setPlaca(result.placa);
                     setTipo(result.tipo);
-                    
-                    
+                    setId_Cliente(result.id_cliente);
+
                 }
             })
         }
+
+        UsuarioService.get().then((result) => {
+            if (result instanceof ApiException) {
+                alert(result.message);
+            } else {
+                setClientes(result);
+            }
+        })
     }, [])
 
     const handleSubmit = async () => {
@@ -50,7 +64,7 @@ export const Add_Veiculo = () => {
             modelo: modelo,
             placa: placa,
             tipo: tipo,
-            id_cliente: UsuarioService.getLogin().id,
+            id_cliente: (userType === 'Admin' ? id_cliente : UsuarioService.getLogin().id),
             agendas: []
         };
 
@@ -106,7 +120,7 @@ export const Add_Veiculo = () => {
     return (
         <Container id='container'>
             <h1>
-            {(id !== undefined ? 'Editar Veículo' : 'Novo Veículo')}
+                {(id !== undefined ? 'Editar Veículo' : 'Novo Veículo')}
             </h1>
             <Form id="form">
                 <Input className='modelo' name="modelo" label='Modelo' type="text" placeholder="Digite o modelo do veículo" value={modelo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModelo((e.target as any).value)} />
@@ -117,6 +131,22 @@ export const Add_Veiculo = () => {
                     <option value="Carro">Carro</option>
                     <option value="Moto">Moto</option>
                 </Select>
+
+                {userType === 'Admin' ?
+                    <Select className='cliente' id='cliente' name='cliente' label='Cliente' defaultValue={
+                        isEditing ? clientes.map((cliente) =>
+                            cliente.id === id_cliente ? `${cliente.nome} - ${cliente.cpf}` : ""
+                        ) : "Escolha um dos seus veículos"}
+                        value={id_cliente} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Cliente((e.target as any).value)} >
+                        {clientes.map((cliente) =>
+                        (cliente.id !== id_cliente ?
+                            <option disabled={isEditing ? true : false} key={cliente.id} value={cliente.id}>
+                                {cliente.nome} - {cliente.cpf}
+                            </option>
+                            : '')
+                        )}
+                    </Select>
+                    : null}
 
             </Form>
             {/* <div id="buttons">
@@ -131,14 +161,14 @@ export const Add_Veiculo = () => {
             </div> */}
             <div className={styles.buttonArea}>
                 <button className={styles.cadastrarButton} form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button">
-                {(id !== undefined ? 'Editar' : 'Cadastrar')}
-				</button>
-				<button className={styles.voltarButton} onClick={_ => navigate('/veiculos')} type="button">
-                Voltar
-				</button>
-				
-			</div>
-        </Container>
+                    {(id !== undefined ? 'Editar' : 'Cadastrar')}
+                </button>
+                <button className={styles.voltarButton} onClick={_ => navigate('/veiculos')} type="button">
+                    Voltar
+                </button>
+
+            </div>
+        </Container >
 
     );
 

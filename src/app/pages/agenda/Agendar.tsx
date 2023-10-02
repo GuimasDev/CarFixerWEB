@@ -14,9 +14,12 @@ import { IServico, ServicoService } from "../../services/api/servico/ServicoServ
 import { IProduto, ProdutoService } from "../../services/api/produto/ProdutoService";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
+import { useUserType } from "../../components/UserTypeContext";
 
 export const Agendar = () => {
+	const { userType } = useUserType();
 	const [isEditing, setIsEditing] = useState<boolean>();
+	// const [agendas, setAgendas] = useState<IAgenda[]>([]);
 	const [agenda, setAgenda] = useState<IAgenda>({
 		id: 0,
 		id_horario: 0,
@@ -35,6 +38,7 @@ export const Agendar = () => {
 	const [observacao, setObservacao] = useState("");
 	const [dt_previsao, setDt_Previsao] = useState<Date>();
 	const [dt_fim, setDt_Fim] = useState<Date>();
+	const [data, setData] = useState<string[]>([]);
 
 	const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
 	const [servicos, setServicos] = useState<IServico[]>([]);
@@ -88,6 +92,14 @@ export const Agendar = () => {
 					setAddedProdutos(editedAgenda.produtos);
 				}
 			});
+			// } else {
+			// 	AgendaService.get().then((result) => {
+			// 		if (result instanceof ApiException) {
+			// 			alert(result.message);
+			// 		} else {
+			// 			setAgendas(result);
+			// 		}
+			// 	});
 		}
 	}, []);
 
@@ -120,6 +132,28 @@ export const Agendar = () => {
 			}
 		});
 	}, []);
+
+	// useEffect para buscar os clientes antes de renderizar a tabela
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		const dataPromises = agendas.map((agenda => HorarioService.getById(agenda.id_horario)));
+
+	// 		const dataResults = await Promise.all(dataPromises);
+
+	// 		// Arrays com os datas correspondentes
+	// 		setData(
+	// 			dataResults.map((result) => {
+	// 				if (result instanceof ApiException) {
+	// 					return "Erro ao buscar data";
+	// 				} else {
+	// 					return '' + result.data;
+	// 				}
+	// 			})
+	// 		);
+	// 	};
+
+	// 	fetchData();
+	// }, [agendas]);
 
 	function calcularHorarios(dia: Date) {
 		let horarios: IHorario[] = [];
@@ -341,17 +375,20 @@ export const Agendar = () => {
 						defaultValue={
 							isEditing
 								? veiculos.map((veiculo) =>
-										veiculo.id === id_veiculo ? `${veiculo.modelo} - ${veiculo.placa}` : ""
-								  )
+									veiculo.id === id_veiculo ? `${veiculo.modelo} - ${veiculo.placa}` : ""
+								)
 								: "Escolha um dos seus veículos"
 						}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Veiculo((e.target as any).value)}
+						disabled={dt_fim !== null}
 					>
-						{memorizedVeiculos.map((option) => (
-							<option disabled={isEditing ? true : false} key={option.value} value={option.value}>
+						{memorizedVeiculos.map((option) =>
+						(option.value !== id_veiculo ?
+							<option disabled={isEditing ? true : false || dt_fim !== null} key={option.value} value={option.value}>
 								{option.label}
 							</option>
-						))}
+							: '')
+						)}
 					</Select>
 
 					<Select
@@ -359,15 +396,17 @@ export const Agendar = () => {
 						id="status"
 						name="status"
 						label="Status"
-						defaultValue={Status.Pendente}
+						defaultValue={(userType === 'Admin' ? status : isEditing ? status : Status.Pendente)}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)}
+						disabled={dt_fim !== null}
 					>
-						{/* <option>{Status.Pendente}</option> */}
-						<option disabled>{Status.Reprovado}</option>
-						<option disabled>{Status.Aprovado}</option>
-						<option disabled>{Status.Em_Andamento}</option>
-						<option disabled>{Status.Concluido}</option>
-						<option disabled>{Status.Cancelado}</option>
+
+						<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Pendente}</option>
+						<option hidden={(status === Status.Reprovado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Reprovado}</option>
+						<option hidden={(status === Status.Aprovado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Aprovado}</option>
+						<option hidden={(status === Status.Em_Andamento)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Em_Andamento}</option>
+						<option hidden={(status === Status.Concluido)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Concluido}</option>
+						<option hidden={(status === Status.Cancelado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Cancelado}</option>
 					</Select>
 				</div>
 
@@ -378,8 +417,10 @@ export const Agendar = () => {
 						name="dt_previsao"
 						label="Previsão de termino"
 						type="date"
-						defaultValue={dt_previsao}
+						defaultValue={agenda.id !== undefined ? undefined : ""}
+						value={dt_previsao}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)}
+						disabled={dt_fim !== null}
 					/>
 
 					<Input
@@ -388,8 +429,15 @@ export const Agendar = () => {
 						name="inputData"
 						label="Data"
 						type="date"
-						defaultValue={dt_fim}
+						defaultValue={agenda.id !== undefined ? undefined : ""}
+						value={horariosDisponiveis.map((horario) => {
+							if (horario.id === id_horario) {
+								return horario.data;
+							}
+						})}
+						// value={data[agenda.id]}
 						onChange={loadHorariosDisponiveisPorDia}
+						disabled={dt_fim !== null}
 					/>
 					<Select
 						className={styles.input + " horario"}
@@ -397,15 +445,30 @@ export const Agendar = () => {
 						name="horario"
 						label="Horário"
 						defaultValue="Escolha um horário"
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)}
+						onChange={((e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)) && (isEditing ? loadHorariosDisponiveisPorDia : null)}
+						disabled={dt_fim !== null}
 					>
 						{memorizedHorarios.map((option) => (
-							<option key={option.id} value={String(option.value)}>
+							<option disabled={dt_fim !== null} key={option.id} value={String(option.value)}>
 								{option.label}
 							</option>
 						))}
 					</Select>
 				</div>
+
+				{(isEditing && userType !== 'Cliente' ? <div className={styles.rowGroup}>
+					<Input
+						className={styles.input + " dt_fim"}
+						id="dt_fim"
+						name="dt_fim"
+						label="Data do fim do agendamento"
+						type="date"
+						defaultValue={agenda.id !== undefined ? undefined : ""}
+						value={dt_fim}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Fim((e.target as any).value)}
+						disabled={dt_fim !== null}
+					/>
+				</div> : '')}
 
 				<div className={styles.rowGroup}>
 					<div className={styles.rowWithAddButton}>
@@ -415,9 +478,10 @@ export const Agendar = () => {
 							name="servico"
 							label="Serviços"
 							defaultValue="Selecione um serviço"
+							disabled={dt_fim !== null}
 						>
 							{servicos.map((servico) => (
-								<option key={servico.id} value={servico.id}>
+								<option disabled={dt_fim !== null} key={servico.id} value={servico.id}>
 									{servico.nome}
 								</option>
 							))}
@@ -499,6 +563,7 @@ export const Agendar = () => {
 					placeholder="Insira alguma observação"
 					value={observacao}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setObservacao((e.target as any).value)}
+					disabled={dt_fim !== null}
 				/>
 			</Form>
 
