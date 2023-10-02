@@ -1,0 +1,52 @@
+.container {
+	max-width: 800px;
+	margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonArea {
+	display: flex;
+	justify-content: center;
+	margin: 50px 0;
+}
+.button {
+	background-image: linear-gradient(-180deg, #5bf197, #0cb653);
+	border: 1px solid #13aa52;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.5) 0 2px 4px 0;
+	box-sizing: border-box;
+	color: #fff;
+	cursor: pointer;
+	font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	outline: none;
+	outline: 0;
+	padding: 7px 15px;
+	text-align: center;
+	transform: translateY(0);
+	transition: transform 150ms, box-shadow 150ms;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	padding: 10px 20px;
+}
+
+.button:hover {
+	box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;
+	transform: translateY(-2px);
+}
+
+
+.rowGroup {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	margin: 20px 0;
+}
+
+.rowGroup Input{
+    width: auto !important;
+}

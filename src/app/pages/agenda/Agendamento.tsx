@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./Agendamento.css";
+import styles from "./Agendamento.module.css";
 import Button from "react-bootstrap/Button";
 import { AgendaService, IAgenda } from "../../services/api/agenda/AgendaService";
 import { ApiException } from "../../services/api/ApiException";
 import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { UsuarioService } from "../../services/api/usuario/UsuarioService";
-import edit from "../../assets/icons/edit.svg";	
+import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 import { IVeiculo, VeiculoService } from "../../services/api/veiculo/VeiculoService";
 import { HorarioService, IHorario } from "../../services/api/horario/HorarioService";
@@ -23,7 +23,6 @@ export const Agendamento = () => {
 
 	useEffect(() => {
 		if (UsuarioService.getLogin().permission === "Admin") {
-
 			AgendaService.get().then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
@@ -31,9 +30,7 @@ export const Agendamento = () => {
 					setAgendas(result);
 				}
 			});
-
 		} else {
-
 			VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
@@ -59,31 +56,35 @@ export const Agendamento = () => {
 	// useEffect para buscar os horários e modelos antes de renderizar a tabela
 	useEffect(() => {
 		const fetchData = async () => {
-			const horarioPromises = agendas.map(agenda => HorarioService.getById(agenda.id_horario));
-			const modeloPromises = agendas.map(agenda => VeiculoService.getById(agenda.id_veiculo));
+			const horarioPromises = agendas.map((agenda) => HorarioService.getById(agenda.id_horario));
+			const modeloPromises = agendas.map((agenda) => VeiculoService.getById(agenda.id_veiculo));
 
 			const horarioResults = await Promise.all(horarioPromises);
 			const modeloResults = await Promise.all(modeloPromises);
 
 			// Arrays com os horários e modelos correspondentes
-			setHorarioData(horarioResults.map(result => {
-				if (result instanceof ApiException) {
-					return "Erro ao buscar horário";
-				} else {
-					let hour = new Date(result.data);
-					let data = `${hour.getDate()}/${hour.getMonth()}/${hour.getFullYear()}`;
-					data += ` ${hour.getHours()}h${String(hour.getMinutes()).padStart(2, '0')}`;
-					return data;
-				}
-			}));
+			setHorarioData(
+				horarioResults.map((result) => {
+					if (result instanceof ApiException) {
+						return "Erro ao buscar horário";
+					} else {
+						let hour = new Date(result.data);
+						let data = `${hour.getDate()}/${hour.getMonth()}/${hour.getFullYear()}`;
+						data += ` ${hour.getHours()}h${String(hour.getMinutes()).padStart(2, "0")}`;
+						return data;
+					}
+				})
+			);
 
-			setModeloData(modeloResults.map(result => {
-				if (result instanceof ApiException) {
-					return "Erro ao buscar modelo";
-				} else {
-					return result.modelo + " - " + result.placa;
-				}
-			}));
+			setModeloData(
+				modeloResults.map((result) => {
+					if (result instanceof ApiException) {
+						return "Erro ao buscar modelo";
+					} else {
+						return result.modelo + " - " + result.placa;
+					}
+				})
+			);
 		};
 
 		fetchData();
@@ -118,7 +119,8 @@ export const Agendamento = () => {
 				<th>Fim</th>
 				<th></th>
 			</tr>
-		</>);
+		</>
+	);
 
 	const tbody = (
 		<>
@@ -145,14 +147,19 @@ export const Agendamento = () => {
 				);
 			})}
 		</>
-	)
+	);
 
 	return (
-	
-		<div id="tabela">
-			<h2>Agendamentos</h2>
-			<ListTable thead={thead} tbody={tbody} />
-			<div id="buttons">
+		<div className={styles.container}>
+			<h2 className={styles.title}>Agendamentos</h2>
+			{(
+					agendas.length > 0? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum agendamento registrado!</p>
+				)}
+			{/* <ListTable thead={thead} tbody={tbody} /> */}
+
+
+
+			{/* <div id="buttons">
 				<Col>
 					<Row>
 						<Button onClick={(_) => navigate("/agendar")} type="button" size="lg" variant="warning">
@@ -160,17 +167,22 @@ export const Agendamento = () => {
 						</Button>
 					</Row>
 				</Col>
+			</div> */}
+
+			<div className={styles.buttonArea}>
+				<button className={styles.button} onClick={(_) => navigate("/agendar")} type="button">
+					Nova Agenda
+				</button>
 			</div>
 		</div>
 	);
 };
-
 
 const dateString_YYYYmmdd_to_ddmmYY = (str: string) => {
 	let foo = str.split("-");
 	if (foo[2] != undefined) {
 		return `${foo[2]}/${foo[1]}/${foo[0].slice(-2)}`;
 	} else {
-		return ""
+		return "";
 	}
 };

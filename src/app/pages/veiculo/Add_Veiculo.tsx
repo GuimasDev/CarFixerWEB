@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./Add_Veiculo.css";
+import styles from "./Add_Veiculo.module.css";
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -38,6 +38,8 @@ export const Add_Veiculo = () => {
                     setModelo(result.modelo);
                     setPlaca(result.placa);
                     setTipo(result.tipo);
+                    
+                    
                 }
             })
         }
@@ -61,7 +63,7 @@ export const Add_Veiculo = () => {
                         alert(result.message);
                     } else {
                         alert("Cadastro realizado com sucesso!");
-                        navigate('/veiculo');
+                        navigate('/veiculos');
                     }
                 } else {
                     alert("Não foi possível realizar o cadastro");
@@ -91,7 +93,7 @@ export const Add_Veiculo = () => {
                         alert(result.message);
                     } else {
                         alert("Alteração realizada com sucesso!");
-                        navigate('/veiculo');
+                        navigate('/veiculos');
                     }
                 } else {
                     alert("Não foi possível realizar a alteração");
@@ -104,20 +106,20 @@ export const Add_Veiculo = () => {
     return (
         <Container id='container'>
             <h1>
-                Cadastro
+            {(id !== undefined ? 'Editar Veículo' : 'Novo Veículo')}
             </h1>
             <Form id="form">
                 <Input className='modelo' name="modelo" label='Modelo' type="text" placeholder="Digite o modelo do veículo" value={modelo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setModelo((e.target as any).value)} />
 
                 <Input className='placa' name="placa" label='Placa' type="text" placeholder="Digite a Placa do veículo" value={placa} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaca((e.target as any).value)} />
 
-                <Select className='tipo' id='tipo' name='tipo' label='Tipo' defaultValue='Informe o tipo do veículo' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTipo((e.target as any).value)} >
+                <Select className='tipo' id='tipo' name='tipo' label='Tipo' defaultValue={id !== undefined ? undefined : 'Informe o tipo do veículo'} value={tipo} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTipo((e.target as any).value)} >
                     <option value="Carro">Carro</option>
                     <option value="Moto">Moto</option>
                 </Select>
 
             </Form>
-            <div id="buttons">
+            {/* <div id="buttons">
                 <Col>
                     <Row>
                         <Button form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
@@ -126,7 +128,16 @@ export const Add_Veiculo = () => {
                         <Button onClick={_ => navigate('/veiculo')} type="button" size="lg" variant="primary">Voltar</Button>
                     </Row>
                 </Col>
-            </div>
+            </div> */}
+            <div className={styles.buttonArea}>
+                <button className={styles.cadastrarButton} form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button">
+                {(id !== undefined ? 'Editar' : 'Cadastrar')}
+				</button>
+				<button className={styles.voltarButton} onClick={_ => navigate('/veiculos')} type="button">
+                Voltar
+				</button>
+				
+			</div>
         </Container>
 
     );
