@@ -37,7 +37,7 @@ function NavBar(props) {
                 <Nav>
                     <Nav.Link href="/agendamentos">Agendar</Nav.Link>
                     <Nav.Link href="/veiculos">Meus veículos</Nav.Link>
-                    <Nav.Link href="#sobre">Sobre</Nav.Link>
+                    {/* <Nav.Link href="#sobre">Sobre</Nav.Link> */}
                     <NavDropdown title="" id="collapsible-nav-dropdown">
                         <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
                         <NavDropdown.Divider />
@@ -48,8 +48,8 @@ function NavBar(props) {
         } else {
             return (
                 <Nav>
-                    <Nav.Link href="/agendamentos">Agendar</Nav.Link>
-                    <Nav.Link href="#sobre">Sobre</Nav.Link>
+                    {/* <Nav.Link href="/agendamentos">Agendar</Nav.Link>
+                    <Nav.Link href="#sobre">Sobre</Nav.Link> */}
                     <Nav.Link href="/login">Entrar</Nav.Link>
                 </Nav>
             );
@@ -57,7 +57,7 @@ function NavBar(props) {
     };
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">  {/*fixed="top" */}
+        <Navbar collapseOnSelect className="bg-body-tertiary">  {/*fixed="top" expand="lg" */}
             <Container>
                 {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

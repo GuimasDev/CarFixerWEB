@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Clientes.css";
+import styles from "./Clientes.module.css";
 import Button from "react-bootstrap/Button";
 import { UsuarioService, IUsuario } from "../../services/api/usuario/UsuarioService";
 import { ApiException } from "../../services/api/ApiException";
@@ -24,7 +24,7 @@ export const Clientes = () => {
 					if (usuario.permission === "Cliente") {
 						userClientes.push(usuario);
 					}
-				})
+				});
 
 				setClientes(userClientes);
 			}
@@ -54,7 +54,6 @@ export const Clientes = () => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
-
 				return result.nome;
 			}
 		});
@@ -69,37 +68,35 @@ export const Clientes = () => {
 			<th>Telefone</th>
 			<th>Veículos</th>
 			<th></th>
-		</tr>);
-	const tbody = (
-		clientes.map((cliente, index) => {
-			return (
-				<tr key={index}>
-					<td>{index + 1}</td>
-					<td>{cliente.nome}</td>
-					<td>{cliente.cpf}</td>
-					<td>{cliente.email}</td>
-					<td>{cliente.telefone}</td>
-					<td>{ }</td>
-					<td>
-						<button onClick={(_) => handleEdit(cliente.id)}>
-							<img src={edit} alt="" />
-						</button>
-						<button onClick={(_) => handleDelete(cliente.id)}>
-							<img src={trash} alt="" />
-						</button>
-					</td>
-				</tr>
-			);
-		})
+		</tr>
 	);
-
+	const tbody = clientes.map((cliente, index) => {
+		return (
+			<tr key={index}>
+				<td>{index + 1}</td>
+				<td>{cliente.nome}</td>
+				<td>{cliente.cpf}</td>
+				<td>{cliente.email}</td>
+				<td>{cliente.telefone}</td>
+				<td>{}</td>
+				<td>
+					<button onClick={(_) => handleEdit(cliente.id)}>
+						<img src={edit} alt="" />
+					</button>
+					<button onClick={(_) => handleDelete(cliente.id)}>
+						<img src={trash} alt="" />
+					</button>
+				</td>
+			</tr>
+		);
+	});
 
 	return (
 		<>
-			<div id="tabela">
-				<h2>Clientes</h2>
+			<div id={styles.tabela}>
+				<h2 className={styles.title}>Clientes</h2>
 				<ListTable thead={thead} tbody={tbody} />
-				<div id="buttons">
+				{/* <div id="buttons">
 					<Col>
 						<Row>
 							<Button onClick={(_) => navigate("/cliente")} type="button" size="lg" variant="warning">
@@ -107,8 +104,13 @@ export const Clientes = () => {
 							</Button>
 						</Row>
 					</Col>
+				</div> */}
+				<div className={styles.buttonArea}>
+					<button className={styles.button} onClick={(_) => navigate("/cliente")} type="button">
+						Novo cliente
+					</button>
 				</div>
 			</div>
 		</>
 	);
-}
+};

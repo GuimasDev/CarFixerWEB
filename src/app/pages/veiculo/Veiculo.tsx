@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./Veiculo.css";
+import styles from "./Veiculo.module.css";
 import Button from "react-bootstrap/Button";
 import { VeiculoService, IVeiculo } from "../../services/api/veiculo/VeiculoService";
 import { ApiException } from "../../services/api/ApiException";
 import { useNavigate } from "react-router-dom";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
@@ -99,10 +99,14 @@ export const Veiculo = () => {
 
 	return (
 		<>
-			<div id="tabela">
-				<h2>Veículos</h2>
-				<ListTable thead={thead} tbody={tbody} />
-				<div id="buttons">
+			<div className={styles.container}>
+				<h2 className={styles.title}>Veículos</h2>
+				{(
+					veiculos.length > 0? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum veículo adicionado!</p>
+				)}
+				
+				
+				{/* <div id="buttons">
 					<Col>
 						<Row>
 							<Button onClick={(_) => navigate("/add-veiculo")} type="button" size="lg" variant="warning">
@@ -110,6 +114,12 @@ export const Veiculo = () => {
 							</Button>
 						</Row>
 					</Col>
+				</div> */}
+
+				<div className={styles.buttonArea}>
+					<button className={styles.button} onClick={(_) => navigate("/add-veiculo")} type="button">
+					Adicionar veículo
+					</button>
 				</div>
 			</div>
 		</>
