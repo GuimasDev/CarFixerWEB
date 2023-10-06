@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Agendamento.module.css";
-import Button from "react-bootstrap/Button";
 import { AgendaService, IAgenda } from "../../services/api/agenda/AgendaService";
 import { ApiException } from "../../services/api/ApiException";
 import { useNavigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
-import { UsuarioService } from "../../services/api/usuario/UsuarioService";
+import { IUsuario, UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
-import { IVeiculo, VeiculoService } from "../../services/api/veiculo/VeiculoService";
-import { HorarioService, IHorario } from "../../services/api/horario/HorarioService";
+import { VeiculoService } from "../../services/api/veiculo/VeiculoService";
+import { HorarioService } from "../../services/api/horario/HorarioService";
 import { ListTable } from "../../components/ListTable";
+import { useUserType } from "../../components/UserTypeContext";
 
+// Ao mudar uma linha de código, lista as agendas mais de uma vez, duplicando-as
 export const Agendamento = () => {
+	const { userType } = useUserType();
+	const user: IUsuario = UsuarioService.getLogin();
 	const [agendas, setAgendas] = useState<IAgenda[]>([]);
-	const [veiculos, setVeiculos] = useState<IVeiculo[]>([]);
 	const [updateList, setUpdateList] = useState<boolean>(false);
 	const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export const Agendamento = () => {
 	const [horarioData, setHorarioData] = useState<string[]>([]);
 
 	useEffect(() => {
-		if (UsuarioService.getLogin().permission === "Admin") {
+		if (userType === "Admin") {
 			AgendaService.get().then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
@@ -31,15 +32,7 @@ export const Agendamento = () => {
 				}
 			});
 		} else {
-			VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
-				if (result instanceof ApiException) {
-					alert(result.message);
-				} else {
-					setVeiculos([...veiculos, ...result]);
-				}
-			});
-
-			veiculos.forEach((veiculo) => {
+			user.veiculos.forEach((veiculo: any) => {
 				AgendaService.getByVeiculo(veiculo.id).then((result) => {
 					if (result instanceof ApiException) {
 						alert(result.message);
@@ -61,6 +54,10 @@ export const Agendamento = () => {
 
 			const horarioResults = await Promise.all(horarioPromises);
 			const modeloResults = await Promise.all(modeloPromises);
+
+			// Reinicia os arrays antes de adicionar novos dados
+			setHorarioData([]);
+			setModeloData([]);
 
 			// Arrays com os horários e modelos correspondentes
 			setHorarioData(
@@ -132,9 +129,9 @@ export const Agendamento = () => {
 						<td>{modeloData[index]}</td>
 						<td>{agenda.status}</td>
 						<td>{agenda.observacao}</td>
-						{/* <td>{ }</td> */}
+						{/* <td>{ }</td> Produtos */}
 						<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_previsao))}</td>
-						<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_fim))}</td>
+						<td>{(agenda.dt_fim !== null ? dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_fim)):'Ainda não definido!	')}</td>
 						<td>
 							<button onClick={(_) => handleEdit(agenda.id)}>
 								<img src={edit} alt="" />
@@ -152,22 +149,9 @@ export const Agendamento = () => {
 	return (
 		<div className={styles.container}>
 			<h2 className={styles.title}>Agendamentos</h2>
-			{/* {(
-					agendas.length > 0? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum agendamento registrado!</p>
-				)} */}
-			<ListTable thead={thead} tbody={tbody} />
-
-
-
-			{/* <div id="buttons">
-				<Col>
-					<Row>
-						<Button onClick={(_) => navigate("/agendar")} type="button" size="lg" variant="warning">
-							Agendar
-						</Button>
-					</Row>
-				</Col>
-			</div> */}
+			{(
+				agendas.length > 0 ? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum agendamento registrado!</p>
+			)}
 
 			<div className={styles.buttonArea}>
 				<button className={styles.button} onClick={(_) => navigate("/agendar")} type="button">

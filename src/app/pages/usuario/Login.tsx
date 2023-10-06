@@ -27,6 +27,7 @@ export const Login = () => {
 						if (result instanceof ApiException) {
 							alert(result.message);
 						} else {
+							console.log(result);
 							UsuarioService.setLogin(result);
 
 							// Define o tipo de usuário no contexto global

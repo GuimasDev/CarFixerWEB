@@ -25,6 +25,7 @@ export const Signin = () => {
 			telefone: telefone,
 			senha: senha,
 			permission: "Cliente",
+			veiculos: []
 		};
 
 		UsuarioService.create(usuario).then((result) => {
@@ -116,8 +117,8 @@ export const Signin = () => {
 					Cadastrar
 				</button>
 			</div>
-            
-            <p>
+
+			<p>
 				Já tenho uma conta! <a href="/login">Fazer Login</a>
 			</p>
 		</Container>
