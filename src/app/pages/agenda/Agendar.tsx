@@ -380,11 +380,11 @@ export const Agendar = () => {
 								: "Escolha um dos seus veículos"
 						}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Veiculo((e.target as any).value)}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					>
 						{memorizedVeiculos.map((option) =>
 						(option.value !== id_veiculo ?
-							<option disabled={isEditing ? true : false || dt_fim !== null} key={option.value} value={option.value}>
+							<option disabled={isEditing ? true : false} key={option.value} value={option.value}>
 								{option.label}
 							</option>
 							: '')
@@ -398,15 +398,15 @@ export const Agendar = () => {
 						label="Status"
 						defaultValue={(userType === 'Admin' ? status : isEditing ? status : Status.Pendente)}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					>
 
-						<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Pendente}</option>
-						<option hidden={(status === Status.Reprovado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Reprovado}</option>
-						<option hidden={(status === Status.Aprovado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Aprovado}</option>
-						<option hidden={(status === Status.Em_Andamento)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Em_Andamento}</option>
-						<option hidden={(status === Status.Concluido)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Concluido}</option>
-						<option hidden={(status === Status.Cancelado)} disabled={(userType !== 'Admin' ? true : false) || dt_fim !== null}>{Status.Cancelado}</option>
+						<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Pendente}</option>
+						<option hidden={(status === Status.Reprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Reprovado}</option>
+						<option hidden={(status === Status.Aprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Aprovado}</option>
+						<option hidden={(status === Status.Em_Andamento)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Em_Andamento}</option>
+						<option hidden={(status === Status.Concluido)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Concluido}</option>
+						<option hidden={(status === Status.Cancelado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Cancelado}</option>
 					</Select>
 				</div>
 
@@ -420,7 +420,7 @@ export const Agendar = () => {
 						defaultValue={agenda.id !== undefined ? undefined : ""}
 						value={dt_previsao}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					/>
 
 					<Input
@@ -430,14 +430,14 @@ export const Agendar = () => {
 						label="Data"
 						type="date"
 						defaultValue={agenda.id !== undefined ? undefined : ""}
-						value={horariosDisponiveis.map((horario) => {
-							if (horario.id === id_horario) {
-								return horario.data;
-							}
-						})}
+						// value={horariosDisponiveis.map((horario) => {
+						// 	if (horario.id === id_horario) {
+						// 		return horario.data;
+						// 	}
+						// })}
 						// value={data[agenda.id]}
 						onChange={loadHorariosDisponiveisPorDia}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					/>
 					<Select
 						className={styles.input + " horario"}
@@ -446,10 +446,10 @@ export const Agendar = () => {
 						label="Horário"
 						defaultValue="Escolha um horário"
 						onChange={((e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)) && (isEditing ? loadHorariosDisponiveisPorDia : null)}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					>
 						{memorizedHorarios.map((option) => (
-							<option disabled={dt_fim !== null} key={option.id} value={String(option.value)}>
+							<option key={option.id} value={String(option.value)}>
 								{option.label}
 							</option>
 						))}
@@ -466,7 +466,7 @@ export const Agendar = () => {
 						defaultValue={agenda.id !== undefined ? undefined : ""}
 						value={dt_fim}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Fim((e.target as any).value)}
-						disabled={dt_fim !== null}
+						// disabled={dt_fim !== null}
 					/>
 				</div> : '')}
 
@@ -478,10 +478,10 @@ export const Agendar = () => {
 							name="servico"
 							label="Serviços"
 							defaultValue="Selecione um serviço"
-							disabled={dt_fim !== null}
+							// disabled={dt_fim !== null}
 						>
 							{servicos.map((servico) => (
-								<option disabled={dt_fim !== null} key={servico.id} value={servico.id}>
+								<option key={servico.id} value={servico.id}>
 									{servico.nome}
 								</option>
 							))}
@@ -542,12 +542,12 @@ export const Agendar = () => {
 					<div style={{ width: "100%" }}>
 						<h3>Produtos adicionados</h3>
 						<Row>
-							<div className="areaProdutoAdd">
+							<div className={styles.itemAddedArea} >
 								{addedProdutos.map((produto) => (
-									<Button type="button" onClick={(_) => removeProduto(produto)}>
+									<button type="button" className={styles.itemAdded} onClick={(_) => removeProduto(produto)}>
 										{produto.descricao}
 										<i className="bi bi-x-circle"></i>
-									</Button>
+									</button>
 								))}
 							</div>
 						</Row>
@@ -563,7 +563,7 @@ export const Agendar = () => {
 					placeholder="Insira alguma observação"
 					value={observacao}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setObservacao((e.target as any).value)}
-					disabled={dt_fim !== null}
+					// disabled={dt_fim !== null}
 				/>
 			</Form>
 
