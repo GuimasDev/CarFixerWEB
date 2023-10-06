@@ -92,15 +92,8 @@ export const Agendar = () => {
 					setAddedProdutos(editedAgenda.produtos);
 				}
 			});
-			// } else {
-			// 	AgendaService.get().then((result) => {
-			// 		if (result instanceof ApiException) {
-			// 			alert(result.message);
-			// 		} else {
-			// 			setAgendas(result);
-			// 		}
-			// 	});
 		}
+
 	}, []);
 
 	useEffect(() => {
@@ -132,28 +125,6 @@ export const Agendar = () => {
 			}
 		});
 	}, []);
-
-	// useEffect para buscar os clientes antes de renderizar a tabela
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		const dataPromises = agendas.map((agenda => HorarioService.getById(agenda.id_horario)));
-
-	// 		const dataResults = await Promise.all(dataPromises);
-
-	// 		// Arrays com os datas correspondentes
-	// 		setData(
-	// 			dataResults.map((result) => {
-	// 				if (result instanceof ApiException) {
-	// 					return "Erro ao buscar data";
-	// 				} else {
-	// 					return '' + result.data;
-	// 				}
-	// 			})
-	// 		);
-	// 	};
-
-	// 	fetchData();
-	// }, [agendas]);
 
 	function calcularHorarios(dia: Date) {
 		let horarios: IHorario[] = [];
@@ -269,6 +240,7 @@ export const Agendar = () => {
 		try {
 			if (agenda.id !== undefined) {
 				// Crie uma nova entrada no Horario
+				console.log("Horario:	")
 				console.log(horario);
 				const dataSelect = new Date(horario as any);
 				const horarioResult = await HorarioService.create(new IHorario(dataSelect));
@@ -277,7 +249,8 @@ export const Agendar = () => {
 				// Atualize a agenda com o ID do Horario salvo
 				const updatedAgenda: Omit<IAgenda, "id"> = {
 					...agenda,
-					id_horario: horarioSalvo.id,
+					// id_horario: horarioSalvo.id,
+					id_horario: id_horario,
 					status: status,
 					id_veiculo: id_veiculo,
 					dt_previsao: dt_previsao,
@@ -380,7 +353,7 @@ export const Agendar = () => {
 								: "Escolha um dos seus veículos"
 						}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Veiculo((e.target as any).value)}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					>
 						{memorizedVeiculos.map((option) =>
 						(option.value !== id_veiculo ?
@@ -398,7 +371,7 @@ export const Agendar = () => {
 						label="Status"
 						defaultValue={(userType === 'Admin' ? status : isEditing ? status : Status.Pendente)}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					>
 
 						<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Pendente}</option>
@@ -420,7 +393,7 @@ export const Agendar = () => {
 						defaultValue={agenda.id !== undefined ? undefined : ""}
 						value={dt_previsao}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					/>
 
 					<Input
@@ -437,7 +410,7 @@ export const Agendar = () => {
 						// })}
 						// value={data[agenda.id]}
 						onChange={loadHorariosDisponiveisPorDia}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					/>
 					<Select
 						className={styles.input + " horario"}
@@ -446,7 +419,7 @@ export const Agendar = () => {
 						label="Horário"
 						defaultValue="Escolha um horário"
 						onChange={((e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)) && (isEditing ? loadHorariosDisponiveisPorDia : null)}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					>
 						{memorizedHorarios.map((option) => (
 							<option key={option.id} value={String(option.value)}>
@@ -466,7 +439,7 @@ export const Agendar = () => {
 						defaultValue={agenda.id !== undefined ? undefined : ""}
 						value={dt_fim}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Fim((e.target as any).value)}
-						// disabled={dt_fim !== null}
+						disabled={dt_fim !== undefined}
 					/>
 				</div> : '')}
 
@@ -478,7 +451,7 @@ export const Agendar = () => {
 							name="servico"
 							label="Serviços"
 							defaultValue="Selecione um serviço"
-							// disabled={dt_fim !== null}
+							disabled={dt_fim !== undefined}
 						>
 							{servicos.map((servico) => (
 								<option key={servico.id} value={servico.id}>
@@ -563,30 +536,9 @@ export const Agendar = () => {
 					placeholder="Insira alguma observação"
 					value={observacao}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setObservacao((e.target as any).value)}
-					// disabled={dt_fim !== null}
+					disabled={dt_fim !== undefined}
 				/>
 			</Form>
-
-			{/* <div id="buttons">
-				<Col>
-					<Row>
-						<Button
-							form="form"
-							onClick={id !== undefined ? handleEdit : handleSubmit}
-							type="button"
-							size="lg"
-							variant="success"
-						>
-							Cadastrar
-						</Button>
-					</Row>
-					<Row>
-						<Button onClick={(_) => navigate("/agendamentos")} type="button" size="lg" variant="primary">
-							Voltar
-						</Button>
-					</Row>
-				</Col>
-			</div> */}
 
 			<div className={styles.buttonArea}>
 				<button

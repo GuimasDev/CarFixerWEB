@@ -19,6 +19,7 @@ export const Cliente = () => {
 		telefone: "",
 		senha: "",
 		permission: "Cliente",
+		veiculos: []
 	});
 	const [nome, setNome] = useState("");
 	const [cpf, setCpf] = useState("");
@@ -55,6 +56,7 @@ export const Cliente = () => {
 			telefone: telefone,
 			senha: UsuarioService.genPassword(),
 			permission: "Cliente",
+			veiculos: []
 		};
 
 		console.log(cliente.senha);
@@ -86,6 +88,7 @@ export const Cliente = () => {
 			telefone: telefone,
 			senha: senha,
 			permission: cliente.permission,
+			veiculos: cliente.veiculos
 		};
 
 		UsuarioService.update(user).then((result) => {
@@ -138,7 +141,7 @@ export const Cliente = () => {
 					type="text"
 					placeholder="Digite seu email"
 					value={email}
-                    disabled={id === undefined ? false : true}
+					disabled={id === undefined ? false : true}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)}
 				/>
 

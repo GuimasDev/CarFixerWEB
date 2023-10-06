@@ -1,5 +1,6 @@
 import { Api } from "../ApiConfig";
 import { ApiException } from "../ApiException";
+import { IVeiculo } from "../veiculo/VeiculoService";
 
 export interface IUsuario {
     id: number;
@@ -9,6 +10,7 @@ export interface IUsuario {
     telefone: string;
     senha: string;
     permission: 'Cliente' | 'Funcionario' | 'Admin';
+    veiculos: IVeiculo[]
 }
 
 const get = async (): Promise<IUsuario[] | ApiException> => {
