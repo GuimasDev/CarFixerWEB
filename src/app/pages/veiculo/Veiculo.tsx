@@ -96,7 +96,7 @@ export const Veiculo = () => {
 					<td>{veiculo.placa}</td>
 					<td>{veiculo.modelo}</td>
 					<td>{veiculo.tipo}</td>
-					<th>{(userType === 'Admin' ? clienteData[index] : '')}</th>
+					{(userType === 'Admin' ? <th>{clienteData[index]}</th> : '')}
 					{/* <td>{ }</td> */}
 					<td>
 						<button onClick={(_) => handleEdit(veiculo.id)}>

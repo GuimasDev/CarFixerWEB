@@ -66,7 +66,7 @@ export const Clientes = () => {
 			<th>CPF</th>
 			<th>Email</th>
 			<th>Telefone</th>
-			<th>Veículos</th>
+			{/* <th>Veículos</th> */}
 			<th></th>
 		</tr>
 	);
@@ -78,7 +78,7 @@ export const Clientes = () => {
 				<td>{cliente.cpf}</td>
 				<td>{cliente.email}</td>
 				<td>{cliente.telefone}</td>
-				<td>{}</td>
+				{/* <td>{}</td> */}
 				<td>
 					<button onClick={(_) => handleEdit(cliente.id)}>
 						<img src={edit} alt="" />

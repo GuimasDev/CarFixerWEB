@@ -152,10 +152,10 @@ export const Agendamento = () => {
 	return (
 		<div className={styles.container}>
 			<h2 className={styles.title}>Agendamentos</h2>
-			{(
+			{/* {(
 					agendas.length > 0? <div className={styles.table}><ListTable thead={thead} tbody={tbody} /></div> : <p className={styles.info}>Nenhum agendamento registrado!</p>
-				)}
-			{/* <ListTable thead={thead} tbody={tbody} /> */}
+				)} */}
+			<ListTable thead={thead} tbody={tbody} />
 
 
 
