@@ -3,7 +3,6 @@ import { ApiException } from "../ApiException";
 
 export interface IProduto {
     id: number;
-    id_agenda: number;
     descricao: string;
 }
 

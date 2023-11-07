@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Signin.module.css";
+import styles from "./Signup.module.css";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { Input } from "../../components/Input";
 
-export const Signin = () => {
+export const Signup = () => {
 	const [nome, setNome] = useState("");
 	const [cpf, setCpf] = useState("");
 	const [email, setEmail] = useState("");

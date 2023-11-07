@@ -6,7 +6,7 @@ import { Horario } from "../pages/Horario";
 import { Cronograma } from "../pages/Cronograma";
 import { Login } from "../pages/usuario/Login";
 import { Logout } from "../pages/usuario/Logout";
-import { Signin } from "../pages/usuario/Signin";
+import { Signup } from "../pages/usuario/Signup";
 import { Clientes } from "../pages/cliente/Clientes";
 import { Cliente } from "../pages/cliente/Cliente";
 import { Veiculo } from "../pages/veiculo/Veiculo";
@@ -16,6 +16,7 @@ import { Agendar } from "../pages/agenda/Agendar";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { PublicRoutes } from "./PublicRoutes";
 import { AdminRoutes } from "./AdminRoutes";
+import { Produtos } from "../pages/produto/Produtos";
 
 export const Content = props => (
     <main className="Content">
@@ -25,7 +26,7 @@ export const Content = props => (
             {/* Redireciona o usuario para a home page se ja estiver logado */}
             <Route element={<PublicRoutes />}>
                 <Route path="/login" element={<Login />} />
-                <Route path="/signin" element={<Signin />} />
+                <Route path="/signup" element={<Signup />} />
             </Route>
 
             {/* Redireciona o usuario para a home page se não estiver logado */}
@@ -42,6 +43,7 @@ export const Content = props => (
                     <Route path="/clientes" element={<Clientes />} />
                     <Route path="/cliente" element={<Cliente />} />
                     <Route path="/cliente/:id" element={<Cliente />} />
+                    <Route path="/produtos" element={<Produtos />} />
                     <Route path="/horario" element={<Horario />} />
                     <Route path="/cronograma" element={<Cronograma />} />
                 </Route>
