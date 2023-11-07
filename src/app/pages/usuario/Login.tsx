@@ -74,7 +74,7 @@ export const Login = () => {
 						</Button>
 					</Row>
 					<Row>
-						<Button onClick={(_) => navigate("/signin")} type="button" size="lg" variant="warning">
+						<Button onClick={(_) => navigate("/signup")} type="button" size="lg" variant="warning">
 							Cadastrar
 						</Button>
 					</Row>
@@ -84,7 +84,7 @@ export const Login = () => {
 				<button className={styles.loginButton} form="form" onClick={handleSubmit} type="button">
 					Login
 				</button>
-				<button className={styles.cadastrarButton} type="button" onClick={(_) => navigate("/signin")}>
+				<button className={styles.cadastrarButton} type="button" onClick={(_) => navigate("/signup")}>
 					Cadastrar
 				</button>
 			</div>

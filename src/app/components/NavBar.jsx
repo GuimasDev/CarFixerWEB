@@ -23,6 +23,7 @@ function NavBar(props) {
                     <Nav.Link href="/clientes">Clientes</Nav.Link>
                     <Nav.Link href="/veiculos">Veiculos</Nav.Link>
                     <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
+                    <Nav.Link href="/produtos">Produtos</Nav.Link>
                     <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
                     <Nav.Link href="/cronograma">Cronograma</Nav.Link>
                     <NavDropdown title="" id="collapsible-nav-dropdown">
