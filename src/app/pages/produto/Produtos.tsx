@@ -11,9 +11,14 @@ import { ListTable } from "../../components/ListTable";
 import { Input } from "../../components/Input";
 
 export const Produtos = () => {
+	const [produto, setProduto] = useState<IProduto>({
+		id: 0,
+		descricao: ""
+	});
 	const [produtos, setProdutos] = useState<IProduto[]>([]);
 	const [descricao, setDescricao] = useState("");
 	const [updateList, setUpdateList] = useState<boolean>(false);
+	const [isEditing, setIsEditing] = useState([false, 0])
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -64,7 +69,32 @@ export const Produtos = () => {
 	};
 
 	const handleEdit = (id: number): any => {
-		navigate(`/produto/${id}`);
+		setIsEditing([true, id])
+		// navigate(`/produto/${id}`);
+	};
+
+	const Edit = async () => {
+		let prod: IProduto = {
+			id: produto.id,
+			descricao: descricao
+		};
+
+		ProdutoService.update(prod).then((result) => {
+			if (result instanceof ApiException) {
+				alert(result.message);
+			} else {
+				if (result != null) {
+					if (result instanceof ApiException) {
+						alert(result.message);
+					} else {
+						alert("Alteração realizada com sucesso!");
+						window.location.reload();
+					}
+				} else {
+					alert("Não foi possível realizar a alteração");
+				}
+			}
+		});
 	};
 
 	const getNome = (id: number): any => {
@@ -82,20 +112,55 @@ export const Produtos = () => {
 	);
 	// const tbody = produtos.map((produto, index) => {
 	const tbody = (
-		<div className={styles.itemAddedArea} >
-			{produtos.map((produto) => (
-				<a type="button" className={styles.itemAdded} onClick={(_) => handleDelete(1)}>
-					{produto.descricao}
-					{/* <span className="bi bi-x-circle"></span> */}
-					<button onClick={(_) => handleEdit(produto.id)}>
-						<img src={edit} alt="" />
-					</button>
-					<button onClick={(_) => handleDelete(produto.id)}>
-						<img src={trash} alt="" />
-					</button>
-				</a>
-			))}
-		</div>
+		isEditing[0] ?
+			<div className={styles.itemAddedArea} >
+				{produtos.map((produto) => (
+					produto.id !== isEditing[1] ?	
+						<a type="button" className={styles.itemAdded}>
+							{produto.descricao}
+
+							<button onClick={(_) => handleEdit(produto.id)}>
+								<img src={edit} alt="" />
+							</button>
+							<button onClick={(_) => handleDelete(produto.id)}>
+								<img src={trash} alt="" />
+							</button>
+						</a>
+						:
+						
+						<a type="button" className={styles.itemAdded}>
+							<Form id="form">
+								<Input
+									className="descricao"
+									name="descricao"
+									type="text"
+									value={descricao}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescricao((e.target as any).value)}
+								/>
+							</Form>
+
+							<button onClick={(_) => Edit()}>
+								<img src={edit} alt="" />
+							</button>
+						</a>
+				))}
+			</div>
+			:
+			<div className={styles.itemAddedArea} >
+				{produtos.map((produto) => (
+					// <a type="button" className={styles.itemAdded} onClick={(_) => handleDelete(1)}>
+					<a type="button" className={styles.itemAdded}>
+						{produto.descricao}
+						{/* <span className="bi bi-x-circle"></span> */}
+						<button onClick={(_) => handleEdit(produto.id)}>
+							<img src={edit} alt="" />
+						</button>
+						<button onClick={(_) => handleDelete(produto.id)}>
+							<img src={trash} alt="" />
+						</button>
+					</a>
+				))}
+			</div>
 	);
 
 	return (
@@ -103,15 +168,7 @@ export const Produtos = () => {
 			<div id={styles.tabela}>
 				<h2 className={styles.title}>Produtos</h2>
 				<ListTable thead={thead} tbody={tbody} />
-				{/* <div id="buttons">
-					<Col>
-						<Row>
-							<Button onClick={(_) => navigate("/produto")} type="button" size="lg" variant="warning">
-								Cadastrar produto
-							</Button>
-						</Row>
-					</Col>
-				</div> */}
+
 				<div className={styles.buttonArea}>
 					<Form id="form">
 						<Input id='descricao' name='descricao' type='text' placeholder='Digite o nome do produto' value={descricao} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescricao((e.target as any).value)} />

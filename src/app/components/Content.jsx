@@ -17,6 +17,7 @@ import { ProtectedRoutes } from "./ProtectedRoutes";
 import { PublicRoutes } from "./PublicRoutes";
 import { AdminRoutes } from "./AdminRoutes";
 import { Produtos } from "../pages/produto/Produtos";
+import { Produto } from "../pages/produto/Produto";
 
 export const Content = props => (
     <main className="Content">
@@ -44,6 +45,7 @@ export const Content = props => (
                     <Route path="/cliente" element={<Cliente />} />
                     <Route path="/cliente/:id" element={<Cliente />} />
                     <Route path="/produtos" element={<Produtos />} />
+                    <Route path="/produto/:id" element={<Produto />} />
                     <Route path="/horario" element={<Horario />} />
                     <Route path="/cronograma" element={<Cronograma />} />
                 </Route>
