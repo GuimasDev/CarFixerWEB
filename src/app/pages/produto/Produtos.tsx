@@ -69,7 +69,7 @@ export const Produtos = () => {
 		}
 	};
 
-	const HandleEdit = async (produtos: IProduto[]) => {
+	const handleEdit = async () => {
 		produtos.map((prod, index) => {
 			ProdutoService.update(prod).then((result) => {
 				if (result instanceof ApiException) {
@@ -79,7 +79,7 @@ export const Produtos = () => {
 						if (result instanceof ApiException) {
 							alert(result.message);
 						} else {
-							alert("Alteração realizada com sucesso!");
+							// alert("Alteração realizada com sucesso!");
 							window.location.reload();
 						}
 					} else {
@@ -170,10 +170,6 @@ export const Produtos = () => {
 		</tbody>
 	);
 
-	const handleSaveChanges = () => {
-		HandleEdit(produtos); // Assuming HandleEdit function handles the update to the database
-	};
-
 	return (
 		<>
 			<div id={styles.tabela}>
@@ -188,9 +184,9 @@ export const Produtos = () => {
 						+
 					</button>
 				</div>
-				{isEditing ? <button className={styles.button} onClick={handleSaveChanges} type="button">
+				{isEditing ? <button className={styles.button} onClick={handleEdit} type="button">
 					Save Changes
-				</button> : ''}
+				</button> : ''}      
 				<ColorCard variant="warning" text='Para editar e/ou excluir de um click no produto que deseja realizar alterações.' />
 			</div>
 

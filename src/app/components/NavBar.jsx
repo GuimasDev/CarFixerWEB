@@ -21,6 +21,7 @@ function NavBar(props) {
             return (
                 <Nav>
                     <Nav.Link href="/clientes">Clientes</Nav.Link>
+                    <Nav.Link href="/funcionarios">Funcionarios</Nav.Link>
                     <Nav.Link href="/veiculos">Veiculos</Nav.Link>
                     <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
                     <Nav.Link href="/produtos">Produtos</Nav.Link>
