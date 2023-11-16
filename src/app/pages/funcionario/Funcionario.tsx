@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Cliente.module.css";
+import styles from "./Funcionario.module.css";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -10,15 +10,15 @@ import { Col, Row } from "react-bootstrap";
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 
-export const Cliente = () => {
-	const [cliente, setVeiculo] = useState<IUsuario>({
+export const Funcionario = () => {
+	const [funcionario, setVeiculo] = useState<IUsuario>({
 		id: 0,
 		nome: "",
 		cpf: "",
 		email: "",
 		telefone: "",
 		senha: "",
-		permission: "Cliente",
+		permission: "Funcionario",
 		veiculos: []
 	});
 	const [nome, setNome] = useState("");
@@ -49,18 +49,18 @@ export const Cliente = () => {
 	}, []);
 
 	const handleSubmit = async () => {
-		let cliente: Omit<IUsuario, "id"> = {
+		let funcionario: Omit<IUsuario, "id"> = {
 			nome: nome,
 			cpf: cpf,
 			email: email,
 			telefone: telefone,
 			senha: "",
-			permission: "Cliente",
+			permission: "Funcionario",
 			veiculos: []
 		};
 
-		console.log(cliente.senha);
-		UsuarioService.create(cliente).then((result) => {
+		console.log(funcionario.senha);
+		UsuarioService.create(funcionario).then((result) => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
@@ -69,7 +69,7 @@ export const Cliente = () => {
 						alert(result.message);
 					} else {
 						alert("Cadastro realizado com sucesso!");
-						navigate("/clientes");
+						navigate("/funcionarios");
 					}
 				} else {
 					alert("Não foi possível realizar o cadastro");
@@ -79,16 +79,16 @@ export const Cliente = () => {
 	};
 
 	const handleEdit = async () => {
-		console.log(cliente);
+		console.log(funcionario);
 		let user: IUsuario = {
-			id: cliente.id,
+			id: funcionario.id,
 			nome: nome,
-			cpf: cliente.cpf,
-			email: cliente.email,
+			cpf: funcionario.cpf,
+			email: funcionario.email,
 			telefone: telefone,
 			senha: senha,
-			permission: cliente.permission,
-			veiculos: cliente.veiculos
+			permission: funcionario.permission,
+			veiculos: funcionario.veiculos
 		};
 
 		UsuarioService.update(user).then((result) => {
@@ -100,7 +100,7 @@ export const Cliente = () => {
 						alert(result.message);
 					} else {
 						alert("Alteração realizada com sucesso!");
-						navigate("/clientes");
+						navigate("/funcionarios");
 					}
 				} else {
 					alert("Não foi possível realizar a alteração");
@@ -111,7 +111,7 @@ export const Cliente = () => {
 
 	return (
 		<Container id="container">
-			<h1>{id !== undefined ? "Editar Cliente" : "Novo Cliente"}</h1>
+			<h1>{id !== undefined ? "Editar Funcionario" : "Novo Funcionario"}</h1>
 			<Form id="form">
 				<Input
 					className="nome"
@@ -171,7 +171,7 @@ export const Cliente = () => {
                         <Button form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
                     </Row>
                     <Row>
-                        <Button onClick={_ => navigate('/cliente')} type="button" size="lg" variant="primary">Voltar</Button>
+                        <Button onClick={_ => navigate('/funcionario')} type="button" size="lg" variant="primary">Voltar</Button>
                     </Row>
                 </Col>
             </div> */}
@@ -184,7 +184,7 @@ export const Cliente = () => {
 				>
 					Cadastrar
 				</button>
-				<button className={styles.voltarButton} onClick={(_) => navigate("/clientes")} type="button">
+				<button className={styles.voltarButton} onClick={(_) => navigate("/funcionarios")} type="button">
 					Voltar
 				</button>
 			</div>

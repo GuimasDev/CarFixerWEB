@@ -9,6 +9,8 @@ import { Logout } from "../pages/usuario/Logout";
 import { Signup } from "../pages/usuario/Signup";
 import { Clientes } from "../pages/cliente/Clientes";
 import { Cliente } from "../pages/cliente/Cliente";
+import { Funcionarios } from "../pages/funcionario/Funcionarios";
+import { Funcionario } from "../pages/funcionario/Funcionario";
 import { Veiculo } from "../pages/veiculo/Veiculo";
 import { Add_Veiculo } from "../pages/veiculo/Add_Veiculo";
 import { Agendamento } from "../pages/agenda/Agendamento";
@@ -44,6 +46,9 @@ export const Content = props => (
                     <Route path="/clientes" element={<Clientes />} />
                     <Route path="/cliente" element={<Cliente />} />
                     <Route path="/cliente/:id" element={<Cliente />} />
+                    <Route path="/funcionarios" element={<Funcionarios />} />
+                    <Route path="/funcionario" element={<Funcionario />} />
+                    <Route path="/funcionario/:id" element={<Funcionario />} />
                     <Route path="/produtos" element={<Produtos />} />
                     <Route path="/produto/:id" element={<Produto />} />
                     <Route path="/horario" element={<Horario />} />
