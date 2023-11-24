@@ -35,7 +35,7 @@ export const Funcionarios = () => {
 	}, [updateList]);
 
 	const handleDelete = (id: number): any => {
-		if (window.confirm("Tem certeza que deseja excluir esse funcionario?")) {
+		if (window.confirm("Tem certeza que deseja excluir esse funcionário?")) {
 			UsuarioService.deleteById(id).then((result) => {
 				if (result instanceof ApiException) {
 					alert(result.message);
@@ -95,7 +95,7 @@ export const Funcionarios = () => {
 	return (
 		<>
 			<div id={styles.tabela}>
-				<h2 className={styles.title}>Funcionarios</h2>
+				<h2 className={styles.title}>Funcionários</h2>
 				<ListTable thead={thead} tbody={tbody} />
 				{/* <div id="buttons">
 					<Col>
@@ -108,7 +108,7 @@ export const Funcionarios = () => {
 				</div> */}
 				<div className={styles.buttonArea}>
 					<button className={styles.button} onClick={(_) => navigate("/funcionario")} type="button">
-						Novo funcionario
+						Novo funcionário
 					</button>
 				</div>
 			</div>
