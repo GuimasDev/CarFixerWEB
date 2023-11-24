@@ -63,13 +63,23 @@ export const Agendar = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
-			if (result instanceof ApiException) {
-				alert(result.message);
-			} else {
-				setVeiculos(result);
-			}
-		});
+		if (userType == "Admin") {
+			VeiculoService.get().then((result) => {
+				if (result instanceof ApiException) {
+					alert(result.message);
+				} else {
+					setVeiculos(result);
+				}
+			});
+		} else {
+			VeiculoService.getByUsuario(UsuarioService.getLogin().id as number).then((result) => {
+				if (result instanceof ApiException) {
+					alert(result.message);
+				} else {
+					setVeiculos(result);
+				}
+			});
+		}
 
 		setUpdateList(false);
 	}, [updateList]);
@@ -238,47 +248,48 @@ export const Agendar = () => {
 
 	const handleSubmit = async () => {
 		try {
-			if (agenda.id !== undefined) {
-				// Crie uma nova entrada no Horario
-				console.log("Horario:	")
-				console.log(horario);
-				const dataSelect = new Date(horario as any);
-				const horarioResult = await HorarioService.create(new IHorario(dataSelect));
-				const horarioSalvo = horarioResult as IHorario;
 
-				// Atualize a agenda com o ID do Horario salvo
-				const updatedAgenda: Omit<IAgenda, "id"> = {
-					...agenda,
-					// id_horario: horarioSalvo.id,
-					id_horario: id_horario,
-					status: status,
-					id_veiculo: id_veiculo,
-					dt_previsao: dt_previsao,
-					observacao: observacao,
-					produtos: [],
-					dt_fim: undefined,
-				};
-				console.log(updatedAgenda);
+			// Crie uma nova entrada no Horario
+			console.log("Horario:	")
+			console.log(horario);
+			const dataSelect = new Date(horario as any);
+			console.log(dataSelect);
+			const horarioResult = await HorarioService.create(new IHorario(dataSelect));
+			console.log(horarioResult);
+			const horarioSalvo = horarioResult as IHorario;
+			console.log(horarioSalvo);
 
-				// Crie uma nova entrada na Agenda
-				const agendaResult = await AgendaService.create(updatedAgenda);
-				const savedAgenda = agendaResult as IAgenda;
+			// Atualize a agenda com o ID do Horario salvo
+			const updatedAgenda: Omit<IAgenda, "id"> = {
+				// ...agenda,
+				id_horario: horarioSalvo.id,
+				// id_horario: id_horario,
+				status: status,
+				id_veiculo: id_veiculo,
+				dt_previsao: dt_previsao,
+				observacao: observacao,
+				produtos: [],
+				dt_fim: undefined,
+			};
+			console.log(updatedAgenda);
 
-				// Atualize o status do Horario para 'Ocupado'
-				horarioSalvo.status = "Ocupado";
-				await HorarioService.update(horarioSalvo); // Supondo que você tenha um método de atualização em HorarioService
+			// Crie uma nova entrada na Agenda
+			const agendaResult = await AgendaService.create(updatedAgenda);
+			const savedAgenda = agendaResult as IAgenda;
 
-				// Adicione os serviços selecionados à agenda
-				for (const servico of addedServicos) {
-					await ServicoService.putOnAgenda(savedAgenda.id, servico.id);
-				}
+			// Atualize o status do Horario para 'Ocupado'
+			horarioSalvo.status = "Ocupado";
+			await HorarioService.update(horarioSalvo); // Supondo que você tenha um método de atualização em HorarioService
 
-				// Exiba uma mensagem de sucesso e navegue para '/agendamentos'
-				alert("Registro salvo com sucesso!!!");
-				navigate("/agendamentos");
-			} else {
-				alert("O ID da agenda não está definido. Verifique os dados e tente novamente.");
+			// Adicione os serviços selecionados à agenda
+			for (const servico of addedServicos) {
+				await ServicoService.putOnAgenda(savedAgenda.id, servico.id);
 			}
+
+			// Exiba uma mensagem de sucesso e navegue para '/agendamentos'
+			alert("Registro salvo com sucesso!!!");
+			navigate("/agendamentos");
+
 		} catch (error) {
 			console.error("Erro:", error);
 			alert("Erro ao salvar o registro. Verifique os dados e tente novamente.");
@@ -324,11 +335,15 @@ export const Agendar = () => {
 		}));
 	}
 	function getOptionsFromHorarios(horarios: IHorario[]) {
+		horarios.map((horario) => {
+			console.log(horario.data);
+		})
 		return horarios.map((horario: IHorario) => ({
 			id: horario.id,
 			value: horario.data,
 			label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, "0")}`,
 		}));
+
 	}
 
 	// Use useMemo para memorizar a lista de opções.
@@ -350,7 +365,7 @@ export const Agendar = () => {
 								? veiculos.map((veiculo) =>
 									veiculo.id === id_veiculo ? `${veiculo.modelo} - ${veiculo.placa}` : ""
 								)
-								: "Escolha um dos seus veículos"
+								: userType == "Cliente" ? "Escolha um dos seus veículos" : "Escolha um"
 						}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setId_Veiculo((e.target as any).value)}
 						disabled={dt_fim !== undefined}
@@ -364,37 +379,42 @@ export const Agendar = () => {
 						)}
 					</Select>
 
-					<Select
-						className={styles.input + " status"}
-						id="status"
-						name="status"
-						label="Status"
-						defaultValue={(userType === 'Admin' ? status : isEditing ? status : Status.Pendente)}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)}
-						disabled={dt_fim !== undefined}
-					>
+					{userType === 'Admin' ?
+						<Select
+							className={styles.input + " status"}
+							id="status"
+							name="status"
+							label="Status"
+							defaultValue={(userType === 'Admin' ? status : isEditing ? status : Status.Pendente)}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStatus((e.target as any).value)}
+							disabled={dt_fim !== undefined}
+						>
 
-						<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Pendente}</option>
-						<option hidden={(status === Status.Reprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Reprovado}</option>
-						<option hidden={(status === Status.Aprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Aprovado}</option>
-						<option hidden={(status === Status.Em_Andamento)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Em_Andamento}</option>
-						<option hidden={(status === Status.Concluido)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Concluido}</option>
-						<option hidden={(status === Status.Cancelado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Cancelado}</option>
-					</Select>
+							<option hidden={(status === Status.Pendente)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Pendente}</option>
+							<option hidden={(status === Status.Reprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Reprovado}</option>
+							<option hidden={(status === Status.Aprovado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Aprovado}</option>
+							<option hidden={(status === Status.Em_Andamento)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Em_Andamento}</option>
+							<option hidden={(status === Status.Concluido)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Concluido}</option>
+							<option hidden={(status === Status.Cancelado)} disabled={(userType !== 'Admin' ? true : false)}>{Status.Cancelado}</option>
+						</Select> : ''
+					}
 				</div>
 
 				<div className={styles.rowGroup}>
-					<Input
-						className={styles.input + " dt_previsao"}
-						id="dt_previsao"
-						name="dt_previsao"
-						label="Previsão de termino"
-						type="date"
-						defaultValue={agenda.id !== undefined ? undefined : ""}
-						value={dt_previsao}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)}
-						disabled={dt_fim !== undefined}
-					/>
+					{userType === 'Admin' ?
+						<Input
+							className={styles.input + " dt_previsao"}
+							id="dt_previsao"
+							name="dt_previsao"
+							label="Previsão de termino"
+							type="date"
+							defaultValue={agenda.id !== undefined ? undefined : ""}
+							value={dt_previsao}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDt_Previsao((e.target as any).value)}
+							disabled={dt_fim !== undefined}
+						/>
+						: ''
+					}
 
 					<Input
 						className={styles.input + " inputData"}
@@ -418,7 +438,8 @@ export const Agendar = () => {
 						name="horario"
 						label="Horário"
 						defaultValue="Escolha um horário"
-						onChange={((e: React.ChangeEvent<HTMLInputElement>) => setHorario(e.target.value as any)) && (isEditing ? loadHorariosDisponiveisPorDia : null)}
+						onChange={((e: React.ChangeEvent<HTMLInputElement>) => { console.log(e.target.value); return setHorario(e.target.value as any); })}
+						// && (isEditing ? loadHorariosDisponiveisPorDia : null)
 						disabled={dt_fim !== undefined}
 					>
 						{memorizedHorarios.map((option) => (
