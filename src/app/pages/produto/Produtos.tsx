@@ -174,7 +174,10 @@ export const Produtos = () => {
 		<>
 			<div id={styles.tabela}>
 				<h2 className={styles.title}>Produtos</h2>
-				<ListTable thead={thead} tbody={tbody} />
+				{/* <ListTable thead={thead} tbody={tbody} /> */}
+				<div className="tabelaProdutos">
+						{tbody}
+				</div>
 
 				<div className={styles.buttonArea}>
 					<Form id="form">

@@ -21,14 +21,13 @@ function NavBar(props) {
         } else if (userType === 'Admin') {
             return (
                 <Nav>
+                        <Nav.Link href="/clientes">Clientes</Nav.Link>
                     <Nav.Link href="/funcionarios">Funcionários</Nav.Link>
                     <Nav.Link href="/servicos">Serviços</Nav.Link>
                     <Nav.Link href="/horario">Horários</Nav.Link>
                     <Nav.Link href="/produtos">Produtos</Nav.Link>
                     <Nav.Link href="/cronograma">Cronograma</Nav.Link>
                     <NavDropdown title="Menu do cliente" id="collapsible-nav-dropdown">
-                        <NavDropdown.Item href="/clientes">Clientes</NavDropdown.Item>
-                        <NavDropdown.Divider />
                         <NavDropdown.Item href="/veiculos">Veiculos</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item href="/agendamentos">Agendamentos</NavDropdown.Item>

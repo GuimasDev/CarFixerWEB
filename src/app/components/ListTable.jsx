@@ -2,7 +2,7 @@ import { Table } from "react-bootstrap"
 
 export const ListTable = props => {
   return (
-    <Table striped bordered hover variant="dark">
+    <Table striped bordered hover>
       <thead>
           {props.thead}
       </thead>

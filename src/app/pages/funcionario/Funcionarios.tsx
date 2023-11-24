@@ -81,9 +81,9 @@ export const Funcionarios = () => {
 				<td>{funcionario.telefone}</td>
 				{/* <td>{}</td> */}
 				<td>
-					<button onClick={(_) => handleEdit(funcionario.id)}>
+					{/* <button onClick={(_) => handleEdit(funcionario.id)}>
 						<img src={edit} alt="" />
-					</button>
+					</button> */}
 					<button onClick={(_) => handleDelete(funcionario.id)}>
 						<img src={trash} alt="" />
 					</button>
