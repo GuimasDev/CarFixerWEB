@@ -20,6 +20,8 @@ import { PublicRoutes } from "./PublicRoutes";
 import { AdminRoutes } from "./AdminRoutes";
 import { Produtos } from "../pages/produto/Produtos";
 import { Produto } from "../pages/produto/Produto";
+import { Servicos } from "../pages/servico/Servicos";
+import { Servico } from "../pages/servico/Servico";
 
 export const Content = props => (
     <main className="Content">
@@ -49,6 +51,9 @@ export const Content = props => (
                     <Route path="/funcionarios" element={<Funcionarios />} />
                     <Route path="/funcionario" element={<Funcionario />} />
                     <Route path="/funcionario/:id" element={<Funcionario />} />
+                    <Route path="/servicos" element={<Servicos />} />
+                    <Route path="/servico" element={<Servico />} />
+                    <Route path="/servico/:id" element={<Servico />} />
                     <Route path="/produtos" element={<Produtos />} />
                     <Route path="/produto/:id" element={<Produto />} />
                     <Route path="/horario" element={<Horario />} />

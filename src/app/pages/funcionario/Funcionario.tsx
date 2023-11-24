@@ -11,7 +11,7 @@ import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 
 export const Funcionario = () => {
-	const [funcionario, setVeiculo] = useState<IUsuario>({
+	const [funcionario, setFuncionario] = useState<IUsuario>({
 		id: 0,
 		nome: "",
 		cpf: "",
@@ -26,18 +26,21 @@ export const Funcionario = () => {
 	const [email, setEmail] = useState("");
 	const [telefone, setTelefone] = useState("");
 	const [senha, setSenha] = useState("");
+	const [permission, setPermission] = useState("");
+	const [isEditing, setIsEditing] = useState(false);
 
 	const { id } = useParams();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (id !== undefined) {
+			setIsEditing(true);
 			UsuarioService.getById(parseInt(id)).then((result) => {
 				console.log(1);
 				if (result instanceof ApiException) {
 					alert(result.message);
 				} else {
-					setVeiculo(result);
+					setFuncionario(result);
 					setNome(result.nome);
 					setCpf(result.cpf);
 					setEmail(result.email);
@@ -86,8 +89,8 @@ export const Funcionario = () => {
 			cpf: funcionario.cpf,
 			email: funcionario.email,
 			telefone: telefone,
-			senha: senha,
-			permission: funcionario.permission,
+			senha: funcionario.senha,
+			permission: permission as 'Cliente' | 'Funcionario' | 'Admin',
 			veiculos: funcionario.veiculos
 		};
 
@@ -107,11 +110,13 @@ export const Funcionario = () => {
 				}
 			}
 		});
+
+		setIsEditing(false);
 	};
 
 	return (
 		<Container id="container">
-			<h1>{id !== undefined ? "Editar Funcionario" : "Novo Funcionario"}</h1>
+			<h1>{isEditing ? "Editar Funcionário" : "Novo Funcionário"}</h1>
 			<Form id="form">
 				<Input
 					className="nome"
@@ -130,7 +135,7 @@ export const Funcionario = () => {
 					type="text"
 					placeholder="Digite o seu CPF"
 					value={cpf}
-					disabled={id === undefined ? false : true}
+					disabled={isEditing}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)}
 				/>
 
@@ -141,7 +146,7 @@ export const Funcionario = () => {
 					type="text"
 					placeholder="Digite seu email"
 					value={email}
-					disabled={id === undefined ? false : true}
+					disabled={isEditing}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)}
 				/>
 
@@ -154,21 +159,34 @@ export const Funcionario = () => {
 					value={telefone}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)}
 				/>
+				{!isEditing ?
+					<Input
+						className="senha"
+						name="senha"
+						label="Senha"
+						type="password"
+						placeholder={isEditing ? "A senha será gerada automaticamente" : null}
+						disabled={isEditing}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
+					/> : ''}
 
-				<Input
-					className="senha"
-					name="senha"
-					label="Senha"
-					type="password"
-					placeholder={id === undefined ? "A senha será gerada automaticamente" : null}
-					disabled={id === undefined ? true : false}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
-				/>
+				{isEditing ?
+					<Select
+						className='permission'
+						id='permission'
+						name='permission'
+						label='Permissão'
+						value={permission}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPermission((e.target as any).value)} >
+						<option value="Funcionario">Funcionário</option>
+						<option value="Cliente">Cliente</option>
+					</Select> : ''}
+
 			</Form>
 			{/* <div id="buttons">
                 <Col>
                     <Row>
-                        <Button form="form" onClick={(id !== undefined ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
+                        <Button form="form" onClick={(isEditing ? handleEdit : handleSubmit)} type="button" size="lg" variant="success">Cadastrar</Button>
                     </Row>
                     <Row>
                         <Button onClick={_ => navigate('/funcionario')} type="button" size="lg" variant="primary">Voltar</Button>
@@ -179,7 +197,7 @@ export const Funcionario = () => {
 				<button
 					className={styles.cadastrarButton}
 					form="form"
-					onClick={id !== undefined ? handleEdit : handleSubmit}
+					onClick={isEditing ? handleEdit : handleSubmit}
 					type="button"
 				>
 					Cadastrar

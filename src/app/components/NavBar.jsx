@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from "../assets/images/logo.svg"
+import user from "../assets/icons/user.svg";
 import { useUserType } from './UserTypeContext';
 import { useLocation } from 'react-router-dom';
 
@@ -20,14 +21,20 @@ function NavBar(props) {
         } else if (userType === 'Admin') {
             return (
                 <Nav>
-                    <Nav.Link href="/clientes">Clientes</Nav.Link>
-                    <Nav.Link href="/funcionarios">Funcionarios</Nav.Link>
-                    <Nav.Link href="/veiculos">Veiculos</Nav.Link>
-                    <Nav.Link href="/agendamentos">Agendamentos</Nav.Link>
+                    <Nav.Link href="/funcionarios">Funcionários</Nav.Link>
+                    <Nav.Link href="/servicos">Serviços</Nav.Link>
+                    <Nav.Link href="/horario">Horários</Nav.Link>
                     <Nav.Link href="/produtos">Produtos</Nav.Link>
-                    <Nav.Link href="/horario">Horário de Funcionamento</Nav.Link>
                     <Nav.Link href="/cronograma">Cronograma</Nav.Link>
-                    <NavDropdown title="" id="collapsible-nav-dropdown">
+                    <NavDropdown title="Menu do cliente" id="collapsible-nav-dropdown">
+                        <NavDropdown.Item href="/clientes">Clientes</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/veiculos">Veiculos</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/agendamentos">Agendamentos</NavDropdown.Item>
+                    </NavDropdown>
+
+                    <NavDropdown title={<img src={user} />} id="collapsible-nav-dropdown profile">
                         <NavDropdown.Item href="#profile">Perfil</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
