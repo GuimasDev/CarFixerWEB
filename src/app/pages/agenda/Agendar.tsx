@@ -32,7 +32,7 @@ export const Agendar = () => {
 		produtos: [],
 	});
 
-	const [horario, setHorario] = useState();
+	const [horario, setHorario] = useState("");
 	const [id_horario, setId_Horario] = useState(0);
 	const [id_veiculo, setId_Veiculo] = useState(0);
 	const [status, setStatus] = useState(Status.Pendente);
@@ -138,7 +138,7 @@ export const Agendar = () => {
 				alert(result.message);
 			} else {
 				setData(result);
-				loadHorariosDisponiveisPorDia();
+				// loadHorariosDisponiveisPorDia();
 			}
 		})
 	}, [agenda])
@@ -160,7 +160,7 @@ export const Agendar = () => {
 
 	function loadHorariosDisponiveisPorDia() {
 		let dataHTML: any = document.getElementById("inputData");
-		// console.log(dataHTML);
+		console.log(dataHTML);
 		let dataString = dataHTML.value;
 		let diaSelecionado = new Date(dataString);
 		diaSelecionado.setDate(diaSelecionado.getDate() + 1);
@@ -342,14 +342,15 @@ export const Agendar = () => {
 		}));
 	}
 	function getOptionsFromHorarios(horarios: IHorario[]) {
-		horarios.map((horario) => {
-		})
-		return horarios.map((horario: IHorario) => ({
-			id: horario.id,
-			value: horario.data,
-			label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, "0")}`,
-		}));
-
+		// console.log(horarios);
+		return horarios.map((horario: IHorario) => (
+			horario !== undefined ?
+				{
+					id: horario.id,
+					value: horario.data,
+					label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, "0")}`,
+				} : {}
+		));
 	}
 	// Use useMemo para memorizar a lista de opções.
 	const memorizedHorarios = useMemo(() => getOptionsFromHorarios(horariosDisponiveis), [horariosDisponiveis]);
@@ -365,7 +366,7 @@ export const Agendar = () => {
 				? "Escolha um dos seus veículos"
 				: "Escolha um veículo",
 		onChange: (e: any) => setId_Veiculo(e.target.value),
-		disabled: isEditing ? dt_fim !== null : dt_fim !== undefined,
+		disabled: isEditing && userType !== 'Admin' ? true : isEditing ? dt_fim !== null : dt_fim !== undefined,
 	};
 
 	const statusProps = {
@@ -383,25 +384,26 @@ export const Agendar = () => {
 		label: "Data",
 		type: "date",
 		defaultValue: isEditing ? undefined : "",
-		value: data !== undefined ? dateToString(new Date(data.data)) : '',
+		value: isEditing && data !== undefined ? dateToString(new Date(data.data)) : undefined,
 		// value: (horariosOcupados.map((horario) => {
 		// 	if (horario.id === agenda.id_horario) {
 		// 		return dateToString(new Date(horario.data));
 		// 	}
 		// })),
 		onChange: loadHorariosDisponiveisPorDia,
-		disabled: isEditing ? dt_fim !== null : dt_fim !== undefined,
+		disabled: isEditing ? true : isEditing ? dt_fim !== null : dt_fim !== undefined,
 	};
 
 	const horarioProps = {
 		id: "horario",
 		name: "horario",
 		label: "Horário",
-		defaultValue: "Escolha um horário",
-		value: data !== undefined ? dateToStringHour(new Date(data.data)) : '',
+		defaultValue: isEditing
+			? data !== undefined ? dateToStringHour(new Date(data.data)) : ''
+			: "Escolha um horário",
 		onChange: ((e: React.ChangeEvent<HTMLInputElement>) => { return setHorario(e.target.value as any); }),
 		// && (isEditing ? loadHorariosDisponiveisPorDia : null)
-		disabled: dt_fim !== null && (isEditing && userType !== "Admin")
+		disabled: isEditing && userType !== 'Admin' ? true : isEditing ? dt_fim !== null : dt_fim !== undefined,
 	}
 
 	const dt_previsaoProps = {
@@ -430,14 +432,15 @@ export const Agendar = () => {
 		name: "servico",
 		label: "Serviços",
 		defaultValue: "Selecione um serviço",
-		disabled: dt_fim !== null
+		disabled: isEditing ? dt_fim !== null : dt_fim !== undefined
 	}
 
 	const produtosProps = {
 		id: "produto",
 		name: "produto",
 		label: "Produtos",
-		defaultValue: "Selecione um produto"
+		defaultValue: "Selecione um produto",
+		disabled: isEditing ? dt_fim !== null : dt_fim !== undefined
 	}
 
 	const observacaoProps = {
@@ -446,8 +449,8 @@ export const Agendar = () => {
 		label: "Observação",
 		type: "text",
 		placeholder: isEditing ? "Ainda sem observações!" : "Insira alguma observação",
-		// value:observacao,
-		// defaultValue:isEditing ? observacao !== null ? observacao,
+		value: observacao,
+		// defaultValue: isEditing && observacao !== null ? observacao : "",
 		onChange: (e: React.ChangeEvent<HTMLInputElement>) => setObservacao((e.target as any).value),
 		disabled: isEditing ? dt_fim !== null : dt_fim !== undefined
 	}
@@ -481,16 +484,31 @@ export const Agendar = () => {
 							)}
 						</Select>
 
-						{userType === 'Admin' ?
+						{isEditing ?
 							<Select
 								className={styles.input + " status"} {...statusProps}
 							>
 								{statusOptions.map((option) => (
-									<option key={option.value} hidden={status === option.value} disabled={userType !== "Admin"}>
-										{option.label}
-									</option>
+									userType !== "Cliente" ?
+										<option key={option.value} hidden={status === option.value} disabled={isEditing ? dt_fim !== null : dt_fim !== undefined}>
+											{option.label}
+										</option>
+										: null
 								))}
-							</Select> : ''
+							</Select>
+							: userType !== "Cliente" ?
+								<Select
+									className={styles.input + " status"} {...statusProps}
+								>
+									{statusOptions.map((option) => (
+										userType !== "Cliente" ?
+											<option key={option.value} hidden={status === option.value} disabled={isEditing ? dt_fim !== null : dt_fim !== undefined}>
+												{option.label}
+											</option>
+											: null
+									))}
+								</Select>
+								: null
 						}
 					</div>
 
@@ -501,11 +519,15 @@ export const Agendar = () => {
 
 						<Select
 							className={styles.input + " horario"}  {...horarioProps} >
-
+							{/* {memorizedHorarios.map((option) => (console.log(option.value?.valueOf())))} */}
 							{memorizedHorarios.map((option) => (
-								<option key={option.id} value={String(option.value)}>
-									{option.label}
-								</option>
+								option.value !== undefined ? !isNaN(option.value.valueOf()) ?
+									option.id !== agenda.id_horario ?
+										<option key={option.id} value={String(option.value)} disabled={isEditing && userType !== 'Admin' ? true : dt_fim !== undefined}>
+											{option.label}
+										</option>
+										: null
+									: null : null
 							))}
 						</Select>
 					</div>
@@ -521,7 +543,7 @@ export const Agendar = () => {
 								<Input
 									className={styles.input + " dt_previsao"}
 									{...dt_previsaoProps}
-									disabled={dt_fim !== undefined}
+									disabled={isEditing && userType !== 'Admin' ? true : dt_fim !== null}
 								/>
 								: ''
 						}
@@ -546,7 +568,7 @@ export const Agendar = () => {
 								{...servicoProps}
 							>
 								{servicos.map((servico) => (
-									<option key={servico.id} value={servico.id}>
+									<option key={servico.id} value={servico.id} disabled={isEditing ? dt_fim !== null : dt_fim !== undefined}>
 										{servico.nome}
 									</option>
 								))}
@@ -584,7 +606,7 @@ export const Agendar = () => {
 								{...produtosProps}
 							>
 								{produtos.map((produto) => (
-									<option key={produto.id} value={produto.id}>
+									<option key={produto.id} value={produto.id} disabled={isEditing ? dt_fim !== null : dt_fim !== undefined}>
 										{produto.descricao}
 									</option>
 								))}
@@ -651,8 +673,21 @@ function convertDateFormat(date: Date): string | null {
 	return formattedDate;
 }
 
-const dateToString = (date: Date) =>
-	date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+const dateToString = (date: Date) => {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona zero à esquerda se necessário
+	const day = date.getDate().toString().padStart(2, '0'); // Adiciona zero à esquerda se necessário
 
-const dateToStringHour = (date: Date) => 
+	return `${year}-${month}-${day}`;
+};
+
+const dateToStringHour = (date: Date) =>
 	`${date.getHours()}h${String(date.getMinutes()).padStart(2, "0")}`
+// console.log(`${date.getHours()}h${String(date.getMinutes()).padStart(2, "0")}`)
+
+// `${date.getHours()}h${twoDigitsCheck(date.getMinutes())}`
+
+// {{twoDigitsCheck(horario.data.getMinutes())}}
+const twoDigitsCheck = (num: number) => {
+	return num >= 10 ? num : `0${num}`;
+}
