@@ -80,7 +80,7 @@ export const Produtos = () => {
 							alert(result.message);
 						} else {
 							// alert("Alteração realizada com sucesso!");
-							window.location.reload();
+							// window.location.reload();
 						}
 					} else {
 						alert("Não foi possível realizar a alteração");
@@ -146,10 +146,8 @@ export const Produtos = () => {
 	// 			))}
 	// 		</div>
 	// );
-	const tbody = (
-		<tbody>
-			{produtos.map((produto, index) => {
-				const handleChange = (descricao: any) => {
+	const tbody = produtos.map((produto, index) => {
+				const handleChange = (id: number, descricao: any) => {
 					// map() method used to update indicated produto with state copy
 					// setProdutos(produtos.map((p, i) => index === i ? produto : p));
 
@@ -158,19 +156,28 @@ export const Produtos = () => {
 
 					setProdutos(updatedProdutos);
 
-					setIsEditing(true);
+
+					ProdutoService.update({id, descricao}).then((result) => {
+						if (result instanceof ApiException) {
+							alert(result.message);
+						} else {
+							if (result != null) {
+								if (result instanceof ApiException) {
+									alert(result.message);
+								}
+							} else {
+								alert("Não foi possível realizar a alteração");
+							}
+						}
+					})
 				};
 
 				return (
-					<Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} />
-					
-					// <tr key={index}>
-					// 	<td><Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} /></td>
-					// </tr>
+					<div>
+						<Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} />
+					</div>
 				);
-			})}
-		</tbody>
-	);
+			});
 
 	return (
 		<>
@@ -183,16 +190,18 @@ export const Produtos = () => {
 
 				<div className={styles.buttonArea}>
 					<Form id="form">
-						<Input id='descricao' name='descricao' type='text' placeholder='Digite o nome do produto' value={descricao} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescricao((e.target as any).value)} />
+						<Input id='descricao' name='descricao' type='text' placeholder='Digite o nome do produto' value={descricao} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescricao((e.target as any).value)} />	
 					</Form>
-					<button className={styles.button} onClick={(_) => handleSubmit()} type="button">
-						+
-					</button>
+					<div>
+						<button className={styles.button} onClick={(_) => handleSubmit()} type="button">
+							+
+						</button>
+					</div>
 				</div>
 				{isEditing ? <button className={styles.button} onClick={handleEdit} type="button">
-					Save Changes
+					Salvar
 				</button> : ''}      
-				<ColorCard variant="warning" text='Para editar e/ou excluir de um click no produto que deseja realizar alterações.' />
+				{/* <ColorCard variant="warning" text='Para editar e/ou excluir de um click no produto que deseja realizar alterações.' /> */}
 			</div>
 
 		</>
