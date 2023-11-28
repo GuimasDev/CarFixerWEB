@@ -118,7 +118,9 @@ export const Funcionario = () => {
 		<Container id="container">
 			<h1>{isEditing ? "Editar Funcionário" : "Novo Funcionário"}</h1>
 			<Form id="form">
-				<Input
+				<Row>
+					<Col>
+					<Input
 					className="nome"
 					name="nome"
 					label="Nome"
@@ -128,7 +130,11 @@ export const Funcionario = () => {
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNome((e.target as any).value)}
 				/>
 
-				<Input
+				
+				</Col>
+
+					<Col>
+					<Input
 					className="cpf"
 					name="cpf"
 					label="Cpf"
@@ -138,6 +144,11 @@ export const Funcionario = () => {
 					disabled={isEditing}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)}
 				/>
+				</Col>
+				</Row>
+				
+				
+				
 
 				<Input
 					className="email"
@@ -150,7 +161,9 @@ export const Funcionario = () => {
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)}
 				/>
 
-				<Input
+				<Row>
+					<Col>
+					<Input
 					className="telefone"
 					name="telefone"
 					label="Telefone"
@@ -159,17 +172,22 @@ export const Funcionario = () => {
 					value={telefone}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)}
 				/>
-				{!isEditing ?
-					<Input
-						className="senha"
-						name="senha"
-						label="Senha"
-						type="password"
-						placeholder={isEditing ? "A senha será gerada automaticamente" : null}
-						disabled={isEditing}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
-					/> : ''}
+				</Col>
 
+					<Col>
+					{!isEditing ?
+						<Input
+							className="senha"
+							name="senha"
+							label="Senha"
+							type="password"
+							placeholder={isEditing ? "A senha será gerada automaticamente" : null}
+							disabled={isEditing}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
+						/> : ''}
+					</Col>
+				</Row>
+				
 				{isEditing ?
 					<Select
 						className='permission'

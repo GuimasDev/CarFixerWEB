@@ -77,6 +77,14 @@ export const Agendar = () => {
 					setId_Horario(editedAgenda.id_horario);
 					setId_Veiculo(editedAgenda.id_veiculo);
 					setAddedProdutos(editedAgenda.produtos);
+					
+					ServicoService.getByIdAgenda(editedAgenda.id).then((result) => {
+						if (result instanceof ApiException) {
+							alert(result.message);
+						} else {
+							setAddedServicos(result);
+						}
+					});
 				}
 			});
 		}
@@ -107,7 +115,12 @@ export const Agendar = () => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
-				setProdutos(result);
+				let produtos = result
+				addedProdutos.forEach(produto =>{
+					produtos = produtos.filter(({ id }) => id != produto.id)
+				})
+
+				setProdutos(produtos);
 			}
 		});
 	}, [])
@@ -117,10 +130,15 @@ export const Agendar = () => {
 			if (result instanceof ApiException) {
 				alert(result.message);
 			} else {
-				setServicos(result);
+				let servicos = result
+				addedServicos.forEach(servico =>{
+					servicos = servicos.filter(({ id }) => id != servico.id)
+				})
+
+				setServicos(servicos);
 			}
 		});
-	}, [])
+	}, [addedServicos])
 
 	useEffect(() => {
 		HorarioService.get().then((result) => {
@@ -160,7 +178,7 @@ export const Agendar = () => {
 
 	function loadHorariosDisponiveisPorDia() {
 		let dataHTML: any = document.getElementById("inputData");
-		console.log(dataHTML);
+		// console.log(dataHTML);
 		let dataString = dataHTML.value;
 		let diaSelecionado = new Date(dataString);
 		diaSelecionado.setDate(diaSelecionado.getDate() + 1);
@@ -241,6 +259,7 @@ export const Agendar = () => {
 		if (select.value > 0) {
 			ProdutoService.getById(parseFloat(idProduto)).then((result: any) => {
 				addedProdutos.push(result);
+
 				setProdutos(produtos.filter(({ id }) => id != idProduto));
 			});
 		}
@@ -292,6 +311,9 @@ export const Agendar = () => {
 			for (const servico of addedServicos) {
 				await ServicoService.putOnAgenda(savedAgenda.id, servico.id);
 			}
+			for (const produto of addedProdutos) {
+				await ProdutoService.putOnAgenda(savedAgenda.id, produto.id);
+			}
 
 			// Exiba uma mensagem de sucesso e navegue para '/agendamentos'
 			alert("Registro salvo com sucesso!!!");
@@ -313,8 +335,62 @@ export const Agendar = () => {
 			observacao: observacao,
 			dt_previsao: dt_previsao,
 			dt_fim: dt_fim,
-			produtos: addedProdutos,
+			produtos: addedProdutos
 		};
+
+		
+		let adicionarServicosNaAgenda = () => {
+			addedServicos.forEach(servico =>{
+				ServicoService.putOnAgenda(agd.id, servico.id);
+			})
+		}
+
+		
+		
+		ServicoService.getByIdAgenda(agd.id).then((result)=>{
+			if (result instanceof ApiException) {
+				alert(result.message);
+			} else {
+				let servicos = result;
+				if (servicos.length > 0) {
+					ServicoService.deleteAllFromAgenda(agd.id).then((result)=>{
+						if (result instanceof ApiException) {
+							alert(result.message);
+						} else {
+							adicionarServicosNaAgenda();
+						}
+					})
+				} else adicionarServicosNaAgenda();
+			}
+		})
+
+
+
+
+		let adicionarProdutosNaAgenda = () => {
+			addedProdutos.forEach(produto =>{
+				ProdutoService.putOnAgenda(agd.id, produto.id);
+			})
+		}
+
+		ProdutoService.getByIdAgenda(agd.id).then((result)=>{
+			if (result instanceof ApiException) {
+				alert(result.message);
+			} else {
+				let produtos = result;
+				if (produtos.length > 0) {
+					ProdutoService.deleteAllFromAgenda(agd.id).then((result)=>{
+						if (result instanceof ApiException) {
+							alert(result.message);
+						} else {
+							adicionarProdutosNaAgenda();
+						}
+					})
+				} else adicionarProdutosNaAgenda();
+
+			}})
+
+
 
 		AgendaService.update(agd).then((result) => {
 			if (result instanceof ApiException) {
@@ -332,6 +408,8 @@ export const Agendar = () => {
 				}
 			}
 		});
+
+
 	};
 
 	// Função para criar a lista de opções com value = id e label = modelo - placa.
@@ -348,6 +426,7 @@ export const Agendar = () => {
 				{
 					id: horario.id,
 					value: horario.data,
+					status: horario.status,
 					label: `${horario.data.getHours()}h${String(horario.data.getMinutes()).padStart(2, "0")}`,
 				} : {}
 		));
@@ -519,11 +598,12 @@ export const Agendar = () => {
 
 						<Select
 							className={styles.input + " horario"}  {...horarioProps} >
-							{/* {memorizedHorarios.map((option) => (console.log(option.value?.valueOf())))} */}
+							{/* {memorizedHorarios.map((option) => (console.log(option.value)))} */}
 							{memorizedHorarios.map((option) => (
 								option.value !== undefined ? !isNaN(option.value.valueOf()) ?
-									option.id !== agenda.id_horario ?
-										<option key={option.id} value={String(option.value)} disabled={isEditing && userType !== 'Admin' ? true : dt_fim !== undefined}>
+									option.id === agenda.id_horario ?
+										// <option key={option.id} value={String(option.value)} disabled={isEditing && userType !== 'Admin' ? true : dt_fim !== undefined}>
+										<option key={option.id} value={String(option.value)} disabled={isEditing && userType !== 'Admin' || (option.status === "Ocupado"? true : false)}>
 											{option.label}
 										</option>
 										: null
@@ -543,7 +623,8 @@ export const Agendar = () => {
 								<Input
 									className={styles.input + " dt_previsao"}
 									{...dt_previsaoProps}
-									disabled={isEditing && userType !== 'Admin' ? true : dt_fim !== null}
+									disabled={false}
+									// disabled={isEditing? true : dt_fim !== null}
 								/>
 								: ''
 						}

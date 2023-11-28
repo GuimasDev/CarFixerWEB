@@ -19,7 +19,7 @@ export const Cliente = () => {
 		telefone: "",
 		senha: "",
 		permission: "Cliente",
-		veiculos: []
+		veiculos: [],
 	});
 	const [nome, setNome] = useState("");
 	const [cpf, setCpf] = useState("");
@@ -56,7 +56,7 @@ export const Cliente = () => {
 			telefone: telefone,
 			senha: "",
 			permission: "Cliente",
-			veiculos: []
+			veiculos: [],
 		};
 
 		console.log(cliente.senha);
@@ -88,7 +88,7 @@ export const Cliente = () => {
 			telefone: telefone,
 			senha: senha,
 			permission: cliente.permission,
-			veiculos: cliente.veiculos
+			veiculos: cliente.veiculos,
 		};
 
 		UsuarioService.update(user).then((result) => {
@@ -113,26 +113,31 @@ export const Cliente = () => {
 		<Container id="container">
 			<h1>{id !== undefined ? "Editar Cliente" : "Novo Cliente"}</h1>
 			<Form id="form">
-				<Input
-					className="nome"
-					name="nome"
-					label="Nome"
-					type="text"
-					placeholder="Digite o seu nome"
-					value={nome}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNome((e.target as any).value)}
-				/>
-
-				<Input
-					className="cpf"
-					name="cpf"
-					label="Cpf"
-					type="text"
-					placeholder="Digite o seu CPF"
-					value={cpf}
-					disabled={id === undefined ? false : true}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)}
-				/>
+				<Row>
+					<Col>
+						<Input
+							className="nome"
+							name="nome"
+							label="Nome"
+							type="text"
+							placeholder="Digite o seu nome"
+							value={nome}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNome((e.target as any).value)}
+						/>
+					</Col>
+					<Col>
+						<Input
+							className="cpf"
+							name="cpf"
+							label="Cpf"
+							type="text"
+							placeholder="Digite o seu CPF"
+							value={cpf}
+							disabled={id === undefined ? false : true}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCpf((e.target as any).value)}
+						/>
+					</Col>
+				</Row>
 
 				<Input
 					className="email"
@@ -145,25 +150,30 @@ export const Cliente = () => {
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail((e.target as any).value)}
 				/>
 
-				<Input
-					className="telefone"
-					name="telefone"
-					label="Telefone"
-					type="text"
-					placeholder="Digite seu número de telefone"
-					value={telefone}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)}
-				/>
-
-				<Input
-					className="senha"
-					name="senha"
-					label="Senha"
-					type="password"
-					placeholder={id === undefined ? "A senha será gerada automaticamente" : null}
-					disabled={id === undefined ? true : false}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
-				/>
+				<Row>
+					<Col>
+						<Input
+							className="telefone"
+							name="telefone"
+							label="Telefone"
+							type="text"
+							placeholder="Digite seu número de telefone"
+							value={telefone}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefone((e.target as any).value)}
+						/>
+					</Col>
+					<Col>
+						<Input
+							className="senha"
+							name="senha"
+							label="Senha"
+							type="password"
+							placeholder={id === undefined ? "A senha será gerada automaticamente" : null}
+							disabled={id === undefined ? true : false}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha((e.target as any).value)}
+						/>
+					</Col>
+				</Row>
 			</Form>
 			{/* <div id="buttons">
                 <Col>
