@@ -3,6 +3,7 @@ import styles from './Celula.module.css';
 import trash from "../../assets/icons/trash.svg";
 
 
+
 export const Celula = ({ value, onChange, handleDelete, item_id }) => {
   const [mode, setMode] = React.useState('read');
   const [text, setText] = React.useState(value ?? '');
@@ -19,7 +20,7 @@ export const Celula = ({ value, onChange, handleDelete, item_id }) => {
     const handleSaveClick = () => {
       setMode('read');
       if (onChange) {
-        onChange(text);
+        onChange(item_id, text);
       }
     };
 
@@ -31,9 +32,8 @@ export const Celula = ({ value, onChange, handleDelete, item_id }) => {
     };
 
     return (
-      <div className={styles.itemAddedArea}>
-        <input type="text" value={text}
-          className={styles.itemAdded} onChange={handleInputChange} />
+      <div className={styles.itemAddedEditArea}>
+        <input className={styles.input} type="text" value={text} onChange={handleInputChange} />
         <button onClick={handleSaveClick}>Ok</button>
         <button onClick={handleDeleteClick}>
           <img src={trash} alt="" />

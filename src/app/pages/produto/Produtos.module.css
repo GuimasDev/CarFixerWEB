@@ -7,10 +7,10 @@
 
 .tabelaProdutos{
 	display: flex;
-	/* flex-direction: row; */
-	/* flex-wrap: wrap-reverse; */
+	flex-direction: row;
+	flex-wrap: wrap;
 	/* gap: 10px; */
-	/* width: 1000px; */
+	width: 800px;
 	/* background-color: #0cb653; */
 }
 
@@ -23,6 +23,8 @@
 .buttonArea {
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	gap: 30px;
 	margin: 50px 0;
 }
 
@@ -52,4 +54,10 @@
 .button:hover {
 	box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;
 	transform: translateY(-2px);
+}
+
+Col{
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
 }
