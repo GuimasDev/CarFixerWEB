@@ -8,6 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import { UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
+import gear from "../../assets/icons/gear.svg";
 import { ListTable } from "../../components/ListTable";
 import { useUserType } from "../../components/UserTypeContext";
 
@@ -86,7 +87,7 @@ export const Veiculo = () => {
 			<th>Tipo</th>
 			{userType === 'Admin' ? <th>Cliente</th> : ''}
 			{/* <th>Agendas</th> */}
-			<th></th>
+			<th><img src={gear} alt="" /></th>
 		</tr>);
 	const tbody = (
 		veiculos.map((veiculo, index) => {
@@ -96,13 +97,13 @@ export const Veiculo = () => {
 					<td>{veiculo.placa}</td>
 					<td>{veiculo.modelo}</td>
 					<td>{veiculo.tipo}</td>
-					{(userType === 'Admin' ? <th>{clienteData[index]}</th> : '')}
+					{(userType === 'Admin' ? <th style={{fontWeight: 'normal'}}>{clienteData[index]}</th> : '')}
 					{/* <td>{ }</td> */}
-					<td>
-						<button onClick={(_) => handleEdit(veiculo.id)}>
+					<td className={styles.sideButtonArea}>
+						<button className={styles.sideButton}onClick={(_) => handleEdit(veiculo.id)}>
 							<img src={edit} alt="" />
 						</button>
-						<button onClick={(_) => handleDelete(veiculo.id)}>
+						<button className={styles.sideButton}onClick={(_) => handleDelete(veiculo.id)}>
 							<img src={trash} alt="" />
 						</button>
 					</td>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Col, Row, Table } from "react-bootstrap";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
+import gear from "../../assets/icons/gear.svg";
 import { ListTable } from "../../components/ListTable";
 
 export const Funcionarios = () => {
@@ -68,7 +69,7 @@ export const Funcionarios = () => {
 			<th>Email</th>
 			<th>Telefone</th>
 			{/* <th>Veículos</th> */}
-			<th></th>
+			<th><img src={gear} alt="" /></th>
 		</tr>
 	);
 	const tbody = funcionarios.map((funcionario, index) => {
@@ -84,7 +85,7 @@ export const Funcionarios = () => {
 					{/* <button onClick={(_) => handleEdit(funcionario.id)}>
 						<img src={edit} alt="" />
 					</button> */}
-					<button onClick={(_) => handleDelete(funcionario.id)}>
+					<button className={styles.sideButton} onClick={(_) => handleDelete(funcionario.id)}>
 						<img src={trash} alt="" />
 					</button>
 				</td>

@@ -162,9 +162,11 @@ export const Produtos = () => {
 				};
 
 				return (
-					<tr key={index}>
-						<td><Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} /></td>
-					</tr>
+					<Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} />
+					
+					// <tr key={index}>
+					// 	<td><Celula value={produto.descricao} onChange={handleChange} handleDelete={handleDelete} item_id={produto.id} /></td>
+					// </tr>
 				);
 			})}
 		</tbody>
@@ -175,7 +177,7 @@ export const Produtos = () => {
 			<div id={styles.tabela}>
 				<h2 className={styles.title}>Produtos</h2>
 				{/* <ListTable thead={thead} tbody={tbody} /> */}
-				<div className="tabelaProdutos">
+				<div className={styles.tabelaProdutos}>
 						{tbody}
 				</div>
 

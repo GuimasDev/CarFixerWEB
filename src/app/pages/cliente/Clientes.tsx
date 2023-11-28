@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Col, Row, Table } from "react-bootstrap";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
+import gear from "../../assets/icons/gear.svg";
 import { ListTable } from "../../components/ListTable";
 
 export const Clientes = () => {
@@ -67,7 +68,7 @@ export const Clientes = () => {
 			<th>Email</th>
 			<th>Telefone</th>
 			{/* <th>Veículos</th> */}
-			<th></th>
+			<th><img src={gear} alt="" /></th>
 		</tr>
 	);
 	const tbody = clientes.map((cliente, index) => {
@@ -79,11 +80,11 @@ export const Clientes = () => {
 				<td>{cliente.email}</td>
 				<td>{cliente.telefone}</td>
 				{/* <td>{}</td> */}
-				<td>
-					<button onClick={(_) => handleEdit(cliente.id)}>
-						<img src={edit} alt="" />
+				<td className={styles.sideButtonArea}>
+					<button className={styles.sideButton} onClick={(_) => handleEdit(cliente.id)}>
+						<img color="blue" src={edit} alt="" />
 					</button>
-					<button onClick={(_) => handleDelete(cliente.id)}>
+					<button className={styles.sideButton} onClick={(_) => handleDelete(cliente.id)}>
 						<img src={trash} alt="" />
 					</button>
 				</td>

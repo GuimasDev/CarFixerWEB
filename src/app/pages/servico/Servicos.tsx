@@ -8,6 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import { UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
+import gear from "../../assets/icons/gear.svg";
 import { ListTable } from "../../components/ListTable";
 import { useUserType } from "../../components/UserTypeContext";
 
@@ -50,7 +51,7 @@ export const Servicos = () => {
 			<th>#</th>
 			<th>Nome</th>
 			<th>Descrição</th>
-			<th></th>
+			<th><img src={gear} alt="" /></th>
 		</tr>);
 	const tbody = (
 		servicos.map((servico, index) => {
@@ -59,11 +60,11 @@ export const Servicos = () => {
 					<td>{index + 1}</td>
 					<td>{servico.nome}</td>
 					<td>{servico.descricao}</td>
-					<td>
-						<button onClick={(_) => handleEdit(servico.id)}>
+					<td className={styles.sideButtonArea} >
+						<button className={styles.sideButton} onClick={(_) => handleEdit(servico.id)}>
 							<img src={edit} alt="" />
 						</button>
-						<button onClick={(_) => handleDelete(servico.id)}>
+						<button className={styles.sideButton} onClick={(_) => handleDelete(servico.id)}>
 							<img src={trash} alt="" />
 						</button>
 					</td>

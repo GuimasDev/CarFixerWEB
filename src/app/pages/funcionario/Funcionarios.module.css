@@ -40,3 +40,14 @@ padding: 10px 20px;
 	box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;
 	transform: translateY(-2px);
 }
+
+.sideButton{
+	border: none;
+	background: transparent;
+	margin: 0 3px;
+}
+
+.sideButtonArea{
+	display: flex;
+	justify-content: space-around;
+}

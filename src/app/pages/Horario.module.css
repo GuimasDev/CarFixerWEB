@@ -209,25 +209,29 @@ h3 {
 
 
   .novaRegraButton {
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 7px 15px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: initial;
+    background-image: linear-gradient(-180deg, #5bf197, #0cb653);
     background-color: #13aa52;
-    border: 1px solid #13aa52;
+    border: 0;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
     box-sizing: border-box;
     color: #fff;
     cursor: pointer;
     font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
     outline: none;
     outline: 0;
-    padding: 7px 15px;
     text-align: center;
     transform: translateY(0);
     transition: transform 150ms, box-shadow 150ms;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    width: 150px;
   }
   
   .novaRegraButton:hover {
@@ -237,7 +241,7 @@ h3 {
   
   .adicionarRegraButton {
     background-color: initial;
-  background-image: linear-gradient(-180deg, #5bf197, #0cb653);
+    background-image: linear-gradient(-180deg, #5bf197, #0cb653);
     background-color: #13aa52;
     border: 0;
     border-radius: 8px;
@@ -263,3 +267,27 @@ h3 {
     box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
     transform: translateY(-2px);
   }
+
+  .voltarButton {
+	width: 150px;
+    background: none;
+	/* border: 1px solid #13aa52; */
+    border: none;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px 0;
+	box-sizing: border-box;
+	color: black;
+	cursor: pointer;
+	font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	outline: none;
+	outline: 0;
+	padding: 7px 15px;
+	text-align: center;
+	transform: translateY(0);
+	transition: transform 150ms, box-shadow 150ms;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}

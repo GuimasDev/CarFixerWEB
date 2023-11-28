@@ -1,5 +1,5 @@
 #tabela {
-	margin: 10%;
+	margin: 60px auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -7,8 +7,11 @@
 
 .tabelaProdutos{
 	display: flex;
-	gap: 10px;
-	width: 1000px;
+	/* flex-direction: row; */
+	/* flex-wrap: wrap-reverse; */
+	/* gap: 10px; */
+	/* width: 1000px; */
+	/* background-color: #0cb653; */
 }
 
 .title {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Horario.css";
+import styles from "./Horario.module.css";
 
 import Button from "react-bootstrap/esm/Button";
 import Row from "react-bootstrap/Row";
@@ -114,42 +114,42 @@ export const Horario = () => {
 
             {regraList.map((element, i) => {
                 return (
-                    <div className="card" key={i}>
+                    <div className={styles.card} key={i}>
                         <Row>
-                            <Col className="colDias">
+                            <Col className={styles.colDias}>
                                 {element.diasInt.map((dia, i) => {
                                     return (
-                                        <p className="diaArea" key={i}>
+                                        <p className={styles.diaArea} key={i}>
                                             {diasSemana[dia]}
                                         </p>
                                     );
                                 })}
                             </Col>
-                            <Col className="colHorarios">
-                                <div className="horarioRowGroup">
-                                    <div className="horarioRow">
+                            <Col className={styles.colHorarios}>
+                                <div className={styles.horarioRowGroup}>
+                                    <div className={styles.horarioRow}>
                                         <p>Início de atendimento:</p>
                                         <input
                                             disabled
                                             type="time"
-                                            className="inputHoras"
+                                            className={styles.inputHoras}
                                             value={element.hr_inicio}
                                             onChange={e => setHrInicio(e.target.value)}
                                         />
                                     </div>
-                                    <div className="horarioRow">
+                                    <div className={styles.horarioRow}>
                                         <p>Termino de atendimento:</p>
                                         <input
                                             disabled
                                             type="time"
-                                            className="inputHoras"
+                                            className={styles.inputHoras}
                                             value={element.hr_termino}
                                             onChange={e => setHrTermino(e.target.value)}
                                         />
                                     </div>
                                 </div>
-                                <div className="btnApagarArea">
-                                    <button className="apagarButton" onClick={_ => removerRegra(element.id)}>
+                                <div className={styles.btnApagarArea}>
+                                    <button className={styles.apagarButton} onClick={_ => removerRegra(element.id)}>
                                         Remover
                                     </button>
                                 </div>
@@ -160,9 +160,9 @@ export const Horario = () => {
             })}
 
             {isNovaRegra && diasSemanaDefinidos.length < 7 && (
-                <div className="card">
+                <div className={styles.card}>
                     <Row>
-                        <Col className="colDias">
+                        <Col className={styles.colDias}>
                             {diasSemana.map((dia, i) => {
                                 if (!diasSemanaDefinidos.includes(i)) {
                                     return (
@@ -172,7 +172,7 @@ export const Horario = () => {
                                             id={"formCheck" + i}
                                             value={i}
                                             onChange={event => handleCheckboxChange(event)}
-                                            className="diaArea2 formCheck"
+                                            className={styles.diaArea2}
                                             label={diasSemana[i]}
                                         />
                                     );
@@ -181,32 +181,32 @@ export const Horario = () => {
                                 }
                             })}
                         </Col>
-                        <Col className="colHorarios">
-                            <div className="horarioRowGroup">
-                                <div className="horarioRow">
+                        <Col className={styles.colHorarios}>
+                            <div className={styles.horarioRowGroup}>
+                                <div className={styles.horarioRow}>
                                     <p>Início de atendimento:</p>
                                     <input
                                         id="hr_inicio"
                                         type="time"
-                                        className="inputHoras"
+                                        className={styles.inputHoras}
                                         onChange={e => setHrInicio(e.target.value)}
                                     />
                                 </div>
-                                <div className="horarioRow">
+                                <div className={styles.horarioRow}>
                                     <p>Termino de atendimento:</p>
                                     <input
                                         id="hr_termino"
                                         type="time"
-                                        className="inputHoras"
+                                        className={styles.inputHoras}
                                         onChange={e => setHrTermino(e.target.value)}
                                     />
                                 </div>
                             </div>
-                            <div className="buttonArea2">
-                                <button className="cancelarButton" onClick={_ => cancelarNovaRegra()}>
+                            <div className={styles.buttonArea2}>
+                                <button className={styles.cancelarButton} onClick={_ => cancelarNovaRegra()}>
                                     Cancelar
                                 </button>
-                                <button className="adicionarRegraButton" onClick={_ => adicionarNovaRegra()}>
+                                <button className={styles.adicionarRegraButton} onClick={_ => adicionarNovaRegra()}>
                                     Adicionar
                                 </button>
                             </div>
@@ -215,12 +215,12 @@ export const Horario = () => {
                 </div>
             )}
 
-            <div className="buttonArea">
-                <Button variant="outline-primary" onClick={_ => (window.location.href = "/")}>
+            <div className={styles.buttonArea}>
+                <button className={styles.voltarButton} onClick={_ => (window.location.href = "/")}>
                     Voltar
-                </Button>
+                </button>
                 {!isNovaRegra && diasSemanaDefinidos.length < 7 ? (
-                    <button className="novaRegraButton" onClick={_ => setNovaRegra(true)}>
+                    <button className={styles.novaRegraButton} onClick={_ => setNovaRegra(true)}>
                         Nova Regra
                     </button>
                 ) : (

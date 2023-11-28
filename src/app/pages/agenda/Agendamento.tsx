@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { IUsuario, UsuarioService } from "../../services/api/usuario/UsuarioService";
 import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
+import gear from "../../assets/icons/gear.svg";
 import { VeiculoService } from "../../services/api/veiculo/VeiculoService";
-import { HorarioService } from "../../services/api/horario/HorarioService";
+import { HorarioService, IHorario } from "../../services/api/horario/HorarioService";
 import { ListTable } from "../../components/ListTable";
 import { useUserType } from "../../components/UserTypeContext";
 
@@ -55,6 +56,7 @@ export const Agendamento = () => {
 			const horarioResults = await Promise.all(horarioPromises);
 			const modeloResults = await Promise.all(modeloPromises);
 
+
 			// Reinicia os arrays antes de adicionar novos dados
 			setHorarioData([]);
 			setModeloData([]);
@@ -82,9 +84,14 @@ export const Agendamento = () => {
 					}
 				})
 			);
+
+
 		};
 
+
+
 		fetchData();
+
 	}, [agendas]);
 
 	const handleDelete = (id: number): any => {
@@ -114,7 +121,7 @@ export const Agendamento = () => {
 				{/* <th>Produtos</th> */}
 				<th>Previsão</th>
 				<th>Fim</th>
-				<th></th>
+				<th><img src={gear} alt="" /></th>
 			</tr>
 		</>
 	);
@@ -133,12 +140,13 @@ export const Agendamento = () => {
 						<td>{dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_previsao))}</td>
 						<td>{(agenda.dt_fim !== null ? dateString_YYYYmmdd_to_ddmmYY(String(agenda.dt_fim)):'Ainda não definido!	')}</td>
 						<td>
-							<button onClick={(_) => handleEdit(agenda.id)}>
+							<button className={styles.botaoEdit} onClick={(_) => handleEdit(agenda.id)}>
 								<img src={edit} alt="" />
 							</button>
-							<button onClick={(_) => handleDelete(agenda.id)}>
+							<i className="bi bi-pencil-square"></i>
+							{/* <button onClick={(_) => handleDelete(agenda.id)}>
 								<img src={trash} alt="" />
-							</button>
+							</button> */}
 						</td>
 					</tr>
 				);

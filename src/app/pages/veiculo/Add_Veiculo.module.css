@@ -58,8 +58,8 @@
 
 
 .buttonArea{
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-    margin: 40px auto;
+	display: flex;
+	flex-direction: row-reverse;
+	gap: 13px;
+	margin: 60px auto;
 }
